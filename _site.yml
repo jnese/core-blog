@@ -1,0 +1,15 @@
+name: "core-blog"
+title: "CORE Study Blog"
+description: |
+  CORE Study Blog
+output_dir: "docs"
+navbar:
+  left:
+    - text: "Home"
+      href: index.html
+  right:
+    - text: "About"
+      href: about.html
+    - icon: fa fa-github
+      href: https://github.com/jnese/core-blog
+output: distill::distill_article
