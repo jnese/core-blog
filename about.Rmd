@@ -7,16 +7,16 @@ description: |
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
-
+## Purpose
 CORE uses an automated speech recognition engine and an an advanced psychometric model to overcome some of the inadequacies of traditional oral reading fluency assessments. CORE's online delivery and automated speech recognition allows for whole classrooms to be tested at one time, which reduces administration time and cost, and minimizes administration errors by standardizing the delivery, setting, and scoring. CORE's shorter passages and advanced psychometric model increases score reliability and provides teachers with more accurate oral reading fluency scores. CORE also equates and links passages, placing scores that are on the same scale across across Grades 2 through 4 (i.e., vertically linked) so that student oral reading fluency scores and growth can be evaluated across grades. CORE is one part of a larger effort to help improve systems for data-based decisions. 
 
 ## Project Scope
-CORE project consists of three phases.
+The CORE project consists of three phases.
 
 1. **Content & Convergent Evidence**
-    + Validate the CORE passages and the ASR scoring.
+    + Validate the CORE reading passages and the ASR scoring. 
 2. **Calibration, Equating, Linking**
-    + Equate and link across Grades 2 - 4 the passage parameters within and across the passages.
+    + Equate and link the passage parameters within and across Grades 2 - 4.
 3. **Growth & Predictive Validity**
     + Compare the properties of CORE versus traditional ORF scores using (a) a longitudinal study design, and (b) predictive validity and classification accuracy of state test reading data and comprehension scores.
     
