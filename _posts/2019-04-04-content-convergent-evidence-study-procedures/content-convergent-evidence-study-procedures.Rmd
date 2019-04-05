@@ -283,12 +283,19 @@ table_word_agree %>%
              n.sessions = "Audio Recordings")
 ```
 
+### Traditional
+Scoring followed the rules established by traditional CBM-R administration. Students did their best reading while the trained assessor followed along and indicated on a (paper) scoring protocol each word the student reads incorrectly ([Wayman et al., 2007](https://journals.sagepub.com/doi/abs/10.1177/00224669070410020401)). Student self-corrections were not marked as errors, but word omissions were. If a student paused for more than three seconds, the assessor prompted the student to continue reading (without providing the correct work, which is the only deviation from traditional scoring) and marked the word as read incorrectly. The elapsed time to read the passage was also recorded by the assessor. 
+
+<aside>
+<img src="traditional.png" width="500" />
+</aside>
+
 ### Criterion (Recording)
 The recorded audio files were scored by the trained assessors at a later date and in a different setting from which the data were collected. Assessors wore headsets and listened to each recorded audio file (with the ability to rewind, replay, and adjust audio), using the same scoring rules as the traditional procedures (below). The elapsed time to read the passage was not recorded. All data were entered into the study site online. These scores are considered the criterion to which the traditional CBM-R and ASR scores are compared.
 
-### Traditional
-Scoring followed the rules established by traditional CBM-R administration. Students did their best reading while the trained assessor followed along and indicated on a (paper) scoring protocol each word the student reads incorrectly ([Wayman et al., 2007](https://journals.sagepub.com/doi/abs/10.1177/00224669070410020401)). Student self-corrections were not marked as errors, but word omissions were. If a student paused for more than three seconds, the assessor prompted the student to continue reading (without providing the correct work, which is the only deviation from traditional scoring) and marked the word as read incorrectly. The elapsed time to read the passage was also recorded by the assessor. All hand scoring data were entered into the study site online.  
-
+<aside>
+<img src="recording.png" width="500" />
+</aside>
 
 ### Automatic speech recognition (ASR)
 The automatic speech recognition software scored each recorded audio file. The ASR system scored each word as read correctly or incorrectly (i.e., response accuracy), and recorded the precise time for a student to read each word (including words read incorrectly or inserted words).
