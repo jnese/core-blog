@@ -1,0 +1,2567 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+<title>CORE Study Blog: Auxilary Model Building: Content &amp; Convergent Evidence</title>
+
+<meta property="description" itemprop="description" content="In this post we provide the results of the mixed-effect model building process applied in our Content &amp; Convergent Evidence Study to answer research questions about differences in words correct per minute (WCPM) scores between three scoring methods, and between passage lenghts, and differences in time duration between three scoring methods."/>
+
+
+<!--  https://schema.org/Article -->
+<meta property="article:published" itemprop="datePublished" content="2019-04-06"/>
+<meta property="article:created" itemprop="dateCreated" content="2019-04-06"/>
+<meta name="article:author" content="Joseph F. T. Nese"/>
+<meta name="article:author" content="Akihito Kamata"/>
+
+<!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+<meta property="og:title" content="CORE Study Blog: Auxilary Model Building: Content &amp; Convergent Evidence"/>
+<meta property="og:type" content="article"/>
+<meta property="og:description" content="In this post we provide the results of the mixed-effect model building process applied in our Content &amp; Convergent Evidence Study to answer research questions about differences in words correct per minute (WCPM) scores between three scoring methods, and between passage lenghts, and differences in time duration between three scoring methods."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:site_name" content="CORE Study Blog"/>
+
+<!--  https://dev.twitter.com/cards/types/summary -->
+<meta property="twitter:card" content="summary"/>
+<meta property="twitter:title" content="CORE Study Blog: Auxilary Model Building: Content &amp; Convergent Evidence"/>
+<meta property="twitter:description" content="In this post we provide the results of the mixed-effect model building process applied in our Content &amp; Convergent Evidence Study to answer research questions about differences in words correct per minute (WCPM) scores between three scoring methods, and between passage lenghts, and differences in time duration between three scoring methods."/>
+
+<!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+<script type="text/json" id="radix-rmarkdown-metadata">
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","categories","preview"]}},"value":[{"type":"character","attributes":{},"value":["Auxilary Model Building: Content & Convergent Evidence"]},{"type":"character","attributes":{},"value":["In this post we provide the results of the mixed-effect model building process applied in our Content & Convergent Evidence Study to answer research questions about differences in words correct per minute (WCPM) scores between three scoring methods, and between passage lenghts, and differences in time duration between three scoring methods."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Joseph F. T. Nese"]},{"type":"character","attributes":{},"value":["https://education.uoregon.edu/people/faculty/jnese"]},{"type":"character","attributes":{},"value":["University of Oregon"]},{"type":"character","attributes":{},"value":["https://www.uoregon.edu/"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Akihito Kamata"]},{"type":"character","attributes":{},"value":["https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata"]},{"type":"character","attributes":{},"value":["Southern Methodist University"]},{"type":"character","attributes":{},"value":["https://www.smu.edu/"]}]}]},{"type":"character","attributes":{},"value":["04-06-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth","self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[4]},{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["Content & Convergent Evidence"]},{"type":"character","attributes":{},"value":["<i class=\"fas fa-file-alt\"><\/i>"]}]}
+</script>
+<!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["cce-auxiliary-modelbuilding_files/bowser-1.9.3/bowser.min.js","cce-auxiliary-modelbuilding_files/distill-2.2.21/template.v2.js","cce-auxiliary-modelbuilding_files/jquery-1.11.3/jquery.min.js","cce-auxiliary-modelbuilding_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+
+<script type="application/javascript">
+
+  window.headroom_prevent_pin = false;
+
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+
+    // initialize headroom for banner
+    var header = $('header').get(0);
+    var headerHeight = header.offsetHeight;
+    var headroom = new Headroom(header, {
+      onPin : function() {
+        if (window.headroom_prevent_pin) {
+          window.headroom_prevent_pin = false;
+          headroom.unpin();
+        }
+      }
+    });
+    headroom.init();
+    if(window.location.hash)
+      headroom.unpin();
+    $(header).addClass('headroom--transition');
+
+    // offset scroll location for banner on hash change
+    // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+    window.addEventListener("hashchange", function(event) {
+      window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+    });
+
+    // responsive menu
+    $('.distill-site-header').each(function(i, val) {
+      var topnav = $(this);
+      var toggle = topnav.find('.nav-toggle');
+      toggle.on('click', function() {
+        topnav.toggleClass('responsive');
+      });
+    });
+
+    // nav dropdowns
+    $('.nav-dropbtn').click(function(e) {
+      $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+      $(this).parent().siblings('.nav-dropdown')
+         .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $("body").click(function(e){
+      $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $(".nav-dropdown").click(function(e){
+      e.stopPropagation();
+    });
+  });
+</script>
+
+<style type="text/css">
+
+/* Theme (user-documented overrideables for nav appearance) */
+
+.distill-site-nav {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: #455a64;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.distill-site-nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.distill-site-nav a:hover {
+  color: white;
+}
+
+@media print {
+  .distill-site-nav {
+    display: none;
+  }
+}
+
+.distill-site-header {
+
+}
+
+.distill-site-footer {
+
+}
+
+
+/* Site Header */
+
+.distill-site-header {
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+.distill-site-header .nav-left {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header .nav-left {
+    margin-left: 0;
+  }
+}
+
+
+.distill-site-header .nav-right {
+  float: right;
+  margin-right: 8px;
+}
+
+.distill-site-header a,
+.distill-site-header .title {
+  display: inline-block;
+  text-align: center;
+  padding: 14px 10px 14px 10px;
+}
+
+.distill-site-header .title {
+  font-size: 18px;
+}
+
+.distill-site-header .logo {
+  padding: 0;
+}
+
+.distill-site-header .logo img {
+  display: none;
+  max-height: 20px;
+  width: auto;
+  margin-bottom: -4px;
+}
+
+.distill-site-header .nav-image img {
+  max-height: 18px;
+  width: auto;
+  display: inline-block;
+  margin-bottom: -3px;
+}
+
+
+
+@media screen and (min-width: 1000px) {
+  .distill-site-header .logo img {
+    display: inline-block;
+  }
+  .distill-site-header .nav-left {
+    margin-left: 20px;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 20px;
+  }
+  .distill-site-header .title {
+    padding-left: 12px;
+  }
+}
+
+
+.distill-site-header .nav-toggle {
+  display: none;
+}
+
+.nav-dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.nav-dropdown .nav-dropbtn {
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 16px 10px;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  margin-top: 1px;
+  z-index: 2;
+}
+
+.nav-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 200px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 4px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+  z-index: 1;
+  margin-top: 2px;
+  white-space: nowrap;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.nav-dropdown-content hr {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-dropdown-active {
+  display: block;
+}
+
+.nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+  color: black;
+  padding: 6px 24px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.nav-dropdown-content .nav-dropdown-header {
+  display: block;
+  padding: 5px 24px;
+  padding-bottom: 0;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #999999;
+  white-space: nowrap;
+}
+
+.nav-dropdown:hover .nav-dropbtn {
+  color: white;
+}
+
+.nav-dropdown-content a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.nav-right .nav-dropdown-content {
+  margin-left: -45%;
+  right: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+  .distill-site-header a.nav-toggle {
+    float: right;
+    display: block;
+  }
+  .distill-site-header .title {
+    margin-left: 0;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 0;
+  }
+  .distill-site-header {
+    overflow: hidden;
+  }
+  .nav-right .nav-dropdown-content {
+    margin-left: 0;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-header.responsive {position: relative;}
+  .distill-site-header.responsive a.nav-toggle {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .distill-site-header.responsive a,
+  .distill-site-header.responsive .nav-dropdown {
+    display: block;
+    text-align: left;
+  }
+  .distill-site-header.responsive .nav-left,
+  .distill-site-header.responsive .nav-right {
+    width: 100%;
+  }
+  .distill-site-header.responsive .nav-dropdown {float: none;}
+  .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+  .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* Site Footer */
+
+.distill-site-footer {
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 3;
+  margin-top: 30px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+/* Headroom */
+
+d-title {
+  padding-top: 6rem;
+}
+
+@media print {
+  d-title {
+    padding-top: 4rem;
+  }
+}
+
+.headroom {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.headroom--transition {
+  transition: all .4s ease-in-out;
+}
+
+.headroom--unpinned {
+  top: -100px;
+}
+
+.headroom--pinned {
+  top: 0;
+}
+
+</style>
+
+<link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+<link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+<script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
+<!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+<style type="text/css">
+
+body {
+  background-color: white;
+}
+
+.pandoc-table {
+  width: 100%;
+}
+
+.pandoc-table>caption {
+  margin-bottom: 10px;
+}
+
+.pandoc-table th:not([align]) {
+  text-align: left;
+}
+
+.pagedtable-footer {
+  font-size: 15px;
+}
+
+.html-widget {
+  margin-bottom: 2.0em;
+}
+
+.l-screen-inset {
+  padding-right: 16px;
+}
+
+.l-screen .caption {
+  margin-left: 10px;
+}
+
+.shaded {
+  background: rgb(247, 247, 247);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .html-widget {
+  margin-bottom: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .shaded-content {
+  background: white;
+}
+
+.text-output {
+  margin-top: 0;
+  line-height: 1.5em;
+}
+
+.hidden {
+  display: none !important;
+}
+
+d-article {
+  padding-bottom: 30px;
+}
+
+d-appendix {
+  padding-top: 30px;
+}
+
+d-article>p>img {
+  width: 100%;
+}
+
+d-article iframe {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 2.0em;
+  width: 100%;
+}
+
+figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+/* CSS for table of contents */
+
+.d-toc {
+  color: rgba(0,0,0,0.8);
+  font-size: 0.8em;
+  line-height: 1em;
+}
+
+.d-toc-header {
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 1.3em;
+}
+
+.d-toc a {
+  border-bottom: none;
+}
+
+.d-toc ul {
+  padding-left: 0;
+}
+
+.d-toc li>ul {
+  padding-top: 0.8em;
+  padding-left: 16px;
+  margin-bottom: 0.6em;
+}
+
+.d-toc ul,
+.d-toc li {
+  list-style-type: none;
+}
+
+.d-toc li {
+  margin-bottom: 0.9em;
+}
+
+.d-toc-separator {
+  margin-top: 20px;
+  margin-bottom: 2em;
+}
+
+.d-article-with-toc {
+  border-top: none;
+  padding-top: 0;
+}
+
+
+
+/* Tweak code blocks (note that this CSS is repeated above in an injection
+   into the d-code shadow dom) */
+
+d-code {
+  overflow-x: auto !important;
+}
+
+pre.d-code code.d-code {
+  padding-left: 10px;
+  font-size: 12px;
+  border-left: 2px solid rgba(0,0,0,0.1);
+}
+
+pre.text-output {
+
+  font-size: 12px;
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+@media(min-width: 768px) {
+
+d-code {
+  overflow-x: visible !important;
+}
+
+pre.d-code code.d-code  {
+    padding-left: 18px;
+    font-size: 14px;
+}
+pre.text-output {
+  font-size: 14px;
+}
+}
+
+/* Figure */
+
+.figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+.figure img {
+  width: 100%;
+}
+
+.figure .caption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+.figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+.figure .caption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.figure .caption b,
+.figure .caption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+
+
+
+/* Tweak 1000px media break to show more text */
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+  figure .caption, .figure .caption, figure figcaption {
+    font-size: 13px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+/* Get the citation styles for the appendix (not auto-injected on render since
+   we do our own rendering of the citation appendix) */
+
+d-appendix .citation-appendix,
+.d-appendix .citation-appendix {
+  font-size: 11px;
+  line-height: 15px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  padding-left: 18px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.02);
+  padding: 10px 18px;
+  border-radius: 3px;
+  color: rgba(150, 150, 150, 1);
+  overflow: hidden;
+  margin-top: -12px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+
+/* Social footer */
+
+.social_footer {
+  margin-top: 30px;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.67);
+}
+
+.disqus-comments {
+  margin-right: 30px;
+}
+
+.disqus-comment-count {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+#disqus_thread {
+  margin-top: 30px;
+}
+
+.article-sharing a {
+  border-bottom: none;
+  margin-right: 8px;
+}
+
+.article-sharing a:hover {
+  border-bottom: none;
+}
+
+.sidebar-section.subscribe {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.subscribe p {
+  margin-bottom: 0.5em;
+}
+
+
+.article-footer .subscribe {
+  font-size: 15px;
+  margin-top: 45px;
+}
+
+
+/* Improve display for browsers without grid (IE/Edge <= 15) */
+
+.downlevel {
+  line-height: 1.6em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+}
+
+.downlevel .d-title {
+  padding-top: 6rem;
+  padding-bottom: 1.5rem;
+}
+
+.downlevel .d-title h1 {
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+.downlevel .d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  margin-top: 0;
+}
+
+.downlevel .d-byline {
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+  font-size: 0.8rem;
+  line-height: 1.8em;
+}
+
+.downlevel .section-separator {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.downlevel .d-article {
+  font-size: 1.06rem;
+  line-height: 1.7em;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+
+.downlevel .d-appendix {
+  padding-left: 0;
+  padding-right: 0;
+  max-width: none;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.5);
+  padding-top: 40px;
+  padding-bottom: 48px;
+}
+
+.downlevel .footnotes ol {
+  padding-left: 13px;
+}
+
+.downlevel .base-grid,
+.downlevel .distill-header,
+.downlevel .d-title,
+.downlevel .d-abstract,
+.downlevel .d-article,
+.downlevel .d-appendix,
+.downlevel .distill-appendix,
+.downlevel .d-byline,
+.downlevel .d-footnote-list,
+.downlevel .d-citation-list,
+.downlevel .distill-footer,
+.downlevel .appendix-bottom,
+.downlevel .posts-container {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+@media(min-width: 768px) {
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+  padding-left: 150px;
+  padding-right: 150px;
+  max-width: 900px;
+}
+}
+
+.downlevel pre code {
+  display: block;
+  border-left: 2px solid rgba(0, 0, 0, .1);
+  padding: 0 0 0 20px;
+  font-size: 14px;
+}
+
+.downlevel code, .downlevel pre {
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+</style>
+
+<script type="application/javascript">
+
+function is_downlevel_browser() {
+  if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                 window.navigator.userAgent)) {
+    return true;
+  } else {
+    return window.load_distill_framework === undefined;
+  }
+}
+
+// show body when load is complete
+function on_load_complete() {
+
+  // set body to visible
+  document.body.style.visibility = 'visible';
+
+  // force redraw for leaflet widgets
+  if (window.HTMLWidgets) {
+    var maps = window.HTMLWidgets.findAll(".leaflet");
+    $.each(maps, function(i, el) {
+      var map = this.getMap();
+      map.invalidateSize();
+      map.eachLayer(function(layer) {
+        if (layer instanceof L.TileLayer)
+          layer.redraw();
+      });
+    });
+  }
+
+  // trigger 'shown' so htmlwidgets resize
+  $('d-article').trigger('shown');
+}
+
+function init_distill() {
+
+  init_common();
+
+  // create front matter
+  var front_matter = $('<d-front-matter></d-front-matter>');
+  $('#distill-front-matter').wrap(front_matter);
+
+  // create d-title
+  $('.d-title').changeElementType('d-title');
+
+  // create d-byline
+  var byline = $('<d-byline></d-byline>');
+  $('.d-byline').replaceWith(byline);
+
+  // create d-article
+  var article = $('<d-article></d-article>');
+  $('.d-article').wrap(article).children().unwrap();
+
+  // move posts container into article
+  $('.posts-container').appendTo($('d-article'));
+
+  // create d-appendix
+  $('.d-appendix').changeElementType('d-appendix');
+
+  // create d-bibliography
+  var bibliography = $('<d-bibliography></d-bibliography>');
+  $('#distill-bibliography').wrap(bibliography);
+
+  // flag indicating that we have appendix items
+  var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+  // replace citations with <d-cite>
+  $('.citation').each(function(i, val) {
+    appendix = true;
+    var cites = $(this).attr('data-cites').split(" ");
+    var dt_cite = $('<d-cite></d-cite>');
+    dt_cite.attr('key', cites.join());
+    $(this).replaceWith(dt_cite);
+  });
+  // remove refs
+  $('#refs').remove();
+
+  // replace footnotes with <d-footnote>
+  $('.footnote-ref').each(function(i, val) {
+    appendix = true;
+    var href = $(this).attr('href');
+    var id = href.replace('#', '');
+    var fn = $('#' + id);
+    var fn_p = $('#' + id + '>p');
+    fn_p.find('.footnote-back').remove();
+    var text = fn_p.html();
+    var dtfn = $('<d-footnote></d-footnote>');
+    dtfn.html(text);
+    $(this).replaceWith(dtfn);
+  });
+  // remove footnotes
+  $('.footnotes').remove();
+
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    var id = $(this).attr('id');
+    $('.d-toc a[href="#' + id + '"]').parent().remove();
+    appendix = true;
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+  });
+
+  // show d-appendix if we have appendix content
+  $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+  // replace code blocks with d-code
+  $('pre>code').each(function(i, val) {
+    var code = $(this);
+    var pre = code.parent();
+    var clz = "";
+    var language = pre.attr('class');
+    if (language) {
+      // map unknown languages to "clike" (without this they just dissapear)
+      if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                               "javascript", "js", "julia", "lua", "markdown",
+                               "markup", "mathml", "python", "svg", "xml"]) == -1)
+        language = "clike";
+      language = ' language="' + language + '"';
+      var dt_code = $('<d-code block' + language + clz + '></d-code>');
+      dt_code.text(code.text());
+      pre.replaceWith(dt_code);
+    } else {
+      code.addClass('text-output').unwrap().changeElementType('pre');
+    }
+  });
+
+  // localize layout chunks to just output
+  $('.layout-chunk').each(function(i, val) {
+
+    // capture layout
+    var layout = $(this).attr('data-layout');
+
+    // apply layout to markdown level block elements
+    var elements = $(this).children().not('d-code, pre.text-output, script');
+    elements.each(function(i, el) {
+      var layout_div = $('<div class="' + layout + '"></div>');
+      if (layout_div.hasClass('shaded')) {
+        var shaded_content = $('<div class="shaded-content"></div>');
+        $(this).wrap(shaded_content);
+        $(this).parent().wrap(layout_div);
+      } else {
+        $(this).wrap(layout_div);
+      }
+    });
+
+
+    // unwrap the layout-chunk div
+    $(this).children().unwrap();
+  });
+
+  // load distill framework
+  load_distill_framework();
+
+  // wait for window.distillRunlevel == 4 to do post processing
+  function distill_post_process() {
+
+    if (!window.distillRunlevel || window.distillRunlevel < 4)
+      return;
+
+    // hide author/affiliations entirely if we have no authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+    if (!have_authors)
+      $('d-byline').addClass('hidden');
+
+    // table of contents
+    if (have_authors) // adjust border if we are in authors
+      $('.d-toc').parent().addClass('d-article-with-toc');
+
+    // strip links that point to #
+    $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+    // hide elements of author/affiliations grid that have no value
+    function hide_byline_column(caption) {
+      $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+    }
+
+    // affiliations
+    var have_affiliations = false;
+    for (var i = 0; i<front_matter.authors.length; ++i) {
+      var author = front_matter.authors[i];
+      if (author.affiliation !== "&nbsp;") {
+        have_affiliations = true;
+        break;
+      }
+    }
+    if (!have_affiliations)
+      $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+    // published date
+    if (!front_matter.publishedDate)
+      hide_byline_column("Published");
+
+    // document object identifier
+    var doi = $('d-byline').find('h3:contains("DOI")');
+    var doi_p = doi.next().empty();
+    if (!front_matter.doi) {
+      // if we have a citation and valid citationText then link to that
+      if ($('#citation').length > 0 && front_matter.citationText) {
+        doi.html('Citation');
+        $('<a href="#citation"></a>')
+          .text(front_matter.citationText)
+          .appendTo(doi_p);
+      } else {
+        hide_byline_column("DOI");
+      }
+    } else {
+      $('<a></a>')
+         .attr('href', "https://doi.org/" + front_matter.doi)
+         .html(front_matter.doi)
+         .appendTo(doi_p);
+    }
+
+     // change plural form of authors/affiliations
+    if (front_matter.authors.length === 1) {
+      var grid = $('.authors-affiliations');
+      grid.children('h3:contains("Authors")').text('Author');
+      grid.children('h3:contains("Affiliations")').text('Affiliation');
+    }
+
+    // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+    $('d-code').each(function(i, val) {
+      var style = document.createElement('style');
+      style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                        '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+      if (this.shadowRoot)
+        this.shadowRoot.appendChild(style);
+    });
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // clear polling timer
+    clearInterval(tid);
+
+    // show body now that everything is ready
+    on_load_complete();
+  }
+
+  var tid = setInterval(distill_post_process, 50);
+  distill_post_process();
+
+}
+
+function init_downlevel() {
+
+  init_common();
+
+   // insert hr after d-title
+  $('.d-title').after($('<hr class="section-separator"/>'));
+
+  // check if we have authors
+  var front_matter = JSON.parse($("#distill-front-matter").html());
+  var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+  // manage byline/border
+  if (!have_authors)
+    $('.d-byline').remove();
+  $('.d-byline').after($('<hr class="section-separator"/>'));
+  $('.d-byline a').remove();
+
+  // remove toc
+  $('.d-toc-header').remove();
+  $('.d-toc').remove();
+  $('.d-toc-separator').remove();
+
+  // move appendix elements
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+  });
+
+
+  // inject headers into references and footnotes
+  var refs_header = $('<h3></h3>');
+  refs_header.text('References');
+  $('#refs').prepend(refs_header);
+
+  var footnotes_header = $('<h3></h3');
+  footnotes_header.text('Footnotes');
+  $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+  // move appendix-bottom entries to the bottom
+  $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+  $('.appendix-bottom').remove();
+
+  // remove appendix if it's empty
+  if ($('.d-appendix').children().length === 0)
+    $('.d-appendix').remove();
+
+  // prepend separator above appendix
+  $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+  // trim code
+  $('pre>code').each(function(i, val) {
+    $(this).html($.trim($(this).html()));
+  });
+
+  // move posts-container right before article
+  $('.posts-container').insertBefore($('.d-article'));
+
+  $('body').addClass('downlevel');
+
+  on_load_complete();
+}
+
+
+function init_common() {
+
+  // jquery plugin to change element types
+  (function($) {
+    $.fn.changeElementType = function(newType) {
+      var attrs = {};
+
+      $.each(this[0].attributes, function(idx, attr) {
+        attrs[attr.nodeName] = attr.nodeValue;
+      });
+
+      this.replaceWith(function() {
+        return $("<" + newType + "/>", attrs).append($(this).contents());
+      });
+    };
+  })(jQuery);
+
+  // prevent underline for linked images
+  $('a > img').parent().css({'border-bottom' : 'none'});
+
+  // mark non-body figures created by knitr chunks as 100% width
+  $('.layout-chunk').each(function(i, val) {
+    var figures = $(this).find('img, .html-widget');
+    if ($(this).attr('data-layout') !== "l-body") {
+      figures.css('width', '100%');
+    } else {
+      figures.css('max-width', '100%');
+      figures.filter("[width]").each(function(i, val) {
+        var fig = $(this);
+        fig.css('width', fig.attr('width') + 'px');
+      });
+
+    }
+  });
+
+  // auto-append index.html to post-preview links in file: protocol
+  // and in rstudio ide preview
+  $('.post-preview').each(function(i, val) {
+    if (window.location.protocol === "file:")
+      $(this).attr('href', $(this).attr('href') + "index.html");
+  });
+
+  // get rid of index.html references in header
+  if (window.location.protocol !== "file:") {
+    $('.distill-site-header a[href]').each(function(i,val) {
+      $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+    });
+  }
+
+  // add class to pandoc style tables
+  $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+  $('.kable-table').children('table').addClass('pandoc-table');
+
+  // add figcaption style to table captions
+  $('caption').parent('table').addClass("figcaption");
+
+  // initialize posts list
+  if (window.init_posts_list)
+    window.init_posts_list();
+
+  // implmement disqus comment link
+  $('.disqus-comment-count').click(function() {
+    window.headroom_prevent_pin = true;
+    $('#disqus_thread').toggleClass('hidden');
+    if (!$('#disqus_thread').hasClass('hidden')) {
+      var offset = $(this).offset();
+      $(window).resize();
+      $('html, body').animate({
+        scrollTop: offset.top - 35
+      });
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (is_downlevel_browser())
+    init_downlevel();
+  else
+    window.addEventListener('WebComponentsReady', init_distill);
+});
+
+</script>
+
+<!--/radix_placeholder_distill-->
+  <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+<!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Auxilary Model Building: Content & Convergent Evidence","description":"In this post we provide the results of the mixed-effect model building process applied in our Content & Convergent Evidence Study to answer research questions about differences in words correct per minute (WCPM) scores between three scoring methods, and between passage lenghts, and differences in time duration between three scoring methods.","authors":[{"author":"Joseph F. T. Nese","authorURL":"https://education.uoregon.edu/people/faculty/jnese","affiliation":"University of Oregon","affiliationURL":"https://www.uoregon.edu/"},{"author":"Akihito Kamata","authorURL":"https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata","affiliation":"Southern Methodist University","affiliationURL":"https://www.smu.edu/"}],"publishedDate":"2019-04-06T00:00:00.000-07:00","citationText":"Nese & Kamata, 2019"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a href="../../index.html" class="title">CORE Study Blog</a>
+<a href="../../index.html">Home</a>
+</div>
+<div class="nav-right">
+<a href="../../about.html">About</a>
+<a href="https://github.com/jnese/core-blog">
+<i class="fa fa-github"></i>
+</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Auxilary Model Building: Content &amp; Convergent Evidence</h1>
+<p>In this post we provide the results of the mixed-effect model building process applied in our Content &amp; Convergent Evidence Study to answer research questions about differences in words correct per minute (WCPM) scores between three scoring methods, and between passage lenghts, and differences in time duration between three scoring methods.</p>
+</div>
+
+<div class="d-byline">
+  Joseph F. T. Nese <a href="https://education.uoregon.edu/people/faculty/jnese" class="uri">https://education.uoregon.edu/people/faculty/jnese</a> (University of Oregon)<a href="https://www.uoregon.edu/" class="uri">https://www.uoregon.edu/</a>
+  
+,   Akihito Kamata <a href="https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata" class="uri">https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata</a> (Southern Methodist University)<a href="https://www.smu.edu/" class="uri">https://www.smu.edu/</a>
+  
+<br/>04-06-2019
+</div>
+
+<div class="d-article">
+<h3 class="d-toc-header">Table of Contents</h3>
+<nav class="d-toc" id="TOC">
+<ul>
+<li><a href="#random-effects">Random Effects</a><ul>
+<li><a href="#summary-of-random-effects-findings">Summary of Random Effects Findings</a></li>
+<li><a href="#wcpm">WCPM</a><ul>
+<li><a href="#model-comparison-tests">Model Comparison Tests</a></li>
+</ul></li>
+<li><a href="#time-duration">Time Duration</a><ul>
+<li><a href="#model-comparison-tests-1">Model Comparison Tests</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#fixed-effects">Fixed Effects</a><ul>
+<li><a href="#summary-of-fixed-effects-findings">Summary of Fixed Effects Findings</a></li>
+<li><a href="#wcpm-1">WCPM</a><ul>
+<li><a href="#model-comparison-test">Model Comparison Test</a></li>
+</ul></li>
+<li><a href="#time">Time</a><ul>
+<li><a href="#model-comparison-test-1">Model Comparison Test</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<hr class="d-toc-separator"/>
+<h2 id="top" /h2>
+<p>The purpose o this report is to provide the results of the mixed-effect model building process applied in our <a href="https://jnese.github.io/core-blog/posts/2019-04-04-content-convergent-evidence-study-procedures/">Content &amp; Convergent Evidence Study</a> to answer the following research questions.</p>
+<p>1a. Are there differences at the passage-level in <strong>WCPM</strong> between the human scoring criterion versus traditional or ASR scoring of traditional CBM-R and CORE passages (i.e., <strong>scoring method</strong>)?</p>
+<p>1b. Are there differences at the passage-level in <strong>WCPM</strong> between the traditional CBM-R and CORE passages (i.e., <strong>passage length</strong>)?</p>
+<ol start="2" type="1">
+<li>Are there differences at the passage-level in <strong>time</strong> duration between the human scoring criterion versus traditional or ASR scoring of traditional CBM-R and CORE passages?</li>
+</ol>
+<p>In response to these Research Questions, we used <a href="https://cran.r-project.org/web/packages/lme4/index.html"><code>lme4</code></a> to apply a mixed-effect model separately for each of Grades 2 through 4 and each outcome, <strong>WCPM</strong> and <strong>time</strong> duration (3 grades x 2 outcomes = six modeling processes).</p>
+<p>For a full description of the purpose and procedures of the Content &amp; Convergent Evidence Study, go <a href="https://jnese.github.io/core-blog/posts/2019-04-04-content-convergent-evidence-study-procedures/">here</a></p>
+<h1 id="random-effects">Random Effects</h1>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<h3 id="summary-of-random-effects-findings">Summary of Random Effects Findings</h3>
+<p>For both <strong>WCPM</strong> and <strong>time</strong> and all Grades 2 through 4, the model with random effects for both <code>students</code> and <code>passages</code> statistically improved the model fit compared to models with a random effect for <em>either</em> <code>students</code> or <code>passages</code>.</p>
+<h2 id="wcpm">WCPM</h2>
+<aside>
+<a href="#top">Top</a>
+</aside>
+<p>We began by comparing unconditional models for <strong>WCPM</strong> and <strong>time</strong> with and without random-effects for <code>student</code> and <code>passage</code>.</p>
+<p>Here are the <strong>WCPM</strong> results for Grades 2 through 4 for the model with a random effect for <code>students</code>:</p>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+lmer(wcpm ~ 1 + (1|student_id), data = ., REML = F)</code></pre>
+</div>
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+$`Grade 2`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: wcpm ~ 1 + (1 | student_id)
+   Data: .
+
+     AIC      BIC   logLik deviance df.resid 
+ 98859.3  98881.2 -49426.6  98853.3    10995 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-4.9728 -0.5922 -0.0675  0.5346  9.5737 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ student_id (Intercept) 1418.1   37.66   
+ Residual                417.3   20.43   
+Number of obs: 10998, groups:  student_id, 261
+
+Fixed effects:
+            Estimate Std. Error t value
+(Intercept)   85.116      2.341   36.36
+
+$`Grade 3`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: wcpm ~ 1 + (1 | student_id)
+   Data: .
+
+     AIC      BIC   logLik deviance df.resid 
+133002.6 133025.3 -66498.3 132996.6    14370 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-4.4816 -0.5997 -0.0424  0.5401  9.7405 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ student_id (Intercept) 1183.7   34.41   
+ Residual                551.9   23.49   
+Number of obs: 14373, groups:  student_id, 323
+
+Fixed effects:
+            Estimate Std. Error t value
+(Intercept)  110.850      1.926   57.57
+
+$`Grade 4`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: wcpm ~ 1 + (1 | student_id)
+   Data: .
+
+     AIC      BIC   logLik deviance df.resid 
+129443.5 129466.1 -64718.7 129437.5    13989 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-5.8352 -0.6069 -0.0308  0.5630  9.3287 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ student_id (Intercept) 1465.0   38.28   
+ Residual                547.7   23.40   
+Number of obs: 13992, groups:  student_id, 315
+
+Fixed effects:
+            Estimate Std. Error t value
+(Intercept)  132.271      2.167   61.05</code></pre>
+</div>
+<hr />
+<p>Here are the <strong>WCPM</strong> results for Grades 2 through 4 for the model with a random effect for <code>passages</code>:</p>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+lmer(wcpm ~ 1 + (1|passage_id), data = ., REML = F)</code></pre>
+</div>
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+$`Grade 2`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: wcpm ~ 1 + (1 | passage_id)
+   Data: .
+
+     AIC      BIC   logLik deviance df.resid 
+112593.3 112615.2 -56293.7 112587.3    10995 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-2.4192 -0.7312 -0.0687  0.6209  5.1728 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ passage_id (Intercept)   74.8    8.649  
+ Residual               1607.2   40.090  
+Number of obs: 10998, groups:  passage_id, 107
+
+Fixed effects:
+            Estimate Std. Error t value
+(Intercept)   88.627      0.922   96.13
+
+$`Grade 3`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: wcpm ~ 1 + (1 | passage_id)
+   Data: .
+
+     AIC      BIC   logLik deviance df.resid 
+146393.2 146415.9 -73193.6 146387.2    14370 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.2933 -0.6843 -0.0380  0.6401  5.9000 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ passage_id (Intercept)  147.5   12.15   
+ Residual               1521.6   39.01   
+Number of obs: 14373, groups:  passage_id, 106
+
+Fixed effects:
+            Estimate Std. Error t value
+(Intercept)  111.495      1.225   91.05
+
+$`Grade 4`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: wcpm ~ 1 + (1 | passage_id)
+   Data: .
+
+     AIC      BIC   logLik deviance df.resid 
+145151.5 145174.1 -72572.7 145145.5    13989 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.2986 -0.6868 -0.0305  0.6484  4.9736 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ passage_id (Intercept)  125.9   11.22   
+ Residual               1841.3   42.91   
+Number of obs: 13992, groups:  passage_id, 106
+
+Fixed effects:
+            Estimate Std. Error t value
+(Intercept)   132.47       1.15   115.2</code></pre>
+</div>
+<hr />
+<p>Here are the <strong>WCPM</strong> results for Grades 2 through 4 for the model with a random effect for both <code>students</code> and <code>passages</code>:</p>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+lmer(wcpm ~ 1 + (1|student_id) + (1|passage_id), data = ., REML = F)</code></pre>
+</div>
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+$`Grade 2`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: wcpm ~ 1 + (1 | student_id) + (1 | passage_id)
+   Data: .
+
+     AIC      BIC   logLik deviance df.resid 
+ 97118.2  97147.5 -48555.1  97110.2    10994 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-5.5168 -0.5670 -0.0334  0.5334  9.7353 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ student_id (Intercept) 1424.85  37.747  
+ passage_id (Intercept)   80.06   8.948  
+ Residual                344.26  18.554  
+Number of obs: 10998, groups:  student_id, 261; passage_id, 107
+
+Fixed effects:
+            Estimate Std. Error t value
+(Intercept)    84.92       2.50   33.97
+
+$`Grade 3`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: wcpm ~ 1 + (1 | student_id) + (1 | passage_id)
+   Data: .
+
+     AIC      BIC   logLik deviance df.resid 
+129517.7 129548.0 -64754.9 129509.7    14369 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-5.0945 -0.5666 -0.0190  0.5527 11.0883 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ student_id (Intercept) 1196.0   34.58   
+ passage_id (Intercept)  147.6   12.15   
+ Residual                418.8   20.46   
+Number of obs: 14373, groups:  student_id, 323; passage_id, 106
+
+Fixed effects:
+            Estimate Std. Error t value
+(Intercept)  110.847      2.265   48.94
+
+$`Grade 4`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: wcpm ~ 1 + (1 | student_id) + (1 | passage_id)
+   Data: .
+
+     AIC      BIC   logLik deviance df.resid 
+126698.1 126728.3 -63345.1 126690.1    13988 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-6.0317 -0.5682 -0.0011  0.5730  9.8824 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ student_id (Intercept) 1461.2   38.23   
+ passage_id (Intercept)  117.4   10.84   
+ Residual                436.5   20.89   
+Number of obs: 13992, groups:  student_id, 315; passage_id, 106
+
+Fixed effects:
+            Estimate Std. Error t value
+(Intercept)  132.351      2.405   55.03</code></pre>
+</div>
+<hr />
+<h3 id="model-comparison-tests">Model Comparison Tests</h3>
+<p>We conducted deviances tests, comparing the model with a random effect for <code>students</code> to the model with random effects for both <code>students</code> and <code>passages</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+$`Grade 2`
+Data: .
+Models:
+.x: wcpm ~ 1 + (1 | student_id)
+.y: wcpm ~ 1 + (1 | student_id) + (1 | passage_id)
+   Df   AIC   BIC logLik deviance Chisq Chi Df Pr(&gt;Chisq)    
+.x  3 98859 98881 -49427    98853                            
+.y  4 97118 97147 -48555    97110  1743      1  &lt; 2.2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+$`Grade 3`
+Data: .
+Models:
+.x: wcpm ~ 1 + (1 | student_id)
+.y: wcpm ~ 1 + (1 | student_id) + (1 | passage_id)
+   Df    AIC    BIC logLik deviance  Chisq Chi Df Pr(&gt;Chisq)    
+.x  3 133003 133025 -66498   132997                             
+.y  4 129518 129548 -64755   129510 3486.8      1  &lt; 2.2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+$`Grade 4`
+Data: .
+Models:
+.x: wcpm ~ 1 + (1 | student_id)
+.y: wcpm ~ 1 + (1 | student_id) + (1 | passage_id)
+   Df    AIC    BIC logLik deviance  Chisq Chi Df Pr(&gt;Chisq)    
+.x  3 129443 129466 -64719   129437                             
+.y  4 126698 126728 -63345   126690 2747.3      1  &lt; 2.2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<p>And comparing the model with a random effect for <code>passages</code> to the model with random effects for both <code>students</code> and <code>passages</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+$`Grade 2`
+Data: .
+Models:
+.x: wcpm ~ 1 + (1 | passage_id)
+.y: wcpm ~ 1 + (1 | student_id) + (1 | passage_id)
+   Df    AIC    BIC logLik deviance Chisq Chi Df Pr(&gt;Chisq)    
+.x  3 112593 112615 -56294   112587                            
+.y  4  97118  97147 -48555    97110 15477      1  &lt; 2.2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+$`Grade 3`
+Data: .
+Models:
+.x: wcpm ~ 1 + (1 | passage_id)
+.y: wcpm ~ 1 + (1 | student_id) + (1 | passage_id)
+   Df    AIC    BIC logLik deviance Chisq Chi Df Pr(&gt;Chisq)    
+.x  3 146393 146416 -73194   146387                            
+.y  4 129518 129548 -64755   129510 16877      1  &lt; 2.2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+$`Grade 4`
+Data: .
+Models:
+.x: wcpm ~ 1 + (1 | passage_id)
+.y: wcpm ~ 1 + (1 | student_id) + (1 | passage_id)
+   Df    AIC    BIC logLik deviance Chisq Chi Df Pr(&gt;Chisq)    
+.x  3 145151 145174 -72573   145145                            
+.y  4 126698 126728 -63345   126690 18455      1  &lt; 2.2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<p><strong>Our conclusion</strong> was that the addition of <code>student</code> and <code>passage</code> as random effects statistically improved the model fit.</p>
+<aside>
+<a href="#top">Top</a>
+</aside>
+<hr />
+<p>By evaluating the random effects, we found that 68% to 77% of the variance was between students, while only 4% to 8% of the variance was between passages, and 19% to 24% was residual variance. Thus, most of the variance was between <code>students</code> for these <strong>WCPM</strong> models. See below for <strong>WCPM</strong> ICC estimates.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+$`Grade 2`
+# A tibble: 3 x 4
+  term                       group      estimate   icc
+  &lt;chr&gt;                      &lt;chr&gt;         &lt;dbl&gt; &lt;dbl&gt;
+1 var_(Intercept).student_id student_id   1425.   0.77
+2 var_(Intercept).passage_id passage_id     80.1  0.04
+3 var_Observation.Residual   Residual      344.   0.19
+
+$`Grade 3`
+# A tibble: 3 x 4
+  term                       group      estimate   icc
+  &lt;chr&gt;                      &lt;chr&gt;         &lt;dbl&gt; &lt;dbl&gt;
+1 var_(Intercept).student_id student_id    1196.  0.68
+2 var_(Intercept).passage_id passage_id     148.  0.08
+3 var_Observation.Residual   Residual       419.  0.24
+
+$`Grade 4`
+# A tibble: 3 x 4
+  term                       group      estimate   icc
+  &lt;chr&gt;                      &lt;chr&gt;         &lt;dbl&gt; &lt;dbl&gt;
+1 var_(Intercept).student_id student_id    1461.  0.73
+2 var_(Intercept).passage_id passage_id     117.  0.06
+3 var_Observation.Residual   Residual       437.  0.22</code></pre>
+</div>
+<hr />
+<h2 id="time-duration">Time Duration</h2>
+<aside>
+<a href="#top">Top</a>
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Here are the <strong>time</strong> results for Grades 2 through 4 for the model with a random effect for <code>students</code>:</p>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+lmer(time ~ 1 + (1|student_id), data = ., REML = F)</code></pre>
+</div>
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+$`Grade 2`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: time ~ 1 + (1 | student_id)
+   Data: .
+
+     AIC      BIC   logLik deviance df.resid 
+ 62874.6  62895.3 -31434.3  62868.6     7329 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-2.2583 -0.6609 -0.2481  0.4011  7.2226 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ student_id (Intercept)  88.23    9.393  
+ Residual               286.41   16.924  
+Number of obs: 7332, groups:  student_id, 261
+
+Fixed effects:
+            Estimate Std. Error t value
+(Intercept)  30.7336     0.6185   49.69
+
+$`Grade 3`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: time ~ 1 + (1 | student_id)
+   Data: .
+
+     AIC      BIC   logLik deviance df.resid 
+ 79817.2  79838.7 -39905.6  79811.2     9579 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-2.0972 -0.6882 -0.2811  0.4024  7.8302 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ student_id (Intercept)  60.64    7.787  
+ Residual               225.46   15.015  
+Number of obs: 9582, groups:  student_id, 323
+
+Fixed effects:
+            Estimate Std. Error t value
+(Intercept)  25.4726     0.4614    55.2
+
+$`Grade 4`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: time ~ 1 + (1 | student_id)
+   Data: .
+
+     AIC      BIC   logLik deviance df.resid 
+ 75069.5  75091.0 -37531.8  75063.5     9325 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-2.1465 -0.6976 -0.3711  0.4212  9.1010 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ student_id (Intercept)  34.15    5.844  
+ Residual               171.50   13.096  
+Number of obs: 9328, groups:  student_id, 315
+
+Fixed effects:
+            Estimate Std. Error t value
+(Intercept)  21.3739     0.3575   59.79</code></pre>
+</div>
+<hr />
+<p>Here are the <strong>time</strong> results for Grades 2 through 4 for the model with a random effect for <code>passages</code>:</p>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+lmer(time ~ 1 + (1|passage_id), data = ., REML = F)</code></pre>
+</div>
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+$`Grade 2`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: time ~ 1 + (1 | passage_id)
+   Data: .
+
+     AIC      BIC   logLik deviance df.resid 
+ 59003.7  59024.4 -29498.9  58997.7     7329 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.1058 -0.5891 -0.1893  0.4373  8.8472 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ passage_id (Intercept) 197.7    14.06   
+ Residual               171.6    13.10   
+Number of obs: 7332, groups:  passage_id, 107
+
+Fixed effects:
+            Estimate Std. Error t value
+(Intercept)   30.427      1.368   22.24
+
+$`Grade 3`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: time ~ 1 + (1 | passage_id)
+   Data: .
+
+     AIC      BIC   logLik deviance df.resid 
+ 71286.8  71308.3 -35640.4  71280.8     9579 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-4.3827 -0.5308 -0.1697  0.3302 14.1183 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ passage_id (Intercept) 180.67   13.44   
+ Residual                94.08    9.70   
+Number of obs: 9582, groups:  passage_id, 106
+
+Fixed effects:
+            Estimate Std. Error t value
+(Intercept)   25.167      1.309   19.22
+
+$`Grade 4`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: time ~ 1 + (1 | passage_id)
+   Data: .
+
+     AIC      BIC   logLik deviance df.resid 
+ 65285.4  65306.9 -32639.7  65279.4     9325 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.8478 -0.5187 -0.1711  0.3293 12.7341 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ passage_id (Intercept) 140.25   11.843  
+ Residual                60.34    7.768  
+Number of obs: 9328, groups:  passage_id, 106
+
+Fixed effects:
+            Estimate Std. Error t value
+(Intercept)   21.129      1.153   18.32</code></pre>
+</div>
+<hr />
+<p>Here are the <strong>time</strong> results for Grades 2 through 4 for the model with a random effect for both <code>students</code> and <code>passages</code>:</p>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+lmer(time ~ 1 + (1|student_id) + (1|passage_id), data = ., REML = F)</code></pre>
+</div>
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+$`Grade 2`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: time ~ 1 + (1 | student_id) + (1 | passage_id)
+   Data: .
+
+     AIC      BIC   logLik deviance df.resid 
+ 54058.8  54086.4 -27025.4  54050.8     7328 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-6.1990 -0.4620 -0.0278  0.3851  9.5112 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ student_id (Intercept) 104.14   10.205  
+ passage_id (Intercept) 207.99   14.422  
+ Residual                76.09    8.723  
+Number of obs: 7332, groups:  student_id, 261; passage_id, 107
+
+Fixed effects:
+            Estimate Std. Error t value
+(Intercept)   31.151      1.535   20.29
+
+$`Grade 3`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: time ~ 1 + (1 | student_id) + (1 | passage_id)
+   Data: .
+
+     AIC      BIC   logLik deviance df.resid 
+ 64459.5  64488.2 -32225.8  64451.5     9578 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-7.5167 -0.4702 -0.0199  0.4023  9.5565 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ student_id (Intercept)  73.67    8.583  
+ passage_id (Intercept) 184.60   13.587  
+ Residual                40.04    6.328  
+Number of obs: 9582, groups:  student_id, 323; passage_id, 106
+
+Fixed effects:
+            Estimate Std. Error t value
+(Intercept)   25.382      1.405   18.06
+
+$`Grade 4`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: time ~ 1 + (1 | student_id) + (1 | passage_id)
+   Data: .
+
+     AIC      BIC   logLik deviance df.resid 
+ 58507.8  58536.3 -29249.9  58499.8     9324 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-6.4615 -0.4766 -0.0312  0.4094 17.7257 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ student_id (Intercept)  35.77    5.980  
+ passage_id (Intercept) 141.32   11.888  
+ Residual                25.54    5.053  
+Number of obs: 9328, groups:  student_id, 315; passage_id, 106
+
+Fixed effects:
+            Estimate Std. Error t value
+(Intercept)   21.105      1.204   17.52</code></pre>
+</div>
+<hr />
+<h3 id="model-comparison-tests-1">Model Comparison Tests</h3>
+<p>We conducted deviances tests, comparing the model with a random effect for <code>students</code> to the model with random effects for both <code>students</code> and <code>passages</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+$`Grade 2`
+Data: .
+Models:
+.x: time ~ 1 + (1 | student_id)
+.y: time ~ 1 + (1 | student_id) + (1 | passage_id)
+   Df   AIC   BIC logLik deviance  Chisq Chi Df Pr(&gt;Chisq)    
+.x  3 62875 62895 -31434    62869                             
+.y  4 54059 54086 -27025    54051 8817.8      1  &lt; 2.2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+$`Grade 3`
+Data: .
+Models:
+.x: time ~ 1 + (1 | student_id)
+.y: time ~ 1 + (1 | student_id) + (1 | passage_id)
+   Df   AIC   BIC logLik deviance Chisq Chi Df Pr(&gt;Chisq)    
+.x  3 79817 79839 -39906    79811                            
+.y  4 64460 64488 -32226    64452 15360      1  &lt; 2.2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+$`Grade 4`
+Data: .
+Models:
+.x: time ~ 1 + (1 | student_id)
+.y: time ~ 1 + (1 | student_id) + (1 | passage_id)
+   Df   AIC   BIC logLik deviance Chisq Chi Df Pr(&gt;Chisq)    
+.x  3 75070 75091 -37532    75064                            
+.y  4 58508 58536 -29250    58500 16564      1  &lt; 2.2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<p>And comparing the model with a random effect for <code>passages</code> to the model with random effects for both <code>students</code> and <code>passages</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+$`Grade 2`
+Data: .
+Models:
+.x: time ~ 1 + (1 | passage_id)
+.y: time ~ 1 + (1 | student_id) + (1 | passage_id)
+   Df   AIC   BIC logLik deviance  Chisq Chi Df Pr(&gt;Chisq)    
+.x  3 59004 59024 -29499    58998                             
+.y  4 54059 54086 -27025    54051 4946.9      1  &lt; 2.2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+$`Grade 3`
+Data: .
+Models:
+.x: time ~ 1 + (1 | passage_id)
+.y: time ~ 1 + (1 | student_id) + (1 | passage_id)
+   Df   AIC   BIC logLik deviance  Chisq Chi Df Pr(&gt;Chisq)    
+.x  3 71287 71308 -35640    71281                             
+.y  4 64460 64488 -32226    64452 6829.3      1  &lt; 2.2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+$`Grade 4`
+Data: .
+Models:
+.x: time ~ 1 + (1 | passage_id)
+.y: time ~ 1 + (1 | student_id) + (1 | passage_id)
+   Df   AIC   BIC logLik deviance  Chisq Chi Df Pr(&gt;Chisq)    
+.x  3 65285 65307 -32640    65279                             
+.y  4 58508 58536 -29250    58500 6779.7      1  &lt; 2.2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<p><strong>Our conclusion</strong> was that the addition of <code>student</code> and <code>passage</code> as random effects statistically improved the model fit.</p>
+<aside>
+<a href="#top">Top</a>
+</aside>
+<hr />
+<p>By evaluating the random effects, we found that 18% to 27% of the variance was between students, while only 54% to 70% of the variance was between passages, and 13% to 20% was residual variance. Thus, the majority of the variance was between passages, which is intuitive because <code>time duration</code> and passage length (word count) are highly and directly correlated.<br />
+See below for <strong>time</strong> ICC estimates.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+$`Grade 2`
+# A tibble: 3 x 4
+  term                       group      estimate   icc
+  &lt;chr&gt;                      &lt;chr&gt;         &lt;dbl&gt; &lt;dbl&gt;
+1 var_(Intercept).student_id student_id    104.   0.27
+2 var_(Intercept).passage_id passage_id    208.   0.54
+3 var_Observation.Residual   Residual       76.1  0.2 
+
+$`Grade 3`
+# A tibble: 3 x 4
+  term                       group      estimate   icc
+  &lt;chr&gt;                      &lt;chr&gt;         &lt;dbl&gt; &lt;dbl&gt;
+1 var_(Intercept).student_id student_id     73.7  0.25
+2 var_(Intercept).passage_id passage_id    185.   0.62
+3 var_Observation.Residual   Residual       40.0  0.13
+
+$`Grade 4`
+# A tibble: 3 x 4
+  term                       group      estimate   icc
+  &lt;chr&gt;                      &lt;chr&gt;         &lt;dbl&gt; &lt;dbl&gt;
+1 var_(Intercept).student_id student_id     35.8  0.18
+2 var_(Intercept).passage_id passage_id    141.   0.7 
+3 var_Observation.Residual   Residual       25.5  0.13</code></pre>
+</div>
+<hr />
+<h1 id="fixed-effects">Fixed Effects</h1>
+<aside>
+<a href="#top">Top</a>
+</aside>
+<p>To the model with random effects for <code>student</code> and <code>passages</code>, we then added fixed-effects for <code>passage length</code> (four levels: <em>easyCBM</em>, <em>Short</em>, <em>Medium</em>, and <em>Long</em>) and <code>scoring method</code> (three levels: <em>ASR</em>, <em>Recording</em>, and <em>Traditional</em>), and compared it to a model that included an <code>interaction term</code> for <em>passage length x scoring method</em>.</p>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+lmer(time ~ 1 + (1|student_id) + (1|passage_id), data = ., REML = F)</code></pre>
+</div>
+</aside>
+<h3 id="summary-of-fixed-effects-findings">Summary of Fixed Effects Findings</h3>
+<p>For both <strong>WCPM</strong> and <strong>time</strong> and all Grades 2 through 4, the model with the addition of the interaction effect statistically improved the model fit compared to model without the interaction. Thus, our final model for both outcomes and all grades included random effects for student and passage, and fixed effects for passage length, scoring method, and their interaction.</p>
+<h2 id="wcpm-1">WCPM</h2>
+<aside>
+<a href="#top">Top</a>
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Here are the <strong>WCPM</strong> results for Grades 2 through 4 for the model with a random effect for <code>students</code> and <code>passages</code>, and fixed effects for <code>passage_length</code> and <code>scoring_method</code>:</p>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+lmer(wcpm ~ 1 + (1|student_id) + (1|passage_id) + 
+                          passage_length + scoring_method, data = ., REML = F))</code></pre>
+</div>
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+$`Grade 2`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: 
+wcpm ~ 1 + (1 | student_id) + (1 | passage_id) + passage_length +  
+    mode
+   Data: .
+      AIC       BIC    logLik  deviance  df.resid 
+ 96842.53  96908.28 -48412.27  96824.53     10989 
+Random effects:
+ Groups     Name        Std.Dev.
+ student_id (Intercept) 37.753  
+ passage_id (Intercept)  8.831  
+ Residual               18.309  
+Number of obs: 10998, groups:  student_id, 261; passage_id, 107
+Fixed Effects:
+         (Intercept)    passage_lengthlong  passage_lengthmedium  
+              92.367               -12.898               -10.224  
+ passage_lengthshort    modewcpm_criterion  modewcpm_traditional  
+             -11.383                 4.060                 7.226  
+
+$`Grade 3`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: 
+wcpm ~ 1 + (1 | student_id) + (1 | passage_id) + passage_length +  
+    mode
+   Data: .
+      AIC       BIC    logLik  deviance  df.resid 
+128999.85 129068.01 -64490.93 128981.85     14364 
+Random effects:
+ Groups     Name        Std.Dev.
+ student_id (Intercept) 34.59   
+ passage_id (Intercept) 11.76   
+ Residual               20.09   
+Number of obs: 14373, groups:  student_id, 323; passage_id, 106
+Fixed Effects:
+         (Intercept)    passage_lengthlong  passage_lengthmedium  
+             110.857                -7.909                -7.357  
+ passage_lengthshort    modewcpm_criterion  modewcpm_traditional  
+              -1.782                 3.872                 9.413  
+
+$`Grade 4`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: 
+wcpm ~ 1 + (1 | student_id) + (1 | passage_id) + passage_length +  
+    mode
+   Data: .
+      AIC       BIC    logLik  deviance  df.resid 
+126025.12 126093.04 -63003.56 126007.12     13983 
+Random effects:
+ Groups     Name        Std.Dev.
+ student_id (Intercept) 38.23   
+ passage_id (Intercept) 10.40   
+ Residual               20.38   
+Number of obs: 13992, groups:  student_id, 315; passage_id, 106
+Fixed Effects:
+         (Intercept)    passage_lengthlong  passage_lengthmedium  
+             118.226                 3.719                 8.612  
+ passage_lengthshort    modewcpm_criterion  modewcpm_traditional  
+              11.433                 3.958                10.959  </code></pre>
+</div>
+<hr />
+<p>And here are the <strong>WCPM</strong> results for Grades 2 through 4 for the model with a random effect for <code>students</code> and <code>passages</code>, and fixed effects for <code>passage_length</code>, <code>scoring_method</code>, and their <code>interaction</code>:</p>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+lmer(wcpm ~ 1 + (1|student_id) + (1|passage_id) + 
+                          passage_length + scoring_method + passage_length:scoring_method, data = ., REML = F))</code></pre>
+</div>
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+$`Grade 2`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: 
+wcpm ~ 1 + (1 | student_id) + (1 | passage_id) + passage_length +  
+    mode + passage_length:mode
+   Data: .
+      AIC       BIC    logLik  deviance  df.resid 
+ 96751.95  96861.53 -48360.97  96721.95     10983 
+Random effects:
+ Groups     Name        Std.Dev.
+ student_id (Intercept) 37.755  
+ passage_id (Intercept)  8.835  
+ Residual               18.221  
+Number of obs: 10998, groups:  student_id, 261; passage_id, 107
+Fixed Effects:
+                              (Intercept)  
+                                   92.647  
+                       passage_lengthlong  
+                                  -13.272  
+                     passage_lengthmedium  
+                                  -10.437  
+                      passage_lengthshort  
+                                  -11.682  
+                       modewcpm_criterion  
+                                   15.717  
+                     modewcpm_traditional  
+                                   -5.271  
+    passage_lengthlong:modewcpm_criterion  
+                                  -10.998  
+  passage_lengthmedium:modewcpm_criterion  
+                                  -10.977  
+   passage_lengthshort:modewcpm_criterion  
+                                  -12.702  
+  passage_lengthlong:modewcpm_traditional  
+                                   12.119  
+passage_lengthmedium:modewcpm_traditional  
+                                   11.612  
+ passage_lengthshort:modewcpm_traditional  
+                                   13.598  
+
+$`Grade 3`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: 
+wcpm ~ 1 + (1 | student_id) + (1 | passage_id) + passage_length +  
+    mode + passage_length:mode
+   Data: .
+      AIC       BIC    logLik  deviance  df.resid 
+128959.43 129073.03 -64464.72 128929.43     14358 
+Random effects:
+ Groups     Name        Std.Dev.
+ student_id (Intercept) 34.59   
+ passage_id (Intercept) 11.76   
+ Residual               20.05   
+Number of obs: 14373, groups:  student_id, 323; passage_id, 106
+Fixed Effects:
+                              (Intercept)  
+                                  112.670  
+                       passage_lengthlong  
+                                   -9.746  
+                     passage_lengthmedium  
+                                   -8.907  
+                      passage_lengthshort  
+                                   -3.785  
+                       modewcpm_criterion  
+                                   10.634  
+                     modewcpm_traditional  
+                                   -2.783  
+    passage_lengthlong:modewcpm_criterion  
+                                   -5.522  
+  passage_lengthmedium:modewcpm_criterion  
+                                   -6.941  
+   passage_lengthshort:modewcpm_criterion  
+                                   -7.291  
+  passage_lengthlong:modewcpm_traditional  
+                                   11.030  
+passage_lengthmedium:modewcpm_traditional  
+                                   11.588  
+ passage_lengthshort:modewcpm_traditional  
+                                   13.293  
+
+$`Grade 4`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: 
+wcpm ~ 1 + (1 | student_id) + (1 | passage_id) + passage_length +  
+    mode + passage_length:mode
+   Data: .
+      AIC       BIC    logLik  deviance  df.resid 
+125976.36 126089.55 -62973.18 125946.36     13977 
+Random effects:
+ Groups     Name        Std.Dev.
+ student_id (Intercept) 38.23   
+ passage_id (Intercept) 10.40   
+ Residual               20.33   
+Number of obs: 13992, groups:  student_id, 315; passage_id, 106
+Fixed Effects:
+                              (Intercept)  
+                                  117.626  
+                       passage_lengthlong  
+                                    5.271  
+                     passage_lengthmedium  
+                                    9.673  
+                      passage_lengthshort  
+                                   11.496  
+                       modewcpm_criterion  
+                                   13.904  
+                     modewcpm_traditional  
+                                    2.812  
+    passage_lengthlong:modewcpm_criterion  
+                                   -9.767  
+  passage_lengthmedium:modewcpm_criterion  
+                                   -9.913  
+   passage_lengthshort:modewcpm_criterion  
+                                  -10.273  
+  passage_lengthlong:modewcpm_traditional  
+                                    5.109  
+passage_lengthmedium:modewcpm_traditional  
+                                    6.728  
+ passage_lengthshort:modewcpm_traditional  
+                                   10.082  </code></pre>
+</div>
+<hr />
+<h3 id="model-comparison-test">Model Comparison Test</h3>
+<p>We conducted a deviance test, comparing the model with main effects only to the model with main effects and their interaction.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+$`Grade 2`
+Data: .
+Models:
+.x: wcpm ~ 1 + (1 | student_id) + (1 | passage_id) + passage_length + 
+.x:     mode
+.y: wcpm ~ 1 + (1 | student_id) + (1 | passage_id) + passage_length + 
+.y:     mode + passage_length:mode
+   Df   AIC   BIC logLik deviance  Chisq Chi Df Pr(&gt;Chisq)    
+.x  9 96843 96908 -48412    96825                             
+.y 15 96752 96862 -48361    96722 102.58      6  &lt; 2.2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+$`Grade 3`
+Data: .
+Models:
+.x: wcpm ~ 1 + (1 | student_id) + (1 | passage_id) + passage_length + 
+.x:     mode
+.y: wcpm ~ 1 + (1 | student_id) + (1 | passage_id) + passage_length + 
+.y:     mode + passage_length:mode
+   Df    AIC    BIC logLik deviance  Chisq Chi Df Pr(&gt;Chisq)    
+.x  9 129000 129068 -64491   128982                             
+.y 15 128959 129073 -64465   128929 52.421      6  1.534e-09 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+$`Grade 4`
+Data: .
+Models:
+.x: wcpm ~ 1 + (1 | student_id) + (1 | passage_id) + passage_length + 
+.x:     mode
+.y: wcpm ~ 1 + (1 | student_id) + (1 | passage_id) + passage_length + 
+.y:     mode + passage_length:mode
+   Df    AIC    BIC logLik deviance  Chisq Chi Df Pr(&gt;Chisq)    
+.x  9 126025 126093 -63004   126007                             
+.y 15 125976 126090 -62973   125946 60.762      6  3.151e-11 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<p><strong>Our conclusion</strong> was that the addition of the <code>passage_length x scoring_method</code> statistically improved the model fit. Thus, our final <strong>WCPM</strong> included random effects for <code>students</code> and <code>passages</code>, and fixed effects for <code>passage_length</code>, <code>scoring_method</code>, and a <code>passage_length x scoring_method</code> interaction.</p>
+<hr />
+<h2 id="time">Time</h2>
+<aside>
+<a href="#top">Top</a>
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Here are the <strong>time</strong> results for Grades 2 through 4 for the model with a random effect for <code>students</code> and <code>passages</code>, and fixed effects for <code>passage_length</code> and <code>scoring_method</code>:</p>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+lmer(time ~ 1 + (1|student_id) + (1|passage_id) + 
+                          passage_length + scoring_method, data = ., REML = F))</code></pre>
+</div>
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+$`Grade 2`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: 
+time ~ 1 + (1 | student_id) + (1 | passage_id) + passage_length +  
+    mode
+   Data: .
+      AIC       BIC    logLik  deviance  df.resid 
+ 53746.78  53801.98 -26865.39  53730.78      7324 
+Random effects:
+ Groups     Name        Std.Dev.
+ student_id (Intercept) 10.140  
+ passage_id (Intercept)  3.956  
+ Residual                8.690  
+Number of obs: 7332, groups:  student_id, 261; passage_id, 107
+Fixed Effects:
+         (Intercept)    passage_lengthlong  passage_lengthmedium  
+              55.163                 3.546               -19.186  
+ passage_lengthshort  modesecs_traditional  
+             -33.755                -1.512  
+
+$`Grade 3`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: 
+time ~ 1 + (1 | student_id) + (1 | passage_id) + passage_length +  
+    mode
+   Data: .
+      AIC       BIC    logLik  deviance  df.resid 
+ 64126.45  64183.80 -32055.23  64110.45      9574 
+Random effects:
+ Groups     Name        Std.Dev.
+ student_id (Intercept) 8.530   
+ passage_id (Intercept) 3.419   
+ Residual               6.309   
+Number of obs: 9582, groups:  student_id, 323; passage_id, 106
+Fixed Effects:
+         (Intercept)    passage_lengthlong  passage_lengthmedium  
+              55.435                -5.847               -25.952  
+ passage_lengthshort  modesecs_traditional  
+             -39.970                -1.044  
+
+$`Grade 4`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: 
+time ~ 1 + (1 | student_id) + (1 | passage_id) + passage_length +  
+    mode
+   Data: .
+      AIC       BIC    logLik  deviance  df.resid 
+ 58103.73  58160.85 -29043.86  58087.73      9320 
+Random effects:
+ Groups     Name        Std.Dev.
+ student_id (Intercept) 5.974   
+ passage_id (Intercept) 2.160   
+ Residual               5.036   
+Number of obs: 9328, groups:  student_id, 315; passage_id, 106
+Fixed Effects:
+         (Intercept)    passage_lengthlong  passage_lengthmedium  
+             55.7996              -13.8480              -31.4367  
+ passage_lengthshort  modesecs_traditional  
+            -43.2396               -0.8251  </code></pre>
+</div>
+<hr />
+<p>And here are the <strong>time</strong> results for Grades 2 through 4 for the model with a random effect for <code>students</code> and <code>passages</code>, and fixed effects for <code>passage_length</code>, <code>scoring_method</code>, and their <code>interaction</code>:</p>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+lmer(time ~ 1 + (1|student_id) + (1|passage_id) + 
+                          passage_length + scoring_method + passage_length:scoring_method, data = ., REML = F))</code></pre>
+</div>
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+$`Grade 2`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: 
+time ~ 1 + (1 | student_id) + (1 | passage_id) + passage_length +  
+    mode + passage_length:mode
+   Data: .
+      AIC       BIC    logLik  deviance  df.resid 
+ 53730.10  53806.00 -26854.05  53708.10      7321 
+Random effects:
+ Groups     Name        Std.Dev.
+ student_id (Intercept) 10.141  
+ passage_id (Intercept)  3.957  
+ Residual                8.676  
+Number of obs: 7332, groups:  student_id, 261; passage_id, 107
+Fixed Effects:
+                              (Intercept)  
+                                   52.493  
+                       passage_lengthlong  
+                                    6.758  
+                     passage_lengthmedium  
+                                  -16.491  
+                      passage_lengthshort  
+                                  -31.123  
+                     modesecs_traditional  
+                                    3.826  
+  passage_lengthlong:modesecs_traditional  
+                                   -6.423  
+passage_lengthmedium:modesecs_traditional  
+                                   -5.389  
+ passage_lengthshort:modesecs_traditional  
+                                   -5.263  
+
+$`Grade 3`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: 
+time ~ 1 + (1 | student_id) + (1 | passage_id) + passage_length +  
+    mode + passage_length:mode
+   Data: .
+      AIC       BIC    logLik  deviance  df.resid 
+ 64093.15  64171.99 -32035.57  64071.15      9571 
+Random effects:
+ Groups     Name        Std.Dev.
+ student_id (Intercept) 8.531   
+ passage_id (Intercept) 3.420   
+ Residual               6.296   
+Number of obs: 9582, groups:  student_id, 323; passage_id, 106
+Fixed Effects:
+                              (Intercept)  
+                                   52.626  
+                       passage_lengthlong  
+                                   -2.721  
+                     passage_lengthmedium  
+                                  -22.986  
+                      passage_lengthshort  
+                                  -37.260  
+                     modesecs_traditional  
+                                    4.572  
+  passage_lengthlong:modesecs_traditional  
+                                   -6.253  
+passage_lengthmedium:modesecs_traditional  
+                                   -5.929  
+ passage_lengthshort:modesecs_traditional  
+                                   -5.419  
+
+$`Grade 4`
+Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+Formula: 
+time ~ 1 + (1 | student_id) + (1 | passage_id) + passage_length +  
+    mode + passage_length:mode
+   Data: .
+      AIC       BIC    logLik  deviance  df.resid 
+ 58080.42  58158.97 -29029.21  58058.42      9317 
+Random effects:
+ Groups     Name        Std.Dev.
+ student_id (Intercept) 5.975   
+ passage_id (Intercept) 2.160   
+ Residual               5.027   
+Number of obs: 9328, groups:  student_id, 315; passage_id, 106
+Fixed Effects:
+                              (Intercept)  
+                                   53.552  
+                       passage_lengthlong  
+                                  -11.367  
+                     passage_lengthmedium  
+                                  -29.152  
+                      passage_lengthshort  
+                                  -41.033  
+                     modesecs_traditional  
+                                    3.669  
+  passage_lengthlong:modesecs_traditional  
+                                   -4.961  
+passage_lengthmedium:modesecs_traditional  
+                                   -4.568  
+ passage_lengthshort:modesecs_traditional  
+                                   -4.412  </code></pre>
+</div>
+<hr />
+<h3 id="model-comparison-test-1">Model Comparison Test</h3>
+<p>We conducted a deviance test, comparing the model with main effects only to the model with main effects and their interaction.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+$`Grade 2`
+Data: .
+Models:
+.x: time ~ 1 + (1 | student_id) + (1 | passage_id) + passage_length + 
+.x:     mode
+.y: time ~ 1 + (1 | student_id) + (1 | passage_id) + passage_length + 
+.y:     mode + passage_length:mode
+   Df   AIC   BIC logLik deviance  Chisq Chi Df Pr(&gt;Chisq)    
+.x  8 53747 53802 -26865    53731                             
+.y 11 53730 53806 -26854    53708 22.675      3  4.719e-05 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+$`Grade 3`
+Data: .
+Models:
+.x: time ~ 1 + (1 | student_id) + (1 | passage_id) + passage_length + 
+.x:     mode
+.y: time ~ 1 + (1 | student_id) + (1 | passage_id) + passage_length + 
+.y:     mode + passage_length:mode
+   Df   AIC   BIC logLik deviance  Chisq Chi Df Pr(&gt;Chisq)    
+.x  8 64126 64184 -32055    64110                             
+.y 11 64093 64172 -32036    64071 39.308      3  1.493e-08 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+$`Grade 4`
+Data: .
+Models:
+.x: time ~ 1 + (1 | student_id) + (1 | passage_id) + passage_length + 
+.x:     mode
+.y: time ~ 1 + (1 | student_id) + (1 | passage_id) + passage_length + 
+.y:     mode + passage_length:mode
+   Df   AIC   BIC logLik deviance  Chisq Chi Df Pr(&gt;Chisq)    
+.x  8 58104 58161 -29044    58088                             
+.y 11 58080 58159 -29029    58058 29.306      3  1.932e-06 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<p><strong>Our conclusion</strong> was that the addition of the <code>passage_length x scoring_method</code> statistically improved the model fit. Thus, our final <strong>time</strong> included random effects for <code>students</code> and <code>passages</code>, and fixed effects for <code>passage_length</code>, <code>scoring_method</code>, and a <code>passage_length x scoring_method</code> interaction.</p>
+<aside>
+<a href="#top">Top</a>
+</aside>
+<hr />
+<p><i class="fas fa-file-alt"></i></p>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

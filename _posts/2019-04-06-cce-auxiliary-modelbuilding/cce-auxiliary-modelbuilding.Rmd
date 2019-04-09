@@ -1,0 +1,468 @@
+---
+title: "Auxilary Model Building: Content & Convergent Evidence"
+description: |
+  In this post we provide the results of the mixed-effect model building process applied in our Content & Convergent Evidence Study to answer research questions about differences in words correct per minute (WCPM) scores between three scoring methods, and between passage lenghts, and differences in time duration between three scoring methods.
+author:
+  - name: Joseph F. T. Nese
+    url: https://education.uoregon.edu/people/faculty/jnese
+    affiliation: University of Oregon
+    affiliation_url: https://www.uoregon.edu/
+  - name: Akihito Kamata
+    url: https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata
+    affiliation: Southern Methodist University
+    affiliation_url: https://www.smu.edu/
+date: 04-06-2019
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    self_contained: false
+categories:
+  - Content & Convergent Evidence
+preview: <i class="fas fa-file-alt"></i>
+---
+
+```{r setup, include=FALSE}
+library(rio)
+library(tidyverse)
+library(lme4)
+```
+<h2 id="top" /h2>
+
+The purpose o this report is to provide the results of the mixed-effect model building process applied in our [Content & Convergent Evidence Study](https://jnese.github.io/core-blog/posts/2019-04-04-content-convergent-evidence-study-procedures/) to answer the following research questions.
+
+1a.	Are there differences at the passage-level in **WCPM** between the human scoring criterion versus traditional or ASR scoring of traditional CBM-R and CORE passages (i.e., **scoring method**)?
+
+1b.	Are there differences at the passage-level in **WCPM** between the traditional CBM-R and CORE passages (i.e., **passage length**)?
+
+(2) Are there differences at the passage-level in **time** duration between the human scoring criterion versus traditional or ASR scoring of traditional CBM-R and CORE passages?
+
+In response to these Research Questions, we used [`lme4`](https://cran.r-project.org/web/packages/lme4/index.html) to apply a mixed-effect model separately for each of Grades 2 through 4 and each outcome, **WCPM** and **time** duration (3 grades x 2 outcomes = six modeling processes).
+
+For a full description of the purpose and procedures of the Content & Convergent Evidence Study, go  [here](https://jnese.github.io/core-blog/posts/2019-04-04-content-convergent-evidence-study-procedures/)
+
+```{r, include=FALSE}
+dat03 <- import("C:/Users/Joe/Desktop/BRT/GRANT-CORE/Project/Publications/year_1_2_project/data/dat03.RData")
+
+dat03wcpmL <-
+  as_tibble(dat03) %>% 
+  select(student_id2, grade, passage_id, passage_length,
+         wcpm_asr3, wcpm_during2, wcpm_after3) %>%
+  rename(student_id = student_id2,
+         wcpm_asr = wcpm_asr3,
+         wcpm_traditional = wcpm_during2,
+         wcpm_criterion = wcpm_after3) %>% 
+  gather(key=mode, value=wcpm, 5:7) %>% 
+  arrange(student_id, passage_id)  
+
+dat03timeL <-
+  as_tibble(dat03) %>% 
+  select(student_id2, grade, passage_id, passage_length,
+         secs_asr602, secs_during2) %>%
+  rename(student_id = student_id2,
+         secs_asr = secs_asr602,
+         secs_traditional = secs_during2) %>%
+  gather(key=mode, value=time, 5:6) %>% 
+  arrange(student_id, passage_id)
+```
+
+# Random Effects
+```{r}
+wcpm_rand_effcts <- dat03wcpmL %>% 
+  as_tibble() %>% 
+  nest(-grade) %>% 
+  mutate(
+    wcpm00a = map(data, ~
+                  lmer(wcpm ~ 1 + (1|student_id), data=., REML=F)),
+    wcpm00b = map(data, ~
+                    lmer(wcpm ~ 1 + (1|passage_id), data=., REML=F)),
+    wcpm00c = map(data, ~
+                    lmer(wcpm ~ 1 + (1|student_id) + (1|passage_id), data=., REML=F)),
+    summary_wcpm00a = map(wcpm00a, ~
+                           summary(.)),
+    summary_wcpm00b = map(wcpm00b, ~
+                           summary(.)),
+    summary_wcpm00c = map(wcpm00c, ~
+                           summary(.)),
+    a_c_anova = map2(wcpm00a, wcpm00c, ~
+                     anova(.x, .y)),
+    b_c_anova = map2(wcpm00b, wcpm00c, ~
+                       anova(.x, .y)),
+    icc = map(wcpm00c, ~
+                broom::tidy(., effects = "ran_pars", scales = "vcov") %>% 
+                mutate(icc = round(estimate/sum(estimate), 2)))
+  )
+```
+
+### Summary of Random Effects Findings
+
+For both **WCPM** and **time** and all Grades 2 through 4, the model with random effects for both `students` and `passages` statistically improved the model fit compared to models with a random effect for *either* `students` or `passages`.
+
+## WCPM
+
+<aside>
+<a href="#top">Top</a>
+</aside>
+
+We began by comparing unconditional models for **WCPM** and **time** with and without random-effects for `student` and `passage`.
+
+Here are the **WCPM** results for Grades 2 through 4 for the model with a random effect for `students`:
+
+<aside>
+```{r, eval=FALSE, echo=TRUE}
+lmer(wcpm ~ 1 + (1|student_id), data = ., REML = F)
+```
+</aside>
+
+```{r, eval=TRUE, echo=FALSE}
+names(wcpm_rand_effcts$summary_wcpm00a) <- c("Grade 2", "Grade 3","Grade 4")
+wcpm_rand_effcts$summary_wcpm00a
+```
+
+---
+
+Here are the **WCPM** results for Grades 2 through 4 for the model with a random effect for `passages`:
+
+<aside>
+```{r, eval=FALSE, echo=TRUE}
+lmer(wcpm ~ 1 + (1|passage_id), data = ., REML = F)
+```
+</aside>
+
+```{r, eval=TRUE, echo=FALSE}
+names(wcpm_rand_effcts$summary_wcpm00b) <- c("Grade 2", "Grade 3","Grade 4")
+wcpm_rand_effcts$summary_wcpm00b
+```
+
+---
+
+Here are the **WCPM** results for Grades 2 through 4 for the model with a random effect for both `students` and `passages`:
+
+<aside>
+```{r, eval=FALSE, echo=TRUE}
+lmer(wcpm ~ 1 + (1|student_id) + (1|passage_id), data = ., REML = F)
+```
+</aside>
+
+```{r, eval=TRUE, echo=FALSE}
+names(wcpm_rand_effcts$summary_wcpm00c) <- c("Grade 2", "Grade 3","Grade 4")
+wcpm_rand_effcts$summary_wcpm00c
+```
+
+---
+
+### Model Comparison Tests
+
+We conducted deviances tests, comparing the model with a random effect for `students` to the model with random effects for both `students` and `passages`.
+
+```{r, eval=TRUE, echo=FALSE}
+names(wcpm_rand_effcts$a_c_anova) <- c("Grade 2", "Grade 3","Grade 4")
+wcpm_rand_effcts$a_c_anova
+```
+
+And comparing the model with a random effect for `passages` to the model with random effects for both `students` and `passages`.
+
+```{r, eval=TRUE, echo=FALSE}
+names(wcpm_rand_effcts$b_c_anova) <- c("Grade 2", "Grade 3","Grade 4")
+wcpm_rand_effcts$b_c_anova
+```
+
+**Our conclusion** was that the addition of `student` and `passage` as random effects statistically improved the model fit. 
+
+<aside>
+<a href="#top">Top</a>
+</aside>
+
+---
+
+By evaluating the random effects, we found that `r min(bind_cols(wcpm_rand_effcts$icc)[1, c("icc", "icc1", "icc2")])*100`% to `r max(bind_cols(wcpm_rand_effcts$icc)[1, c("icc", "icc1", "icc2")])*100`% of the variance was between students, while only `r min(bind_cols(wcpm_rand_effcts$icc)[2, c("icc", "icc1", "icc2")])*100`% to `r max(bind_cols(wcpm_rand_effcts$icc)[2, c("icc", "icc1", "icc2")])*100`% of the variance was between passages, and `r min(bind_cols(wcpm_rand_effcts$icc)[3, c("icc", "icc1", "icc2")])*100`% to `r max(bind_cols(wcpm_rand_effcts$icc)[3, c("icc", "icc1", "icc2")])*100`% was residual variance. Thus, most of the variance was between `students` for these  **WCPM** models.  See below for **WCPM** ICC estimates.
+
+```{r, eval=TRUE, echo=FALSE}
+names(wcpm_rand_effcts$icc) <- c("Grade 2", "Grade 3","Grade 4")
+wcpm_rand_effcts$icc
+```
+
+---
+
+## Time Duration 
+
+<aside>
+<a href="#top">Top</a>
+</aside>
+
+```{r}
+time_rand_effcts <- dat03timeL %>% 
+  as_tibble() %>% 
+  nest(-grade) %>% 
+  mutate(
+    time00a = map(data, ~
+                  lmer(time ~ 1 + (1|student_id), data=., REML=F)),
+    time00b = map(data, ~
+                    lmer(time ~ 1 + (1|passage_id), data=., REML=F)),
+    time00c = map(data, ~
+                    lmer(time ~ 1 + (1|student_id) + (1|passage_id), data=., REML=F)),
+    summary_time00a = map(time00a, ~
+                           summary(.)),
+    summary_time00b = map(time00b, ~
+                           summary(.)),
+    summary_time00c = map(time00c, ~
+                           summary(.)),
+    a_c_anova = map2(time00a, time00c, ~
+                     anova(.x, .y)),
+    b_c_anova = map2(time00b, time00c, ~
+                       anova(.x, .y)),
+    icc = map(time00c, ~
+                broom::tidy(., effects = "ran_pars", scales = "vcov") %>% 
+                mutate(icc = round(estimate/sum(estimate), 2)))
+  )
+```
+
+Here are the **time** results for Grades 2 through 4 for the model with a random effect for `students`:
+
+<aside>
+```{r, eval=FALSE, echo=TRUE}
+lmer(time ~ 1 + (1|student_id), data = ., REML = F)
+```
+</aside>
+
+```{r, eval=TRUE, echo=FALSE}
+names(time_rand_effcts$summary_time00a) <- c("Grade 2", "Grade 3","Grade 4")
+time_rand_effcts$summary_time00a
+```
+
+---
+
+Here are the **time** results for Grades 2 through 4 for the model with a random effect for `passages`:
+
+<aside>
+```{r, eval=FALSE, echo=TRUE}
+lmer(time ~ 1 + (1|passage_id), data = ., REML = F)
+```
+</aside>
+
+```{r, eval=TRUE, echo=FALSE}
+names(time_rand_effcts$summary_time00b) <- c("Grade 2", "Grade 3","Grade 4")
+time_rand_effcts$summary_time00b
+```
+
+---
+
+Here are the **time** results for Grades 2 through 4 for the model with a random effect for both `students` and `passages`:
+
+<aside>
+```{r, eval=FALSE, echo=TRUE}
+lmer(time ~ 1 + (1|student_id) + (1|passage_id), data = ., REML = F)
+```
+</aside>
+
+```{r, eval=TRUE, echo=FALSE}
+names(time_rand_effcts$summary_time00c) <- c("Grade 2", "Grade 3","Grade 4")
+time_rand_effcts$summary_time00c
+```
+
+---
+
+### Model Comparison Tests
+
+We conducted deviances tests, comparing the model with a random effect for `students` to the model with random effects for both `students` and `passages`.
+
+```{r, eval=TRUE, echo=FALSE}
+names(time_rand_effcts$a_c_anova) <- c("Grade 2", "Grade 3","Grade 4")
+time_rand_effcts$a_c_anova
+```
+
+And comparing the model with a random effect for `passages` to the model with random effects for both `students` and `passages`.
+
+```{r, eval=TRUE, echo=FALSE}
+names(time_rand_effcts$b_c_anova) <- c("Grade 2", "Grade 3","Grade 4")
+time_rand_effcts$b_c_anova
+```
+
+**Our conclusion** was that the addition of `student` and `passage` as random effects statistically improved the model fit. 
+
+<aside>
+<a href="#top">Top</a>
+</aside>
+
+---
+
+By evaluating the random effects, we found that `r min(bind_cols(time_rand_effcts$icc)[1, c("icc", "icc1", "icc2")])*100`% to `r max(bind_cols(time_rand_effcts$icc)[1, c("icc", "icc1", "icc2")])*100`% of the variance was between students, while only `r min(bind_cols(time_rand_effcts$icc)[2, c("icc", "icc1", "icc2")])*100`% to `r max(bind_cols(time_rand_effcts$icc)[2, c("icc", "icc1", "icc2")])*100`% of the variance was between passages, and `r min(bind_cols(time_rand_effcts$icc)[3, c("icc", "icc1", "icc2")])*100`% to `r max(bind_cols(time_rand_effcts$icc)[3, c("icc", "icc1", "icc2")])*100`% was residual variance. Thus, the majority of the variance was between passages, which is intuitive because `time duration` and passage length (word count) are highly and directly correlated.  
+See below for **time** ICC estimates.
+
+```{r, eval=TRUE, echo=FALSE}
+names(time_rand_effcts$icc) <- c("Grade 2", "Grade 3","Grade 4")
+time_rand_effcts$icc
+```
+
+---
+
+# Fixed Effects
+
+<aside>
+<a href="#top">Top</a>
+</aside>
+
+To the model with random effects for `student` and `passages`, we then added fixed-effects for `passage length` (four levels: *easyCBM*, *Short*, *Medium*, and *Long*) and `scoring method` (three levels: *ASR*, *Recording*, and *Traditional*), and compared it to a model that included an `interaction term` for *passage length x scoring method*. 
+
+<aside>
+```{r, eval=FALSE, echo=TRUE}
+lmer(time ~ 1 + (1|student_id) + (1|passage_id), data = ., REML = F)
+```
+</aside>
+
+### Summary of Fixed Effects Findings 
+
+For both **WCPM** and **time** and all Grades 2 through 4, the model with the addition of the interaction effect statistically improved the model fit compared to model without the interaction. Thus, our final model for both outcomes and all grades included random effects for student and passage, and fixed effects for passage length, scoring method, and their interaction.
+
+## WCPM
+
+<aside>
+<a href="#top">Top</a>
+</aside>
+
+```{r, warning = FALSE, error = FALSE}
+wcpm_fixd_effcts <- dat03wcpmL %>% 
+  as_tibble() %>% 
+  nest(-grade) %>% 
+  mutate(
+    wcpm01a = map(data, ~
+                   lmer(wcpm ~ 1 + (1|student_id) + (1|passage_id)+ 
+                          passage_length + mode, data=., REML=F)),
+    wcpm01b = map(data, ~
+                   lmer(wcpm ~ 1 + (1|student_id) + (1|passage_id)+ 
+                          passage_length + mode + passage_length:mode, data=., REML=F)),
+    summary_wcpm01a = map(wcpm01a, ~
+                           summary(.)),
+    summary_wcpm01b = map(wcpm01b, ~
+                           summary(.)),
+    a_b_anova = map2(wcpm01a, wcpm01b, ~
+                     anova(.x, .y)),
+    tidy_results = map(wcpm01b, ~
+                   broom::tidy(.) %>% 
+                    select(-group))
+  )
+```
+
+Here are the **WCPM** results for Grades 2 through 4 for the model with a random effect for `students` and `passages`, and fixed effects for `passage_length` and `scoring_method`:
+
+<aside>
+```{r, eval=FALSE, echo=TRUE}
+lmer(wcpm ~ 1 + (1|student_id) + (1|passage_id) + 
+                          passage_length + scoring_method, data = ., REML = F))
+```
+</aside>
+
+```{r, eval=TRUE, echo=FALSE}
+names(wcpm_fixd_effcts$wcpm01a) <- c("Grade 2", "Grade 3","Grade 4")
+wcpm_fixd_effcts$wcpm01a
+```
+
+---
+
+And here are the **WCPM** results for Grades 2 through 4 for the model with a random effect for `students` and `passages`, and fixed effects for `passage_length`, `scoring_method`, and their `interaction`:
+
+<aside>
+```{r, eval=FALSE, echo=TRUE}
+lmer(wcpm ~ 1 + (1|student_id) + (1|passage_id) + 
+                          passage_length + scoring_method + passage_length:scoring_method, data = ., REML = F))
+```
+</aside>
+
+```{r, eval=TRUE, echo=FALSE}
+names(wcpm_fixd_effcts$wcpm01b) <- c("Grade 2", "Grade 3","Grade 4")
+wcpm_fixd_effcts$wcpm01b
+```
+
+---
+
+### Model Comparison Test
+
+We conducted a deviance test, comparing the model with main effects only to the model with main effects and their interaction.
+
+```{r, eval=TRUE, echo=FALSE}
+names(wcpm_fixd_effcts$a_b_anova) <- c("Grade 2", "Grade 3","Grade 4")
+wcpm_fixd_effcts$a_b_anova
+```
+
+**Our conclusion** was that the addition of the `passage_length x scoring_method` statistically improved the model fit. Thus, our final **WCPM** included random effects for `students` and `passages`, and fixed effects for `passage_length`, `scoring_method`, and a `passage_length x scoring_method` interaction. 
+
+---
+
+## Time
+<aside>
+<a href="#top">Top</a>
+</aside>
+
+```{r, warning = FALSE, error = FALSE}
+time_fixd_effcts <- dat03timeL %>% 
+  as_tibble() %>% 
+  nest(-grade) %>% 
+  mutate(
+    time01a = map(data, ~
+                   lmer(time ~ 1 + (1|student_id) + (1|passage_id)+ 
+                          passage_length + mode, data=., REML=F)),
+    time01b = map(data, ~
+                   lmer(time ~ 1 + (1|student_id) + (1|passage_id)+ 
+                          passage_length + mode + passage_length:mode, data=., REML=F)),
+    summary_time01a = map(time01a, ~
+                           summary(.)),
+    summary_time01b = map(time01b, ~
+                           summary(.)),
+    a_b_anova = map2(time01a, time01b, ~
+                     anova(.x, .y)),
+    tidy_results = map(time01b, ~
+                   broom::tidy(.) %>% 
+                    select(-group))
+  )
+```
+
+Here are the **time** results for Grades 2 through 4 for the model with a random effect for `students` and `passages`, and fixed effects for `passage_length` and `scoring_method`:
+
+<aside>
+```{r, eval=FALSE, echo=TRUE}
+lmer(time ~ 1 + (1|student_id) + (1|passage_id) + 
+                          passage_length + scoring_method, data = ., REML = F))
+```
+</aside>
+
+```{r, eval=TRUE, echo=FALSE}
+names(time_fixd_effcts$time01a) <- c("Grade 2", "Grade 3","Grade 4")
+time_fixd_effcts$time01a
+```
+
+---
+
+And here are the **time** results for Grades 2 through 4 for the model with a random effect for `students` and `passages`, and fixed effects for `passage_length`, `scoring_method`, and their `interaction`:
+
+<aside>
+```{r, eval=FALSE, echo=TRUE}
+lmer(time ~ 1 + (1|student_id) + (1|passage_id) + 
+                          passage_length + scoring_method + passage_length:scoring_method, data = ., REML = F))
+```
+</aside>
+
+```{r, eval=TRUE, echo=FALSE}
+names(time_fixd_effcts$time01b) <- c("Grade 2", "Grade 3","Grade 4")
+time_fixd_effcts$time01b
+```
+
+---
+
+### Model Comparison Test
+
+We conducted a deviance test, comparing the model with main effects only to the model with main effects and their interaction.
+
+```{r, eval=TRUE, echo=FALSE}
+names(time_fixd_effcts$a_b_anova) <- c("Grade 2", "Grade 3","Grade 4")
+time_fixd_effcts$a_b_anova
+```
+
+**Our conclusion** was that the addition of the `passage_length x scoring_method` statistically improved the model fit. Thus, our final **time** included random effects for `students` and `passages`, and fixed effects for `passage_length`, `scoring_method`, and a `passage_length x scoring_method` interaction. 
+
+<aside>
+<a href="#top">Top</a>
+</aside>
+
+---
+
+<i class="fas fa-file-alt"></i>

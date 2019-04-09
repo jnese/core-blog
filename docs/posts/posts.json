@@ -1,5 +1,26 @@
 [
   {
+    "path": "posts/2019-04-06-cce-auxiliary-modelbuilding/",
+    "title": "Auxilary Model Building: Content & Convergent Evidence",
+    "description": "In this post we provide the results of the mixed-effect model building process applied in our Content & Convergent Evidence Study to answer research questions about differences in words correct per minute (WCPM) scores between three scoring methods, and between passage lenghts, and differences in time duration between three scoring methods.",
+    "author": [
+      {
+        "name": "Joseph F. T. Nese",
+        "url": "https://education.uoregon.edu/people/faculty/jnese"
+      },
+      {
+        "name": "Akihito Kamata",
+        "url": "https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata"
+      }
+    ],
+    "date": "2019-04-06",
+    "categories": [
+      "Content & Convergent Evidence"
+    ],
+    "preview": {},
+    "last_modified": "2019-04-09T14:17:47-07:00"
+  },
+  {
     "path": "posts/welcome/",
     "title": "Welcome to CORE Study Blog",
     "description": "Welcome to our new blog, CORE Study Blog. We hope you enjoy \nreading what we have to say!",
@@ -29,8 +50,10 @@
       }
     ],
     "date": "2019-04-04",
-    "categories": [],
+    "categories": [
+      "Content & Convergent Evidence"
+    ],
     "preview": "posts/2019-04-04-content-convergent-evidence-study-procedures/content-convergent-evidence-study-procedures_files/figure-html5/unnamed-chunk-3-1.png",
-    "last_modified": "2019-04-05T15:45:56-07:00"
+    "last_modified": "2019-04-06T15:32:11-07:00"
   }
 ]
