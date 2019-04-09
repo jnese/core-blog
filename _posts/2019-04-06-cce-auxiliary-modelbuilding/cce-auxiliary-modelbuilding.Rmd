@@ -19,7 +19,7 @@ output:
     self_contained: false
 categories:
   - Content & Convergent Evidence
-preview: <i class="fas fa-file-alt"></i>
+
 ---
 
 ```{r setup, include=FALSE}
@@ -29,17 +29,19 @@ library(lme4)
 ```
 <h2 id="top" /h2>
 
-The purpose o this report is to provide the results of the mixed-effect model building process applied in our [Content & Convergent Evidence Study](https://jnese.github.io/core-blog/posts/2019-04-04-content-convergent-evidence-study-procedures/) to answer the following research questions.
+## Introduction
+
+The purpose of this report is to provide the results of the mixed-effect model building process applied in our [Content & Convergent Evidence Study](https://jnese.github.io/core-blog/posts/2019-04-04-content-convergent-evidence-study-procedures/) to answer the following research questions.
 
 1a.	Are there differences at the passage-level in **WCPM** between the human scoring criterion versus traditional or ASR scoring of traditional CBM-R and CORE passages (i.e., **scoring method**)?
 
 1b.	Are there differences at the passage-level in **WCPM** between the traditional CBM-R and CORE passages (i.e., **passage length**)?
 
-(2) Are there differences at the passage-level in **time** duration between the human scoring criterion versus traditional or ASR scoring of traditional CBM-R and CORE passages?
+2. Are there differences at the passage-level in **time** duration between the human scoring criterion versus traditional or ASR scoring of traditional CBM-R and CORE passages?
 
 In response to these Research Questions, we used [`lme4`](https://cran.r-project.org/web/packages/lme4/index.html) to apply a mixed-effect model separately for each of Grades 2 through 4 and each outcome, **WCPM** and **time** duration (3 grades x 2 outcomes = six modeling processes).
 
-For a full description of the purpose and procedures of the Content & Convergent Evidence Study, go  [here](https://jnese.github.io/core-blog/posts/2019-04-04-content-convergent-evidence-study-procedures/)
+For a full description of the purpose and procedures of the Content & Convergent Evidence Study, go  [here](https://jnese.github.io/core-blog/posts/2019-04-04-content-convergent-evidence-study-procedures/).
 
 ```{r, include=FALSE}
 dat03 <- import("C:/Users/Joe/Desktop/BRT/GRANT-CORE/Project/Publications/year_1_2_project/data/dat03.RData")
@@ -66,7 +68,7 @@ dat03timeL <-
   arrange(student_id, passage_id)
 ```
 
-# Random Effects
+## Random Effects
 ```{r}
 wcpm_rand_effcts <- dat03wcpmL %>% 
   as_tibble() %>% 
@@ -98,7 +100,7 @@ wcpm_rand_effcts <- dat03wcpmL %>%
 
 For both **WCPM** and **time** and all Grades 2 through 4, the model with random effects for both `students` and `passages` statistically improved the model fit compared to models with a random effect for *either* `students` or `passages`.
 
-## WCPM
+### WCPM
 
 <aside>
 <a href="#top">Top</a>
@@ -184,7 +186,7 @@ wcpm_rand_effcts$icc
 
 ---
 
-## Time Duration 
+### Time Duration 
 
 <aside>
 <a href="#top">Top</a>
@@ -296,7 +298,7 @@ time_rand_effcts$icc
 
 ---
 
-# Fixed Effects
+## Fixed Effects
 
 <aside>
 <a href="#top">Top</a>
@@ -314,7 +316,7 @@ lmer(time ~ 1 + (1|student_id) + (1|passage_id), data = ., REML = F)
 
 For both **WCPM** and **time** and all Grades 2 through 4, the model with the addition of the interaction effect statistically improved the model fit compared to model without the interaction. Thus, our final model for both outcomes and all grades included random effects for student and passage, and fixed effects for passage length, scoring method, and their interaction.
 
-## WCPM
+### WCPM
 
 <aside>
 <a href="#top">Top</a>
@@ -388,7 +390,7 @@ wcpm_fixd_effcts$a_b_anova
 
 ---
 
-## Time
+### Time
 <aside>
 <a href="#top">Top</a>
 </aside>
