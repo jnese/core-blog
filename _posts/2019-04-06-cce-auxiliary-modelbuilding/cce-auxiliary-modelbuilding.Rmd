@@ -19,13 +19,14 @@ output:
     self_contained: false
 categories:
   - Content & Convergent Evidence
-
+preview: POM00000713.jpg
 ---
 
 ```{r setup, include=FALSE}
 library(rio)
 library(tidyverse)
 library(lme4)
+library(knitr)
 ```
 <h2 id="top" /h2>
 
@@ -467,4 +468,8 @@ time_fixd_effcts$a_b_anova
 
 ---
 
-<i class="fas fa-file-alt"></i>
+<!-- <center> -->
+<!-- ```{r} -->
+<!-- knitr::include_graphics("POM00000713.jpg") -->
+<!-- ``` -->
+<!-- </center> -->
