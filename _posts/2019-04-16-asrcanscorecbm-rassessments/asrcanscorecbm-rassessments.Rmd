@@ -271,4 +271,6 @@ pairwise_wcpm_scoring %>%
 
 ```
 
+## Acknowledgments {.appendix}
 
+The research reported here was supported by the Institute of Education Sciences, U.S. Department of Education, through Grant [R305A140203](https://ies.ed.gov/funding/grantsearch/details.asp?ID=1492) to the University of Oregon. The opinions expressed are those of the authors and do not represent views of the Institute or the U.S. Department of Education.
