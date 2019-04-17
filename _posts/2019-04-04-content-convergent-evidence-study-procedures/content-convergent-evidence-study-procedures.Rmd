@@ -208,47 +208,12 @@ Sample audio from the study of a Grade 3 student reading a short CORE passage.
 </audio>
 </aside>
 
-```{r}
-dat03 <- import("C:/Users/Joe/Desktop/BRT/GRANT-CORE/Project/Publications/year_1_2_project/data/dat03.RData")
-
-dat03 %>% 
-  as_tibble() %>% 
-  select(student_id2, grade, passage_id, passage_length,
-         wcpm_asr3, wcpm_during2, wcpm_after3) %>%
-  gather(key=mode, value=wcpm, 5:7) %>% 
-  arrange(student_id2, passage_id) %>% 
-  group_by(grade, passage_length, mode) %>% 
-  summarise(wcpm_mean = mean(wcpm),
-            wcpm_sd = sd(wcpm),
-            asymp.LCL = wcpm_mean - (1.96*wcpm_sd),
-            asymp.UCL = wcpm_mean + (1.96*wcpm_sd)) %>% 
-  ungroup() %>% 
-  mutate(mode = recode(mode,
-                       wcpm_after3 = "Recording",
-                       wcpm_asr3 = "ASR",
-                       wcpm_during2 = "Traditional"),
-         grade = recode(grade,
-                        '2' = "Grade 2",
-                        '3' = "Grade 3",
-                        '4' = "Grade 4")) %>%
-  ggplot(aes(x=passage_length, y=wcpm_mean, group=mode, colour=mode)) + 
-  facet_wrap(~grade) +
-  geom_point(position=position_dodge(width=0.5)) +
-  geom_errorbar(aes(ymin = asymp.LCL, ymax = asymp.UCL),
-                position=position_dodge(width=0.5)) +
-  theme_bw() +
-  theme(strip.background = element_rect(colour = "black", , fill = "white")) +
-  labs(
-    x = "Passage Length",
-    y = "WCPM",
-    color = "") +
-  scale_colour_solarized('blue', name = "") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
 
 The table below shows the mean and *SD* WCPM by grade and passage length for each of the three scoring methods, as well as the counts of passages, students, and audio recordings. 
 
 ```{r, layout = "l-body-outset"}
+dat03 <- import("C:/Users/Joe/Desktop/BRT/GRANT-CORE/Project/Publications/year_1_2_project/data/dat03.RData")
+
 t1 <- dat03 %>% 
     as_tibble() %>% 
     select(student_id2, grade, passage_id, passage_length,
@@ -305,6 +270,43 @@ table_word_agree %>%
              n.sessions = "Audio Recordings")
 ```
 
+```{r, layout="l-screen-inset"}
+
+dat03 %>% 
+  as_tibble() %>% 
+  select(student_id2, grade, passage_id, passage_length,
+         wcpm_asr3, wcpm_during2, wcpm_after3) %>%
+  gather(key=mode, value=wcpm, 5:7) %>% 
+  arrange(student_id2, passage_id) %>% 
+  group_by(grade, passage_length, mode) %>% 
+  summarise(wcpm_mean = mean(wcpm),
+            wcpm_sd = sd(wcpm),
+            asymp.LCL = wcpm_mean - (1.96*wcpm_sd),
+            asymp.UCL = wcpm_mean + (1.96*wcpm_sd)) %>% 
+  ungroup() %>% 
+  mutate(mode = recode(mode,
+                       wcpm_after3 = "Recording",
+                       wcpm_asr3 = "ASR",
+                       wcpm_during2 = "Traditional"),
+         grade = recode(grade,
+                        '2' = "Grade 2",
+                        '3' = "Grade 3",
+                        '4' = "Grade 4")) %>%
+  ggplot(aes(x=passage_length, y=wcpm_mean, group=mode, colour=mode)) + 
+  facet_wrap(~grade) +
+  geom_point(position=position_dodge(width=0.5)) +
+  geom_errorbar(aes(ymin = asymp.LCL, ymax = asymp.UCL),
+                position=position_dodge(width=0.5)) +
+  theme_bw() +
+  theme(strip.background = element_rect(colour = "black", , fill = "white")) +
+  labs(
+    x = "Passage Length",
+    y = "WCPM",
+    color = "") +
+  scale_colour_solarized('blue', name = "") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
 ### Traditional
 Scoring followed the rules established by traditional CBM-R administration. Students did their best reading while the trained assessor followed along and indicated on a (paper) scoring protocol each word the student reads incorrectly ([Wayman et al., 2007](https://journals.sagepub.com/doi/abs/10.1177/00224669070410020401)). Student self-corrections were not marked as errors, but word omissions were. If a student paused for more than three seconds, the assessor prompted the student to continue reading (without providing the correct work, which is the only deviation from traditional scoring) and marked the word as read incorrectly. The elapsed time to read the passage was also recorded by the assessor. 
 
@@ -313,7 +315,7 @@ Scoring followed the rules established by traditional CBM-R administration. Stud
 </aside>
 
 ### Criterion (Recording)
-The recorded audio files were scored by the trained assessors at a later date and in a different setting from which the data were collected. Assessors wore headsets and listened to each recorded audio file (with the ability to rewind, replay, and adjust audio), using the same scoring rules as the traditional procedures (below). The elapsed time to read the passage was not recorded. All data were entered into the study site online. These scores are considered the criterion to which the traditional CBM-R and ASR scores are compared.
+The recorded audio files were scored by the trained assessors at a later date and in a different setting from which the data were collected. Assessors wore headsets and listened to each recorded audio file (with the ability to rewind, replay, and adjust audio), using the same scoring rules as the traditional procedures. The elapsed time to read the passage was not recorded. All data were entered into the study site online. These scores are considered the criterion to which the traditional CBM-R and ASR scores are compared.
 
 <aside>
 <img src="recording.png" width="500" />
