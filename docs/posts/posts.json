@@ -1,6 +1,6 @@
 [
   {
-    "path": "posts/2019-04-16-asrcanscorecbm-rassessments/",
+    "path": "posts/2019-04-16-asr-can-score-cbmr-assessments/",
     "title": "ASR can be Applied in Schools to Score CBM-R Assessments",
     "description": "The purpose of this post is to determine whether there are scoring method differences in WCPM between the human scoring criterion versus traditional or ASR scoring of traditional CBM-R and CORE passages.",
     "author": [
@@ -18,8 +18,8 @@
       "Content & Convergent Evidence",
       "Automatic Speech Recognition (ASR)"
     ],
-    "preview": "posts/2019-04-16-asrcanscorecbm-rassessments/fig_est_means_blog.png",
-    "last_modified": "2019-04-17T12:45:32-07:00"
+    "preview": "posts/2019-04-16-asr-can-score-cbmr-assessments/fig_est_means_blog.png",
+    "last_modified": "2019-04-17T13:42:04-07:00"
   },
   {
     "path": "posts/2019-04-06-cce-auxiliary-modelbuilding/",
