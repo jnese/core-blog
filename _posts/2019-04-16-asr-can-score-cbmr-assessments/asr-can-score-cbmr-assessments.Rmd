@@ -1,5 +1,5 @@
 ---
-title: "ASR can be Applied in Schools to Score CBM-R Assessments"
+title: "Automatic Speech Recognition (ASR) can be Applied in Schools to Score CBM-R Assessments"
 description: |
   The purpose of this post is to determine whether there are scoring method differences in WCPM between the human scoring criterion versus traditional or ASR scoring of traditional CBM-R and CORE passages.
 author:
@@ -30,6 +30,7 @@ library(purrr)
 library(stringr)
 library(gt)
 library(knitr)
+library(ggthemes)
 
 ```
 
