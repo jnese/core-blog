@@ -22,6 +22,27 @@
     "last_modified": "2019-04-18T10:16:47-07:00"
   },
   {
+    "path": "posts/2019-04-17-shorter-passages-can-be-used-for-cbmr-assessments/",
+    "title": "Shorter Passages Can Be Used for CBM-R Assessments",
+    "description": "The purpose of this post is to determine whether there are passage length differences in WCPM between traditional CBM-R passages and shorter CORE passages.",
+    "author": [
+      {
+        "name": "Joseph F. T. Nese",
+        "url": "https://education.uoregon.edu/people/faculty/jnese"
+      },
+      {
+        "name": "Akihito Kamata",
+        "url": "https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata"
+      }
+    ],
+    "date": "2019-04-16",
+    "categories": [
+      "Content & Convergent Evidence"
+    ],
+    "preview": "posts/2019-04-17-shorter-passages-can-be-used-for-cbmr-assessments/fig_est_means_pssglngth_blog.png",
+    "last_modified": "2019-04-18T14:28:44-07:00"
+  },
+  {
     "path": "posts/2019-04-06-cce-auxiliary-modelbuilding/",
     "title": "Auxilary Model Building: Content & Convergent Evidence",
     "description": "In this post we provide the results of the mixed-effect model building process applied in our Content & Convergent Evidence Study to answer research questions about differences in words correct per minute (WCPM) scores between three scoring methods, and between passage lenghts, and differences in time duration between three scoring methods.",
