@@ -50,7 +50,7 @@
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["fig_est_means_pssglngth_blog.png","shorter-passages-can-be-used-for-cbmr-assessments_files/bowser-1.9.3/bowser.min.js","shorter-passages-can-be-used-for-cbmr-assessments_files/distill-2.2.21/template.v2.js","shorter-passages-can-be-used-for-cbmr-assessments_files/jquery-1.11.3/jquery.min.js","shorter-passages-can-be-used-for-cbmr-assessments_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["fig_est_means_pssglngth_blog.png","references.bib","shorter-passages-can-be-used-for-cbmr-assessments_files/bowser-1.9.3/bowser.min.js","shorter-passages-can-be-used-for-cbmr-assessments_files/distill-2.2.21/template.v2.js","shorter-passages-can-be-used-for-cbmr-assessments_files/jquery-1.11.3/jquery.min.js","shorter-passages-can-be-used-for-cbmr-assessments_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -987,9 +987,9 @@
 <h2 id="summary">Summary</h2>
 <p>When using ASR scoring – <a href="https://jnese.github.io/core-blog/posts/2019-04-16-asr-can-score-cbmr-assessments/">as previously established is acceptable</a> – there are no statistically significant differences in WCPM based on <code>passage length</code>, suggesting that the WCPM scores of the shorter <strong>CORE</strong> passages are generally comparable to the scores on traditional CBM-R passages. These findings provide preliminary evidence that shorter passages can be administered in schools as part of CBM-R assessment practrices.</p>
 <p>This finding has the potential to make a sizable contribution to the field under the idea that traditional CBM-R administration can be made even briefer (e.g., 30 seconds), saving time and resources.</p>
-<p>Using multiple shorter CBM-R passages has the potential the increase the reliability and reduce the standard error of scores, much like increasing the number of items on a test increases the reliability properties of the test. Increased reliability of CBM-R scores would provide educators with more scores with which to monitor student ORF progress over time, and thus increase the consequential validity of the decisions based off those scores.</p>
+<p>Using multiple shorter CBM-R passages also has the potential the increase the reliability and reduce the standard error of WCPM scores, much like increasing the number of items on a test increases the reliability properties of the test. Increased reliability of CBM-R scores would provide educators with more accurate scores with which to monitor student CBM-R progress over time, and thus increase the consequential validity of the decisions based on those scores.</p>
 <h2 id="analysis">Analysis</h2>
-<p>We applied a mixed-effect model for <strong>WCPM</strong> scores separately for each of Grades 2 through 4, with random effects for <code>students</code> and <code>passages</code>, and fixed effects for <code>passage length</code> (four levels: <em>easyCBM</em>, <em>short</em>, <em>medium</em>, and <em>long</em>), <code>scoring method</code> (three levels: <em>ASR</em>, <em>Recording</em>, and <em>Traditional</em>), and their interaction <code>passage length:scoring method</code>. For documentaiton of the model building process go <a href="https://jnese.github.io/core-blog/posts/2019-04-06-cce-auxiliary-modelbuilding/">here</a>.</p>
+<p>We applied a mixed-effects model for <strong>WCPM</strong> scores separately for each of Grades 2 through 4, with random effects for <code>students</code> and <code>passages</code>, and fixed effects for <code>passage length</code> (four levels: <em>easyCBM</em>, <em>short</em>, <em>medium</em>, and <em>long</em>), <code>scoring method</code> (three levels: <em>ASR</em>, <em>Recording</em>, and <em>Traditional</em>), and their interaction <code>passage length:scoring method</code>. For documentaiton of the model building process go <a href="https://jnese.github.io/core-blog/posts/2019-04-06-cce-auxiliary-modelbuilding/">here</a>.</p>
 <pre><code>
 wcpm ~ 1 + (1|student_id) + (1|passage_id) + 
            passage_length + scoring_method + passage_length:scoring_method, REML = FALSE))</code></pre>
@@ -1000,7 +1000,7 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#wqsjhjoyic .gt_table {
+#fojckbnxfc .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1019,13 +1019,13 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   /* table.border.top.color */
 }
 
-#wqsjhjoyic .gt_heading {
+#fojckbnxfc .gt_heading {
   background-color: #FFFFFF;
   /* heading.background.color */
   border-bottom-color: #FFFFFF;
 }
 
-#wqsjhjoyic .gt_title {
+#fojckbnxfc .gt_title {
   color: #000000;
   font-size: 125%;
   /* heading.title.font.size */
@@ -1036,7 +1036,7 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   border-bottom-width: 0;
 }
 
-#wqsjhjoyic .gt_subtitle {
+#fojckbnxfc .gt_subtitle {
   color: #000000;
   font-size: 85%;
   /* heading.subtitle.font.size */
@@ -1047,7 +1047,7 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   border-top-width: 0;
 }
 
-#wqsjhjoyic .gt_bottom_border {
+#fojckbnxfc .gt_bottom_border {
   border-bottom-style: solid;
   /* heading.border.bottom.style */
   border-bottom-width: 2px;
@@ -1056,7 +1056,7 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   /* heading.border.bottom.color */
 }
 
-#wqsjhjoyic .gt_column_spanner {
+#fojckbnxfc .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #A8A8A8;
@@ -1064,7 +1064,7 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   padding-bottom: 4px;
 }
 
-#wqsjhjoyic .gt_col_heading {
+#fojckbnxfc .gt_col_heading {
   color: #000000;
   background-color: #FFFFFF;
   /* column_labels.background.color */
@@ -1077,11 +1077,11 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   margin: 10px;
 }
 
-#wqsjhjoyic .gt_sep_right {
+#fojckbnxfc .gt_sep_right {
   border-right: 5px solid #FFFFFF;
 }
 
-#wqsjhjoyic .gt_group_heading {
+#fojckbnxfc .gt_group_heading {
   padding: 8px;
   color: #000000;
   background-color: #FFFFFF;
@@ -1105,7 +1105,7 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   vertical-align: middle;
 }
 
-#wqsjhjoyic .gt_empty_group_heading {
+#fojckbnxfc .gt_empty_group_heading {
   padding: 0.5px;
   color: #000000;
   background-color: #FFFFFF;
@@ -1129,37 +1129,37 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   vertical-align: middle;
 }
 
-#wqsjhjoyic .gt_striped {
+#fojckbnxfc .gt_striped {
   background-color: #f2f2f2;
 }
 
-#wqsjhjoyic .gt_from_md > :first-child {
+#fojckbnxfc .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#wqsjhjoyic .gt_from_md > :last-child {
+#fojckbnxfc .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#wqsjhjoyic .gt_row {
+#fojckbnxfc .gt_row {
   padding: 10px;
   /* row.padding */
   margin: 10px;
   vertical-align: middle;
 }
 
-#wqsjhjoyic .gt_stub {
+#fojckbnxfc .gt_stub {
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #A8A8A8;
   padding-left: 12px;
 }
 
-#wqsjhjoyic .gt_stub.gt_row {
+#fojckbnxfc .gt_stub.gt_row {
   background-color: #FFFFFF;
 }
 
-#wqsjhjoyic .gt_summary_row {
+#fojckbnxfc .gt_summary_row {
   background-color: #FFFFFF;
   /* summary_row.background.color */
   padding: 6px;
@@ -1168,13 +1168,13 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   /* summary_row.text_transform */
 }
 
-#wqsjhjoyic .gt_first_summary_row {
+#fojckbnxfc .gt_first_summary_row {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #A8A8A8;
 }
 
-#wqsjhjoyic .gt_table_body {
+#fojckbnxfc .gt_table_body {
   border-top-style: solid;
   /* field.border.top.style */
   border-top-width: 2px;
@@ -1189,55 +1189,55 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   /* field.border.bottom.color */
 }
 
-#wqsjhjoyic .gt_footnote {
+#fojckbnxfc .gt_footnote {
   font-size: 90%;
   /* footnote.font.size */
   padding: 4px;
   /* footnote.padding */
 }
 
-#wqsjhjoyic .gt_sourcenote {
+#fojckbnxfc .gt_sourcenote {
   font-size: 90%;
   /* sourcenote.font.size */
   padding: 4px;
   /* sourcenote.padding */
 }
 
-#wqsjhjoyic .gt_center {
+#fojckbnxfc .gt_center {
   text-align: center;
 }
 
-#wqsjhjoyic .gt_left {
+#fojckbnxfc .gt_left {
   text-align: left;
 }
 
-#wqsjhjoyic .gt_right {
+#fojckbnxfc .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#wqsjhjoyic .gt_font_normal {
+#fojckbnxfc .gt_font_normal {
   font-weight: normal;
 }
 
-#wqsjhjoyic .gt_font_bold {
+#fojckbnxfc .gt_font_bold {
   font-weight: bold;
 }
 
-#wqsjhjoyic .gt_font_italic {
+#fojckbnxfc .gt_font_italic {
   font-style: italic;
 }
 
-#wqsjhjoyic .gt_super {
+#fojckbnxfc .gt_super {
   font-size: 65%;
 }
 
-#wqsjhjoyic .gt_footnote_glyph {
+#fojckbnxfc .gt_footnote_glyph {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="wqsjhjoyic" style="overflow-x:auto;"><!--gt table start-->
+<div id="fojckbnxfc" style="overflow-x:auto;"><!--gt table start-->
 <table class='gt_table'>
 <tr>
 <th class='gt_col_heading gt_center' rowspan='2' colspan='1'></th>
@@ -1453,21 +1453,22 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
 </div>
 </div>
 <p>Based on the model’s results, we calculated pairwise comparisons from the estimated marginal means to examine the effects of <code>passage length</code>.</p>
-<p>The figure below shows the estimated marginal WCPM means for each <code>passage length</code> by grade and <code>scoring method</code>. The 95% confidence intervals for al comparisons overlap, suggestig that the estimated WCPM scores across <code>passage length</code> are relatively comparable.</p>
+<p>The figure below shows the estimated marginal WCPM means for each <code>passage length</code> by grade and <code>scoring method</code>. The 95% confidence intervals for all comparisons overlap, suggestig that the estimated WCPM scores across <code>passage length</code> are relatively comparable.</p>
 <div class="layout-chunk" data-layout="l-body-outset">
 <p><img src="fig_est_means_pssglngth_blog.png" width="926" /></p>
 </div>
-<p>To assist the interpretation of the resulte of the final model, we also report the statistical significance of the differences in marginal means, as well as Cohen’s (1988) <em>d</em> effect size estimates in the table below.</p>
-<p>None of the pairwise comparisons (across grades and scoring methods) between the <strong>CORE</strong> passages (<code>long</code>, <code>medium</code>, and <code>short</code>) and traditional <code>easyCBM</code> passages were statistically significant at the <em>p</em> = .01 level, except for two <code>Recording</code> criteria WCPM scores, Grade 2 <code>easyCBM</code> vs <code>long</code> and <code>easyCBM</code> vs <code>short</code> and Grade 4 <code>long</code> vs<code>short</code>. An examination of the magnitude of the effect sizes showed in general that the largest absolute differences were between the <code>easyCBM</code> and <code>short</code> or <code>medium</code> length passages. The smallest absolute differences were between the <code>long</code> and <code>medium</code> length passages for Grades 2 and 3, and between the <code>medium</code> and <code>short</code> in Grade 4.</p>
-<p>Importantly, the <em>ASR</em> results (top of the table below) provide evidence that when using <em>ASR</em> scoring there are no statistically significant differences in WCPM based on <code>passage length</code>.</p>
-<p>In general, the estimated mean WCPM differences and effect sizes are larger when comparing <code>easyCBM</code> passages to <strong>CORE</strong> passages. But while the effect size differences increase across Grades 2 to 3 to 4, the opposite pattern is observed for the estimated differences, because the <em>SE</em> remained relatively stable across grades (for the estimates and <em>d</em>).</p>
-<p>Thus, the scores the shorter *CORE** passages are generally comparable to the scores on the traditional <code>easyCBM</code> passages.</p>
+<p>To assist the interpretation of the results of the final model, we also report the statistical significance of the differences in marginal means, as well as Cohen’s (1988) <em>d</em> effect size estimates in the table below.</p>
+<p>None of the pairwise comparisons (across grades and scoring methods) between the <strong>CORE</strong> passages (<code>long</code>, <code>medium</code>, and <code>short</code>) and traditional <code>easyCBM</code> passages were statistically significant at the <em>p</em> = .01 level, except for two <em>Recording</em> criteria WCPM scores (Grade 2 <code>easyCBM-long</code> and <code>easyCBM-short</code>), and one <em>Traditional</em> WCPM score for Grade 4 <code>long-short</code>.</p>
+<p>An examination of the magnitude of the effect sizes across all scoring methods showed that the largest absolute differences were between the <code>easyCBM</code> and <code>short</code> or <code>medium</code> length passages. The smallest absolute differences were between the <code>long</code> and <code>medium</code> length passages for Grades 2 and 3, and between the <code>medium</code> and <code>short</code> in Grade 4.</p>
+<p>In general, the estimated mean WCPM differences and effect sizes are larger when comparing <code>easyCBM</code> passages to <strong>CORE</strong> passages. But while the effect size differences increased across Grades 2 to 3 to 4, the opposite pattern was observed for the estimated differences, because the <em>SE</em> remained relatively stable across grades (for the pairwise comparison estimates and <em>d</em>).</p>
+<p>Importantly, the <em>ASR</em> results (top of the table below) provide evidence that when using <em>ASR</em> scoring there were no statistically significant differences in WCPM based on <code>passage length</code>.</p>
+<p>Thus, the scores the shorter <strong>CORE</strong> passages were generally comparable to the scores on the traditional <code>easyCBM</code> passages.</p>
 <div class="layout-chunk" data-layout="l-screen-inset">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#knbbitxyfd .gt_table {
+#tqddnjegjx .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1486,13 +1487,13 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   /* table.border.top.color */
 }
 
-#knbbitxyfd .gt_heading {
+#tqddnjegjx .gt_heading {
   background-color: #FFFFFF;
   /* heading.background.color */
   border-bottom-color: #FFFFFF;
 }
 
-#knbbitxyfd .gt_title {
+#tqddnjegjx .gt_title {
   color: #000000;
   font-size: 125%;
   /* heading.title.font.size */
@@ -1503,7 +1504,7 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   border-bottom-width: 0;
 }
 
-#knbbitxyfd .gt_subtitle {
+#tqddnjegjx .gt_subtitle {
   color: #000000;
   font-size: 85%;
   /* heading.subtitle.font.size */
@@ -1514,7 +1515,7 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   border-top-width: 0;
 }
 
-#knbbitxyfd .gt_bottom_border {
+#tqddnjegjx .gt_bottom_border {
   border-bottom-style: solid;
   /* heading.border.bottom.style */
   border-bottom-width: 2px;
@@ -1523,7 +1524,7 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   /* heading.border.bottom.color */
 }
 
-#knbbitxyfd .gt_column_spanner {
+#tqddnjegjx .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #A8A8A8;
@@ -1531,7 +1532,7 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   padding-bottom: 4px;
 }
 
-#knbbitxyfd .gt_col_heading {
+#tqddnjegjx .gt_col_heading {
   color: #000000;
   background-color: #FFFFFF;
   /* column_labels.background.color */
@@ -1544,11 +1545,11 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   margin: 10px;
 }
 
-#knbbitxyfd .gt_sep_right {
+#tqddnjegjx .gt_sep_right {
   border-right: 5px solid #FFFFFF;
 }
 
-#knbbitxyfd .gt_group_heading {
+#tqddnjegjx .gt_group_heading {
   padding: 8px;
   color: #000000;
   background-color: #FFFFFF;
@@ -1572,7 +1573,7 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   vertical-align: middle;
 }
 
-#knbbitxyfd .gt_empty_group_heading {
+#tqddnjegjx .gt_empty_group_heading {
   padding: 0.5px;
   color: #000000;
   background-color: #FFFFFF;
@@ -1596,37 +1597,37 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   vertical-align: middle;
 }
 
-#knbbitxyfd .gt_striped {
+#tqddnjegjx .gt_striped {
   background-color: #f2f2f2;
 }
 
-#knbbitxyfd .gt_from_md > :first-child {
+#tqddnjegjx .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#knbbitxyfd .gt_from_md > :last-child {
+#tqddnjegjx .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#knbbitxyfd .gt_row {
+#tqddnjegjx .gt_row {
   padding: 10px;
   /* row.padding */
   margin: 10px;
   vertical-align: middle;
 }
 
-#knbbitxyfd .gt_stub {
+#tqddnjegjx .gt_stub {
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #A8A8A8;
   padding-left: 12px;
 }
 
-#knbbitxyfd .gt_stub.gt_row {
+#tqddnjegjx .gt_stub.gt_row {
   background-color: #FFFFFF;
 }
 
-#knbbitxyfd .gt_summary_row {
+#tqddnjegjx .gt_summary_row {
   background-color: #FFFFFF;
   /* summary_row.background.color */
   padding: 6px;
@@ -1635,13 +1636,13 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   /* summary_row.text_transform */
 }
 
-#knbbitxyfd .gt_first_summary_row {
+#tqddnjegjx .gt_first_summary_row {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #A8A8A8;
 }
 
-#knbbitxyfd .gt_table_body {
+#tqddnjegjx .gt_table_body {
   border-top-style: solid;
   /* field.border.top.style */
   border-top-width: 2px;
@@ -1656,55 +1657,55 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   /* field.border.bottom.color */
 }
 
-#knbbitxyfd .gt_footnote {
+#tqddnjegjx .gt_footnote {
   font-size: 90%;
   /* footnote.font.size */
   padding: 4px;
   /* footnote.padding */
 }
 
-#knbbitxyfd .gt_sourcenote {
+#tqddnjegjx .gt_sourcenote {
   font-size: 90%;
   /* sourcenote.font.size */
   padding: 4px;
   /* sourcenote.padding */
 }
 
-#knbbitxyfd .gt_center {
+#tqddnjegjx .gt_center {
   text-align: center;
 }
 
-#knbbitxyfd .gt_left {
+#tqddnjegjx .gt_left {
   text-align: left;
 }
 
-#knbbitxyfd .gt_right {
+#tqddnjegjx .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#knbbitxyfd .gt_font_normal {
+#tqddnjegjx .gt_font_normal {
   font-weight: normal;
 }
 
-#knbbitxyfd .gt_font_bold {
+#tqddnjegjx .gt_font_bold {
   font-weight: bold;
 }
 
-#knbbitxyfd .gt_font_italic {
+#tqddnjegjx .gt_font_italic {
   font-style: italic;
 }
 
-#knbbitxyfd .gt_super {
+#tqddnjegjx .gt_super {
   font-size: 65%;
 }
 
-#knbbitxyfd .gt_footnote_glyph {
+#tqddnjegjx .gt_footnote_glyph {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="knbbitxyfd" style="overflow-x:auto;"><!--gt table start-->
+<div id="tqddnjegjx" style="overflow-x:auto;"><!--gt table start-->
 <table class='gt_table'>
 <tr>
 <th class='gt_col_heading gt_center' rowspan='2' colspan='1'></th>
@@ -1734,310 +1735,310 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
 <td colspan='16' class='gt_group_heading'>ASR</td>
 </tr>
 <tr>
-<td class='gt_row gt_center'>easyCBM - long</td>
+<td class='gt_row gt_left'>easyCBM - long</td>
 <td class='gt_row gt_right'>13.27</td>
 <td class='gt_row gt_right'>9.30</td>
 <td class='gt_row gt_right'>1.43</td>
-<td class='gt_row gt_left'>0.154</td>
+<td class='gt_row gt_left'>.154</td>
 <td class='gt_row gt_right'>-0.15</td>
 <td class='gt_row gt_right'>9.75</td>
 <td class='gt_row gt_right'>12.30</td>
 <td class='gt_row gt_right'>0.79</td>
-<td class='gt_row gt_left'>0.428</td>
+<td class='gt_row gt_left'>.428</td>
 <td class='gt_row gt_right'>-0.27</td>
 <td class='gt_row gt_right'>-5.27</td>
 <td class='gt_row gt_right'>10.99</td>
 <td class='gt_row gt_right'>-0.48</td>
-<td class='gt_row gt_left'>0.632</td>
+<td class='gt_row gt_left'>.632</td>
 <td class='gt_row gt_right'>-0.67</td>
 </tr>
 <tr>
-<td class='gt_row gt_center gt_striped'>easyCBM - medium</td>
+<td class='gt_row gt_left gt_striped'>easyCBM - medium</td>
 <td class='gt_row gt_right gt_striped'>10.44</td>
 <td class='gt_row gt_right gt_striped'>9.20</td>
 <td class='gt_row gt_right gt_striped'>1.13</td>
-<td class='gt_row gt_left gt_striped'>0.257</td>
+<td class='gt_row gt_left gt_striped'>.257</td>
 <td class='gt_row gt_right gt_striped'>-0.18</td>
 <td class='gt_row gt_right gt_striped'>8.91</td>
 <td class='gt_row gt_right gt_striped'>12.18</td>
 <td class='gt_row gt_right gt_striped'>0.73</td>
-<td class='gt_row gt_left gt_striped'>0.465</td>
+<td class='gt_row gt_left gt_striped'>.465</td>
 <td class='gt_row gt_right gt_striped'>-0.27</td>
 <td class='gt_row gt_right gt_striped'>-9.67</td>
 <td class='gt_row gt_right gt_striped'>10.93</td>
 <td class='gt_row gt_right gt_striped'>-0.89</td>
-<td class='gt_row gt_left gt_striped'>0.376</td>
+<td class='gt_row gt_left gt_striped'>.376</td>
 <td class='gt_row gt_right gt_striped'>-0.75</td>
 </tr>
 <tr>
-<td class='gt_row gt_center'>easyCBM - short</td>
+<td class='gt_row gt_left'>easyCBM - short</td>
 <td class='gt_row gt_right'>11.68</td>
 <td class='gt_row gt_right'>9.11</td>
 <td class='gt_row gt_right'>1.28</td>
-<td class='gt_row gt_left'>0.2</td>
+<td class='gt_row gt_left'>.200</td>
 <td class='gt_row gt_right'>-0.05</td>
 <td class='gt_row gt_right'>3.79</td>
 <td class='gt_row gt_right'>12.09</td>
 <td class='gt_row gt_right'>0.31</td>
-<td class='gt_row gt_left'>0.754</td>
+<td class='gt_row gt_left'>.754</td>
 <td class='gt_row gt_right'>-0.34</td>
 <td class='gt_row gt_right'>-11.50</td>
 <td class='gt_row gt_right'>10.82</td>
 <td class='gt_row gt_right'>-1.06</td>
-<td class='gt_row gt_left'>0.288</td>
+<td class='gt_row gt_left'>.288</td>
 <td class='gt_row gt_right'>-0.69</td>
 </tr>
 <tr>
-<td class='gt_row gt_center gt_striped'>long - medium</td>
+<td class='gt_row gt_left gt_striped'>long - medium</td>
 <td class='gt_row gt_right gt_striped'>-2.83</td>
 <td class='gt_row gt_right gt_striped'>2.83</td>
 <td class='gt_row gt_right gt_striped'>-1.00</td>
-<td class='gt_row gt_left gt_striped'>0.317</td>
+<td class='gt_row gt_left gt_striped'>.317</td>
 <td class='gt_row gt_right gt_striped'>-0.04</td>
 <td class='gt_row gt_right gt_striped'>-0.84</td>
 <td class='gt_row gt_right gt_striped'>3.56</td>
 <td class='gt_row gt_right gt_striped'>-0.24</td>
-<td class='gt_row gt_left gt_striped'>0.814</td>
+<td class='gt_row gt_left gt_striped'>.814</td>
 <td class='gt_row gt_right gt_striped'>-0.01</td>
 <td class='gt_row gt_right gt_striped'>-4.40</td>
 <td class='gt_row gt_right gt_striped'>3.21</td>
 <td class='gt_row gt_right gt_striped'>-1.37</td>
-<td class='gt_row gt_left gt_striped'>0.17</td>
+<td class='gt_row gt_left gt_striped'>.170</td>
 <td class='gt_row gt_right gt_striped'>-0.11</td>
 </tr>
 <tr>
-<td class='gt_row gt_center'>long - short</td>
+<td class='gt_row gt_left'>long - short</td>
 <td class='gt_row gt_right'>-1.59</td>
 <td class='gt_row gt_right'>2.54</td>
 <td class='gt_row gt_right'>-0.63</td>
-<td class='gt_row gt_left'>0.531</td>
+<td class='gt_row gt_left'>.531</td>
 <td class='gt_row gt_right'>0.08</td>
 <td class='gt_row gt_right'>-5.96</td>
 <td class='gt_row gt_right'>3.23</td>
 <td class='gt_row gt_right'>-1.84</td>
-<td class='gt_row gt_left'>0.065</td>
+<td class='gt_row gt_left'>.065</td>
 <td class='gt_row gt_right'>-0.11</td>
 <td class='gt_row gt_right'>-6.23</td>
 <td class='gt_row gt_right'>2.82</td>
 <td class='gt_row gt_right'>-2.21</td>
-<td class='gt_row gt_left'>0.027</td>
+<td class='gt_row gt_left'>.027</td>
 <td class='gt_row gt_right'>-0.11</td>
 </tr>
 <tr>
-<td class='gt_row gt_center gt_striped'>medium - short</td>
+<td class='gt_row gt_left gt_striped'>medium - short</td>
 <td class='gt_row gt_right gt_striped'>1.24</td>
 <td class='gt_row gt_right gt_striped'>2.13</td>
 <td class='gt_row gt_right gt_striped'>0.58</td>
-<td class='gt_row gt_left gt_striped'>0.559</td>
+<td class='gt_row gt_left gt_striped'>.559</td>
 <td class='gt_row gt_right gt_striped'>0.12</td>
 <td class='gt_row gt_right gt_striped'>-5.12</td>
 <td class='gt_row gt_right gt_striped'>2.75</td>
 <td class='gt_row gt_right gt_striped'>-1.86</td>
-<td class='gt_row gt_left gt_striped'>0.063</td>
+<td class='gt_row gt_left gt_striped'>.063</td>
 <td class='gt_row gt_right gt_striped'>-0.11</td>
 <td class='gt_row gt_right gt_striped'>-1.82</td>
 <td class='gt_row gt_right gt_striped'>2.53</td>
 <td class='gt_row gt_right gt_striped'>-0.72</td>
-<td class='gt_row gt_left gt_striped'>0.471</td>
+<td class='gt_row gt_left gt_striped'>.471</td>
 <td class='gt_row gt_right gt_striped'>0.00</td>
 </tr>
 <tr class='gt_group_heading_row'>
 <td colspan='16' class='gt_group_heading'>Recording</td>
 </tr>
 <tr>
-<td class='gt_row gt_center'>easyCBM - long</td>
+<td class='gt_row gt_left'>easyCBM - long</td>
 <td class='gt_row gt_right'>24.27</td>
 <td class='gt_row gt_right'>9.30</td>
 <td class='gt_row gt_right'>2.61</td>
-<td class='gt_row gt_left'>0.009</td>
+<td class='gt_row gt_left'>.009</td>
 <td class='gt_row gt_right'>0.17</td>
 <td class='gt_row gt_right'>15.27</td>
 <td class='gt_row gt_right'>12.30</td>
 <td class='gt_row gt_right'>1.24</td>
-<td class='gt_row gt_left'>0.214</td>
+<td class='gt_row gt_left'>.214</td>
 <td class='gt_row gt_right'>-0.11</td>
 <td class='gt_row gt_right'>4.50</td>
 <td class='gt_row gt_right'>10.99</td>
 <td class='gt_row gt_right'>0.41</td>
-<td class='gt_row gt_left'>0.683</td>
+<td class='gt_row gt_left'>.683</td>
 <td class='gt_row gt_right'>-0.41</td>
 </tr>
 <tr>
-<td class='gt_row gt_center gt_striped'>easyCBM - medium</td>
+<td class='gt_row gt_left gt_striped'>easyCBM - medium</td>
 <td class='gt_row gt_right gt_striped'>21.41</td>
 <td class='gt_row gt_right gt_striped'>9.20</td>
 <td class='gt_row gt_right gt_striped'>2.33</td>
-<td class='gt_row gt_left gt_striped'>0.02</td>
+<td class='gt_row gt_left gt_striped'>.020</td>
 <td class='gt_row gt_right gt_striped'>0.12</td>
 <td class='gt_row gt_right gt_striped'>15.85</td>
 <td class='gt_row gt_right gt_striped'>12.18</td>
 <td class='gt_row gt_right gt_striped'>1.30</td>
-<td class='gt_row gt_left gt_striped'>0.193</td>
+<td class='gt_row gt_left gt_striped'>.193</td>
 <td class='gt_row gt_right gt_striped'>-0.08</td>
 <td class='gt_row gt_right gt_striped'>0.24</td>
 <td class='gt_row gt_right gt_striped'>10.93</td>
 <td class='gt_row gt_right gt_striped'>0.02</td>
-<td class='gt_row gt_left gt_striped'>0.983</td>
+<td class='gt_row gt_left gt_striped'>.983</td>
 <td class='gt_row gt_right gt_striped'>-0.49</td>
 </tr>
 <tr>
-<td class='gt_row gt_center'>easyCBM - short</td>
+<td class='gt_row gt_left'>easyCBM - short</td>
 <td class='gt_row gt_right'>24.38</td>
 <td class='gt_row gt_right'>9.11</td>
 <td class='gt_row gt_right'>2.68</td>
-<td class='gt_row gt_left'>0.007</td>
+<td class='gt_row gt_left'>.007</td>
 <td class='gt_row gt_right'>0.26</td>
 <td class='gt_row gt_right'>11.08</td>
 <td class='gt_row gt_right'>12.09</td>
 <td class='gt_row gt_right'>0.92</td>
-<td class='gt_row gt_left'>0.359</td>
+<td class='gt_row gt_left'>.359</td>
 <td class='gt_row gt_right'>-0.16</td>
 <td class='gt_row gt_right'>-1.22</td>
 <td class='gt_row gt_right'>10.82</td>
 <td class='gt_row gt_right'>-0.11</td>
-<td class='gt_row gt_left'>0.91</td>
+<td class='gt_row gt_left'>.910</td>
 <td class='gt_row gt_right'>-0.45</td>
 </tr>
 <tr>
-<td class='gt_row gt_center gt_striped'>long - medium</td>
+<td class='gt_row gt_left gt_striped'>long - medium</td>
 <td class='gt_row gt_right gt_striped'>-2.86</td>
 <td class='gt_row gt_right gt_striped'>2.83</td>
 <td class='gt_row gt_right gt_striped'>-1.01</td>
-<td class='gt_row gt_left gt_striped'>0.313</td>
+<td class='gt_row gt_left gt_striped'>.313</td>
 <td class='gt_row gt_right gt_striped'>-0.04</td>
 <td class='gt_row gt_right gt_striped'>0.58</td>
 <td class='gt_row gt_right gt_striped'>3.56</td>
 <td class='gt_row gt_right gt_striped'>0.16</td>
-<td class='gt_row gt_left gt_striped'>0.871</td>
+<td class='gt_row gt_left gt_striped'>.871</td>
 <td class='gt_row gt_right gt_striped'>0.03</td>
 <td class='gt_row gt_right gt_striped'>-4.26</td>
 <td class='gt_row gt_right gt_striped'>3.21</td>
 <td class='gt_row gt_right gt_striped'>-1.33</td>
-<td class='gt_row gt_left gt_striped'>0.184</td>
+<td class='gt_row gt_left gt_striped'>.184</td>
 <td class='gt_row gt_right gt_striped'>-0.11</td>
 </tr>
 <tr>
-<td class='gt_row gt_center'>long - short</td>
+<td class='gt_row gt_left'>long - short</td>
 <td class='gt_row gt_right'>0.11</td>
 <td class='gt_row gt_right'>2.54</td>
 <td class='gt_row gt_right'>0.04</td>
-<td class='gt_row gt_left'>0.964</td>
+<td class='gt_row gt_left'>.964</td>
 <td class='gt_row gt_right'>0.12</td>
 <td class='gt_row gt_right'>-4.19</td>
 <td class='gt_row gt_right'>3.23</td>
 <td class='gt_row gt_right'>-1.30</td>
-<td class='gt_row gt_left'>0.195</td>
+<td class='gt_row gt_left'>.195</td>
 <td class='gt_row gt_right'>-0.07</td>
 <td class='gt_row gt_right'>-5.72</td>
 <td class='gt_row gt_right'>2.82</td>
 <td class='gt_row gt_right'>-2.03</td>
-<td class='gt_row gt_left'>0.042</td>
+<td class='gt_row gt_left'>.042</td>
 <td class='gt_row gt_right'>-0.09</td>
 </tr>
 <tr>
-<td class='gt_row gt_center gt_striped'>medium - short</td>
+<td class='gt_row gt_left gt_striped'>medium - short</td>
 <td class='gt_row gt_right gt_striped'>2.97</td>
 <td class='gt_row gt_right gt_striped'>2.13</td>
 <td class='gt_row gt_right gt_striped'>1.39</td>
-<td class='gt_row gt_left gt_striped'>0.164</td>
+<td class='gt_row gt_left gt_striped'>.164</td>
 <td class='gt_row gt_right gt_striped'>0.16</td>
 <td class='gt_row gt_right gt_striped'>-4.77</td>
 <td class='gt_row gt_right gt_striped'>2.75</td>
 <td class='gt_row gt_right gt_striped'>-1.74</td>
-<td class='gt_row gt_left gt_striped'>0.083</td>
+<td class='gt_row gt_left gt_striped'>.083</td>
 <td class='gt_row gt_right gt_striped'>-0.10</td>
 <td class='gt_row gt_right gt_striped'>-1.46</td>
 <td class='gt_row gt_right gt_striped'>2.53</td>
 <td class='gt_row gt_right gt_striped'>-0.58</td>
-<td class='gt_row gt_left gt_striped'>0.563</td>
+<td class='gt_row gt_left gt_striped'>.563</td>
 <td class='gt_row gt_right gt_striped'>0.01</td>
 </tr>
 <tr class='gt_group_heading_row'>
 <td colspan='16' class='gt_group_heading'>Traditional</td>
 </tr>
 <tr>
-<td class='gt_row gt_center'>easyCBM - long</td>
+<td class='gt_row gt_left'>easyCBM - long</td>
 <td class='gt_row gt_right'>1.15</td>
 <td class='gt_row gt_right'>9.30</td>
 <td class='gt_row gt_right'>0.12</td>
-<td class='gt_row gt_left'>0.901</td>
+<td class='gt_row gt_left'>.901</td>
 <td class='gt_row gt_right'>-0.46</td>
 <td class='gt_row gt_right'>-1.28</td>
 <td class='gt_row gt_right'>12.30</td>
 <td class='gt_row gt_right'>-0.10</td>
-<td class='gt_row gt_left'>0.917</td>
+<td class='gt_row gt_left'>.917</td>
 <td class='gt_row gt_right'>-0.53</td>
 <td class='gt_row gt_right'>-10.38</td>
 <td class='gt_row gt_right'>10.99</td>
 <td class='gt_row gt_right'>-0.94</td>
-<td class='gt_row gt_left'>0.345</td>
+<td class='gt_row gt_left'>.345</td>
 <td class='gt_row gt_right'>-0.74</td>
 </tr>
 <tr>
-<td class='gt_row gt_center gt_striped'>easyCBM - medium</td>
+<td class='gt_row gt_left gt_striped'>easyCBM - medium</td>
 <td class='gt_row gt_right gt_striped'>-1.17</td>
 <td class='gt_row gt_right gt_striped'>9.20</td>
 <td class='gt_row gt_right gt_striped'>-0.13</td>
-<td class='gt_row gt_left gt_striped'>0.898</td>
+<td class='gt_row gt_left gt_striped'>.898</td>
 <td class='gt_row gt_right gt_striped'>-0.45</td>
 <td class='gt_row gt_right gt_striped'>-2.68</td>
 <td class='gt_row gt_right gt_striped'>12.18</td>
 <td class='gt_row gt_right gt_striped'>-0.22</td>
-<td class='gt_row gt_left gt_striped'>0.826</td>
+<td class='gt_row gt_left gt_striped'>.826</td>
 <td class='gt_row gt_right gt_striped'>-0.54</td>
 <td class='gt_row gt_right gt_striped'>-16.40</td>
 <td class='gt_row gt_right gt_striped'>10.93</td>
 <td class='gt_row gt_right gt_striped'>-1.50</td>
-<td class='gt_row gt_left gt_striped'>0.133</td>
+<td class='gt_row gt_left gt_striped'>.133</td>
 <td class='gt_row gt_right gt_striped'>-0.82</td>
 </tr>
 <tr>
-<td class='gt_row gt_center'>easyCBM - short</td>
+<td class='gt_row gt_left'>easyCBM - short</td>
 <td class='gt_row gt_right'>-1.92</td>
 <td class='gt_row gt_right'>9.11</td>
 <td class='gt_row gt_right'>-0.21</td>
-<td class='gt_row gt_left'>0.833</td>
+<td class='gt_row gt_left'>.833</td>
 <td class='gt_row gt_right'>-0.34</td>
 <td class='gt_row gt_right'>-9.51</td>
 <td class='gt_row gt_right'>12.09</td>
 <td class='gt_row gt_right'>-0.79</td>
-<td class='gt_row gt_left'>0.431</td>
+<td class='gt_row gt_left'>.431</td>
 <td class='gt_row gt_right'>-0.60</td>
 <td class='gt_row gt_right'>-21.58</td>
 <td class='gt_row gt_right'>10.82</td>
 <td class='gt_row gt_right'>-1.99</td>
-<td class='gt_row gt_left'>0.046</td>
+<td class='gt_row gt_left'>.046</td>
 <td class='gt_row gt_right'>-0.83</td>
 </tr>
 <tr>
-<td class='gt_row gt_center gt_striped'>long - medium</td>
+<td class='gt_row gt_left gt_striped'>long - medium</td>
 <td class='gt_row gt_right gt_striped'>-2.33</td>
 <td class='gt_row gt_right gt_striped'>2.83</td>
 <td class='gt_row gt_right gt_striped'>-0.82</td>
-<td class='gt_row gt_left gt_striped'>0.411</td>
+<td class='gt_row gt_left gt_striped'>.411</td>
 <td class='gt_row gt_right gt_striped'>-0.02</td>
 <td class='gt_row gt_right gt_striped'>-1.40</td>
 <td class='gt_row gt_right gt_striped'>3.56</td>
 <td class='gt_row gt_right gt_striped'>-0.39</td>
-<td class='gt_row gt_left gt_striped'>0.695</td>
+<td class='gt_row gt_left gt_striped'>.695</td>
 <td class='gt_row gt_right gt_striped'>-0.02</td>
 <td class='gt_row gt_right gt_striped'>-6.02</td>
 <td class='gt_row gt_right gt_striped'>3.21</td>
 <td class='gt_row gt_right gt_striped'>-1.88</td>
-<td class='gt_row gt_left gt_striped'>0.06</td>
+<td class='gt_row gt_left gt_striped'>.060</td>
 <td class='gt_row gt_right gt_striped'>-0.14</td>
 </tr>
 <tr>
-<td class='gt_row gt_center'>long - short</td>
+<td class='gt_row gt_left'>long - short</td>
 <td class='gt_row gt_right'>-3.07</td>
 <td class='gt_row gt_right'>2.54</td>
 <td class='gt_row gt_right'>-1.21</td>
-<td class='gt_row gt_left'>0.226</td>
+<td class='gt_row gt_left'>.226</td>
 <td class='gt_row gt_right'>0.04</td>
 <td class='gt_row gt_right'>-8.22</td>
 <td class='gt_row gt_right'>3.23</td>
 <td class='gt_row gt_right'>-2.54</td>
-<td class='gt_row gt_left'>0.011</td>
+<td class='gt_row gt_left'>.011</td>
 <td class='gt_row gt_right'>-0.15</td>
 <td class='gt_row gt_right'>-11.20</td>
 <td class='gt_row gt_right'>2.82</td>
@@ -2046,21 +2047,21 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
 <td class='gt_row gt_right'>-0.20</td>
 </tr>
 <tr>
-<td class='gt_row gt_center gt_striped'>medium - short</td>
+<td class='gt_row gt_left gt_striped'>medium - short</td>
 <td class='gt_row gt_right gt_striped'>-0.74</td>
 <td class='gt_row gt_right gt_striped'>2.13</td>
 <td class='gt_row gt_right gt_striped'>-0.35</td>
-<td class='gt_row gt_left gt_striped'>0.728</td>
+<td class='gt_row gt_left gt_striped'>.728</td>
 <td class='gt_row gt_right gt_striped'>0.06</td>
 <td class='gt_row gt_right gt_striped'>-6.83</td>
 <td class='gt_row gt_right gt_striped'>2.75</td>
 <td class='gt_row gt_right gt_striped'>-2.48</td>
-<td class='gt_row gt_left gt_striped'>0.013</td>
+<td class='gt_row gt_left gt_striped'>.013</td>
 <td class='gt_row gt_right gt_striped'>-0.14</td>
 <td class='gt_row gt_right gt_striped'>-5.18</td>
 <td class='gt_row gt_right gt_striped'>2.53</td>
 <td class='gt_row gt_right gt_striped'>-2.05</td>
-<td class='gt_row gt_left gt_striped'>0.041</td>
+<td class='gt_row gt_left gt_striped'>.041</td>
 <td class='gt_row gt_right gt_striped'>-0.07</td>
 </tr>
 </tbody>
