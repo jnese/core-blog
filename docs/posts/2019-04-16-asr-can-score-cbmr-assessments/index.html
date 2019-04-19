@@ -1342,7 +1342,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>Thus, there is evidence that <code>ASR</code> can be applied in schools to score WCPM on CBM-R assessments.</p>
 <p>This has implications for the opportunity cost of CBM-R administration. Traditional CBM-R is administered in a one-to-one setting, requiring resources like adequately private, quiet space; time and human personnel to assess the entire classroom or school for universal screening; and high-quality, reliable, trained human assessors. A computerized CBM-R system that incorporates a validated ASR can (a) reduce human administration errors by standardizing administration setting, delivery, and scoring, and (b) reduce the cost of administration by simultaneously testing small groups or an entire classroom in only a few minutes with only one educator to monitor the environment. This can reduce the cost of CBM-R administration by eliminating the need to train staff to administer and score the assessment, which stands to make a considerable benefit to CBM-R applications in schools.</p>
 <h2 id="analysis">Analysis</h2>
-<p>We applied a mixed-effect model for <strong>WCPM</strong> scores separately for each of Grades 2 through 4, with random effects for <code>students</code> and <code>passages</code>, and fixed effects for <code>scoring method</code> (three levels: <em>ASR</em>, <em>Recording</em>, and <em>Traditional</em>), <code>passage length</code> (four levels: <em>easyCBM</em>, <em>short</em>, <em>medium</em>, and <em>long</em>), and their interaction <code>passage length:scoring method</code>. For documentaiton of the model building process go <a href="https://jnese.github.io/core-blog/posts/2019-04-06-cce-auxiliary-modelbuilding/">here</a>.</p>
+<p>We applied a mixed-effects model for <strong>WCPM</strong> scores separately for each of Grades 2 through 4, with random effects for <code>students</code> and <code>passages</code>, and fixed effects for <code>scoring method</code> (three levels: <em>ASR</em>, <em>Recording</em>, and <em>Traditional</em>), <code>passage length</code> (four levels: <em>easyCBM</em>, <em>short</em>, <em>medium</em>, and <em>long</em>), and their interaction <code>passage length:scoring method</code>. For documentaiton of the model building process go <a href="https://jnese.github.io/core-blog/posts/2019-04-06-cce-auxiliary-modelbuilding/">here</a>.</p>
 <pre><code>
 wcpm ~ 1 + (1|student_id) + (1|passage_id) + 
            passage_length + scoring_method + passage_length:scoring_method, REML = FALSE))</code></pre>
@@ -1353,7 +1353,7 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#clnxafqopi .gt_table {
+#yldqslraip .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1372,13 +1372,13 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   /* table.border.top.color */
 }
 
-#clnxafqopi .gt_heading {
+#yldqslraip .gt_heading {
   background-color: #FFFFFF;
   /* heading.background.color */
   border-bottom-color: #FFFFFF;
 }
 
-#clnxafqopi .gt_title {
+#yldqslraip .gt_title {
   color: #000000;
   font-size: 125%;
   /* heading.title.font.size */
@@ -1389,7 +1389,7 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   border-bottom-width: 0;
 }
 
-#clnxafqopi .gt_subtitle {
+#yldqslraip .gt_subtitle {
   color: #000000;
   font-size: 85%;
   /* heading.subtitle.font.size */
@@ -1400,7 +1400,7 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   border-top-width: 0;
 }
 
-#clnxafqopi .gt_bottom_border {
+#yldqslraip .gt_bottom_border {
   border-bottom-style: solid;
   /* heading.border.bottom.style */
   border-bottom-width: 2px;
@@ -1409,7 +1409,7 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   /* heading.border.bottom.color */
 }
 
-#clnxafqopi .gt_column_spanner {
+#yldqslraip .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #A8A8A8;
@@ -1417,7 +1417,7 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   padding-bottom: 4px;
 }
 
-#clnxafqopi .gt_col_heading {
+#yldqslraip .gt_col_heading {
   color: #000000;
   background-color: #FFFFFF;
   /* column_labels.background.color */
@@ -1430,11 +1430,11 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   margin: 10px;
 }
 
-#clnxafqopi .gt_sep_right {
+#yldqslraip .gt_sep_right {
   border-right: 5px solid #FFFFFF;
 }
 
-#clnxafqopi .gt_group_heading {
+#yldqslraip .gt_group_heading {
   padding: 8px;
   color: #000000;
   background-color: #FFFFFF;
@@ -1458,7 +1458,7 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   vertical-align: middle;
 }
 
-#clnxafqopi .gt_empty_group_heading {
+#yldqslraip .gt_empty_group_heading {
   padding: 0.5px;
   color: #000000;
   background-color: #FFFFFF;
@@ -1482,37 +1482,37 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   vertical-align: middle;
 }
 
-#clnxafqopi .gt_striped {
+#yldqslraip .gt_striped {
   background-color: #f2f2f2;
 }
 
-#clnxafqopi .gt_from_md > :first-child {
+#yldqslraip .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#clnxafqopi .gt_from_md > :last-child {
+#yldqslraip .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#clnxafqopi .gt_row {
+#yldqslraip .gt_row {
   padding: 10px;
   /* row.padding */
   margin: 10px;
   vertical-align: middle;
 }
 
-#clnxafqopi .gt_stub {
+#yldqslraip .gt_stub {
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #A8A8A8;
   padding-left: 12px;
 }
 
-#clnxafqopi .gt_stub.gt_row {
+#yldqslraip .gt_stub.gt_row {
   background-color: #FFFFFF;
 }
 
-#clnxafqopi .gt_summary_row {
+#yldqslraip .gt_summary_row {
   background-color: #FFFFFF;
   /* summary_row.background.color */
   padding: 6px;
@@ -1521,13 +1521,13 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   /* summary_row.text_transform */
 }
 
-#clnxafqopi .gt_first_summary_row {
+#yldqslraip .gt_first_summary_row {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #A8A8A8;
 }
 
-#clnxafqopi .gt_table_body {
+#yldqslraip .gt_table_body {
   border-top-style: solid;
   /* field.border.top.style */
   border-top-width: 2px;
@@ -1542,55 +1542,55 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   /* field.border.bottom.color */
 }
 
-#clnxafqopi .gt_footnote {
+#yldqslraip .gt_footnote {
   font-size: 90%;
   /* footnote.font.size */
   padding: 4px;
   /* footnote.padding */
 }
 
-#clnxafqopi .gt_sourcenote {
+#yldqslraip .gt_sourcenote {
   font-size: 90%;
   /* sourcenote.font.size */
   padding: 4px;
   /* sourcenote.padding */
 }
 
-#clnxafqopi .gt_center {
+#yldqslraip .gt_center {
   text-align: center;
 }
 
-#clnxafqopi .gt_left {
+#yldqslraip .gt_left {
   text-align: left;
 }
 
-#clnxafqopi .gt_right {
+#yldqslraip .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#clnxafqopi .gt_font_normal {
+#yldqslraip .gt_font_normal {
   font-weight: normal;
 }
 
-#clnxafqopi .gt_font_bold {
+#yldqslraip .gt_font_bold {
   font-weight: bold;
 }
 
-#clnxafqopi .gt_font_italic {
+#yldqslraip .gt_font_italic {
   font-style: italic;
 }
 
-#clnxafqopi .gt_super {
+#yldqslraip .gt_super {
   font-size: 65%;
 }
 
-#clnxafqopi .gt_footnote_glyph {
+#yldqslraip .gt_footnote_glyph {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="clnxafqopi" style="overflow-x:auto;"><!--gt table start-->
+<div id="yldqslraip" style="overflow-x:auto;"><!--gt table start-->
 <table class='gt_table'>
 <tr>
 <th class='gt_col_heading gt_center' rowspan='2' colspan='1'></th>
@@ -1810,7 +1810,7 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
 <div class="layout-chunk" data-layout="l-body-outset">
 <p><img src="fig_est_means_blog.png" width="926" /></p>
 </div>
-<p>To assist the interpretation of the resulte of the final model, we also report the statistical significance of the differences in marginal means, as well as Cohen’s (1988) <em>d</em> effect size estimates in the table below.</p>
+<p>To assist the interpretation of the results of the final model, we also report the statistical significance of the differences in marginal means, as well as Cohen’s (1988) <em>d</em> effect size estimates in the table below.</p>
 <p>All but two pairwise comparisons (across grades and passage lengths) between the <code>Recording</code> criterion and the <code>ASR</code> or <code>Traditional</code> WCPM scores were statistically significant at the <em>p</em> = .01 level. Thus, both the <code>ASR</code> and <code>Traditional</code> scores were statistically significantly different from <code>Recording</code> criterion scores.</p>
 <p>An examination of the magnitude of the effect sizes between the <code>Recording</code> criterion and the <code>ASR</code> or <code>Traditional</code> WCPM scores showed mixed results. Of the 12 comparisons (four passage lengths x three grades), the <code>Recording</code> - <code>ASR</code> effect size was smaller in absolute magnitude than the <code>Recording</code> - <code>Traditional</code> in seven comparisons, always for the <em>short</em> passages, never for the <em>long</em> passages, and mixed results for the other passages lengths and by grade. This provides weak support to favor the <code>ASR</code> scores over the <code>Traditional</code> scores in our study.</p>
 <p>For the <em>easyCBM</em> passages, both the <code>ASR</code> and the <code>Traditional</code> scores always underestimated WCPM compared to the <code>Recording</code>, and the <code>ASR</code> was always higher than the <code>Traditional</code> (except for Grade 4). For all of the <strong>CORE</strong> passage lengths (<em>long</em>, <em>medium</em>, and <em>short</em>) across grades, the <code>ASR</code> underestimated and the <code>Traditional</code> overestimated the WCPM compared to the <code>Recording</code> scores. The <code>Traditional</code> also overestimated the WCPM scores compared to the <code>ASR.</code></p>
@@ -1820,7 +1820,7 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#sbpattlffd .gt_table {
+#fueendlfmp .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1839,13 +1839,13 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   /* table.border.top.color */
 }
 
-#sbpattlffd .gt_heading {
+#fueendlfmp .gt_heading {
   background-color: #FFFFFF;
   /* heading.background.color */
   border-bottom-color: #FFFFFF;
 }
 
-#sbpattlffd .gt_title {
+#fueendlfmp .gt_title {
   color: #000000;
   font-size: 125%;
   /* heading.title.font.size */
@@ -1856,7 +1856,7 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   border-bottom-width: 0;
 }
 
-#sbpattlffd .gt_subtitle {
+#fueendlfmp .gt_subtitle {
   color: #000000;
   font-size: 85%;
   /* heading.subtitle.font.size */
@@ -1867,7 +1867,7 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   border-top-width: 0;
 }
 
-#sbpattlffd .gt_bottom_border {
+#fueendlfmp .gt_bottom_border {
   border-bottom-style: solid;
   /* heading.border.bottom.style */
   border-bottom-width: 2px;
@@ -1876,7 +1876,7 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   /* heading.border.bottom.color */
 }
 
-#sbpattlffd .gt_column_spanner {
+#fueendlfmp .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #A8A8A8;
@@ -1884,7 +1884,7 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   padding-bottom: 4px;
 }
 
-#sbpattlffd .gt_col_heading {
+#fueendlfmp .gt_col_heading {
   color: #000000;
   background-color: #FFFFFF;
   /* column_labels.background.color */
@@ -1897,11 +1897,11 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   margin: 10px;
 }
 
-#sbpattlffd .gt_sep_right {
+#fueendlfmp .gt_sep_right {
   border-right: 5px solid #FFFFFF;
 }
 
-#sbpattlffd .gt_group_heading {
+#fueendlfmp .gt_group_heading {
   padding: 8px;
   color: #000000;
   background-color: #FFFFFF;
@@ -1925,7 +1925,7 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   vertical-align: middle;
 }
 
-#sbpattlffd .gt_empty_group_heading {
+#fueendlfmp .gt_empty_group_heading {
   padding: 0.5px;
   color: #000000;
   background-color: #FFFFFF;
@@ -1949,37 +1949,37 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   vertical-align: middle;
 }
 
-#sbpattlffd .gt_striped {
+#fueendlfmp .gt_striped {
   background-color: #f2f2f2;
 }
 
-#sbpattlffd .gt_from_md > :first-child {
+#fueendlfmp .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#sbpattlffd .gt_from_md > :last-child {
+#fueendlfmp .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#sbpattlffd .gt_row {
+#fueendlfmp .gt_row {
   padding: 10px;
   /* row.padding */
   margin: 10px;
   vertical-align: middle;
 }
 
-#sbpattlffd .gt_stub {
+#fueendlfmp .gt_stub {
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #A8A8A8;
   padding-left: 12px;
 }
 
-#sbpattlffd .gt_stub.gt_row {
+#fueendlfmp .gt_stub.gt_row {
   background-color: #FFFFFF;
 }
 
-#sbpattlffd .gt_summary_row {
+#fueendlfmp .gt_summary_row {
   background-color: #FFFFFF;
   /* summary_row.background.color */
   padding: 6px;
@@ -1988,13 +1988,13 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   /* summary_row.text_transform */
 }
 
-#sbpattlffd .gt_first_summary_row {
+#fueendlfmp .gt_first_summary_row {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #A8A8A8;
 }
 
-#sbpattlffd .gt_table_body {
+#fueendlfmp .gt_table_body {
   border-top-style: solid;
   /* field.border.top.style */
   border-top-width: 2px;
@@ -2009,55 +2009,55 @@ wcpm ~ 1 + (1|student_id) + (1|passage_id) +
   /* field.border.bottom.color */
 }
 
-#sbpattlffd .gt_footnote {
+#fueendlfmp .gt_footnote {
   font-size: 90%;
   /* footnote.font.size */
   padding: 4px;
   /* footnote.padding */
 }
 
-#sbpattlffd .gt_sourcenote {
+#fueendlfmp .gt_sourcenote {
   font-size: 90%;
   /* sourcenote.font.size */
   padding: 4px;
   /* sourcenote.padding */
 }
 
-#sbpattlffd .gt_center {
+#fueendlfmp .gt_center {
   text-align: center;
 }
 
-#sbpattlffd .gt_left {
+#fueendlfmp .gt_left {
   text-align: left;
 }
 
-#sbpattlffd .gt_right {
+#fueendlfmp .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#sbpattlffd .gt_font_normal {
+#fueendlfmp .gt_font_normal {
   font-weight: normal;
 }
 
-#sbpattlffd .gt_font_bold {
+#fueendlfmp .gt_font_bold {
   font-weight: bold;
 }
 
-#sbpattlffd .gt_font_italic {
+#fueendlfmp .gt_font_italic {
   font-style: italic;
 }
 
-#sbpattlffd .gt_super {
+#fueendlfmp .gt_super {
   font-size: 65%;
 }
 
-#sbpattlffd .gt_footnote_glyph {
+#fueendlfmp .gt_footnote_glyph {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="sbpattlffd" style="overflow-x:auto;"><!--gt table start-->
+<div id="fueendlfmp" style="overflow-x:auto;"><!--gt table start-->
 <table class='gt_table'>
 <tr>
 <th class='gt_col_heading gt_center' rowspan='2' colspan='1'></th>
