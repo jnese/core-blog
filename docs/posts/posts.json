@@ -1,5 +1,24 @@
 [
   {
+    "path": "posts/2019-04-18-latent-variable-model-for-orf/",
+    "title": "Latent Variable Model for ORF",
+    "description": "In this post, we will describe the latent variable model that we have developed and adopted for CORE passages.",
+    "author": [
+      {
+        "name": "Akihito Kamata",
+        "url": "https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata"
+      },
+      {
+        "name": "Joseph F. T. Nese",
+        "url": "https://education.uoregon.edu/people/faculty/jnese"
+      }
+    ],
+    "date": "2019-04-18",
+    "categories": [],
+    "preview": {},
+    "last_modified": "2019-04-18T12:53:54-05:00"
+  },
+  {
     "path": "posts/2019-04-16-asr-can-score-cbmr-assessments/",
     "title": "Automatic Speech Recognition (ASR) can be Applied in Schools to Score CBM-R Assessments",
     "description": "The purpose of this post is to determine whether there are scoring method differences in WCPM between the human scoring criterion versus traditional or ASR scoring of traditional CBM-R and CORE passages.",
@@ -19,7 +38,7 @@
       "Automatic Speech Recognition (ASR)"
     ],
     "preview": "posts/2019-04-16-asr-can-score-cbmr-assessments/fig_est_means_blog.png",
-    "last_modified": "2019-04-18T10:16:47-07:00"
+    "last_modified": "2019-04-19T14:32:22-07:00"
   },
   {
     "path": "posts/2019-04-17-shorter-passages-can-be-used-for-cbmr-assessments/",
@@ -40,26 +59,7 @@
       "Content & Convergent Evidence"
     ],
     "preview": "posts/2019-04-17-shorter-passages-can-be-used-for-cbmr-assessments/fig_est_means_pssglngth_blog.png",
-    "last_modified": "2019-04-18T14:28:44-07:00"
-  },
-  {
-    "path": "posts/2019-04-18-latent-variable-model-for-orf/",
-    "title": "Latent Variable Model for ORF",
-    "description": "In this post, we will describe the latent variable model that we have developed and adopted for CORE passages.",
-    "author": [
-      {
-        "name": "Akihito Kamata",
-        "url": "https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata"
-      },
-      {
-        "name": "Joseph F. T. Nese",
-        "url": "https://education.uoregon.edu/people/faculty/jnese"
-      }
-    ],
-    "date": "2019-04-18",
-    "categories": [],
-    "preview": {},
-    "last_modified": "2019-04-18T12:53:54-05:00"
+    "last_modified": "2019-04-19T14:31:59-07:00"
   },
   {
     "path": "posts/2019-04-06-cce-auxiliary-modelbuilding/",
