@@ -1,5 +1,27 @@
 [
   {
+    "path": "posts/2019-04-19-high-accuracy-of-asr-word-scores/",
+    "title": "high-accuracy-of-asr-word-scores",
+    "description": "The purpose of this post is to determine whether there are differences in word score agreement rates between the human scoring criterion versus traditional or ASR scoring of traditional CBM-R and CORE passages.",
+    "author": [
+      {
+        "name": "Joseph F. T. Nese",
+        "url": "https://education.uoregon.edu/people/faculty/jnese"
+      },
+      {
+        "name": "Akihito Kamata",
+        "url": "https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata"
+      }
+    ],
+    "date": "2019-04-19",
+    "categories": [
+      "Content & Convergent Evidence",
+      "Automatic Speech Recognition (ASR)"
+    ],
+    "preview": "posts/2019-04-19-high-accuracy-of-asr-word-scores/fig_violin_blog.png",
+    "last_modified": "2019-04-22T12:36:26-07:00"
+  },
+  {
     "path": "posts/2019-04-18-latent-variable-model-for-orf/",
     "title": "Latent Variable Model for ORF",
     "description": "In this post, we will describe the latent variable model that we have developed and adopted for CORE passages.",
