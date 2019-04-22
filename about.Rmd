@@ -8,18 +8,20 @@ description: |
 knitr::opts_chunk$set(echo = FALSE)
 ```
 ## Purpose
-CORE uses an automated speech recognition engine and an an advanced psychometric model to overcome some of the inadequacies of traditional oral reading fluency assessments. CORE's online delivery and automated speech recognition allows for whole classrooms to be tested at one time, which reduces administration time and cost, and minimizes administration errors by standardizing the delivery, setting, and scoring. CORE's shorter passages and advanced psychometric model increases score reliability and provides teachers with more accurate oral reading fluency scores. CORE also equates and links passages, placing scores that are on the same scale across across Grades 2 through 4 (i.e., vertically linked) so that student oral reading fluency scores and growth can be evaluated across grades. CORE is one part of a larger effort to help improve systems for data-based decisions. 
+**CORE** uses an automated speech recognition engine and an an advanced psychometric model to overcome some of the inadequacies of traditional oral reading fluency assessments. **CORE**'s online delivery and automated speech recognition allows for whole classrooms to be tested at one time, which reduces administration time and cost, and minimizes administration errors by standardizing the delivery, setting, and scoring. CORE's shorter passages and advanced psychometric model increases score reliability and provides teachers with more accurate oral reading fluency scores. CORE also equates and links passages, placing scores that are on the same scale across across Grades 2 through 4 (i.e., vertically linked) so that student oral reading fluency scores and growth can be evaluated across grades. CORE is one part of a larger effort to help improve systems for data-based decisions. 
 
 ## Project Scope
-The CORE project consists of three phases.
+The CORE project consists of four phases.
 
 1. **Content & Convergent Evidence**
-    + Validate the CORE reading passages and the ASR scoring. 
-2. **Calibration, Equating, Linking**
+    + Validate the CORE reading passages and the ASR scoring.
+2. **Psychometric Modeling**    
+    + Develop a psychometric model that estimates oral reading fluency by incorporating student response time and response accuracy simultaneously.
+3. **Calibration, Equating, Linking**
     + Equate and link the passage parameters within and across Grades 2 - 4.
-3. **Growth & Predictive Validity**
-    + Compare the properties of CORE versus traditional ORF scores using (a) a longitudinal study design, and (b) predictive validity and classification accuracy of state test reading data and comprehension scores.
-    
+4. **Growth & Predictive Validity**
+    + Compare the properties of CORE versus traditional oral reading fluency scores using (a) a longitudinal study design, and (b) predictive validity and classification accuracy of state test reading data and comprehension scores.
+
 ## Investigators
 ### PI
 **Joseph F. T. Nese** is a Research Associate Professor at the University of Oregon with [Behavioral Research and Teaching](https://www.brtprojects.org). He received his Ph.D. in school psychology from the University of Maryland in 2009, and his B.A from the University of California at Santa Barbara in 2002. His research involves educational assessment and applied measurement, focusing on developing and improving systems that support data-based decision making, and using advanced statistical methods to measure and monitor student growth.
