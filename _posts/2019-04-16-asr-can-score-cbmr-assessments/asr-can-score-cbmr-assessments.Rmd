@@ -37,9 +37,10 @@ library(ggthemes)
 
 ## Introduction
 
-We examined the differences in three scoring methods for words correct per minute (WCPM) scores of curriculum-based measurement of oral reading fluency (CBM-R). The three `scoring methods` were: (1) `Traditional` - the real-time human scores, comparable to traditional CBM-R assessments in schools; (2) `ASR` - automatic speech recogntion scores; and (3) `Recording` - the criterion measure, where recorded audio files were scored by human assessors in a private space wearing headsets (with the ability to rewind, replay, and adjust audio). We also explored the effect of `passage length` using: (1) *easyCBM* passages as traditional CBM-R passages of about 250 words read for 60 seconds; and **CORE** passages read in their entirety that were (2) *long*, about 85 words, (3) *medium*, about 50 words, and (4) *short*, about 25 words.
+We examined the differences in three scoring methods for words correct per minute (WCPM) scores of curriculum-based measurement of oral reading fluency (CBM-R). The three `scoring methods` were: (1) `Traditional` - the real-time human scores, comparable to traditional CBM-R assessments in schools; (2) `ASR` - automatic speech recognition scores; and (3) `Recording` - the criterion measure, where recorded audio files were scored by human assessors in a private space wearing headsets (with the ability to rewind, replay, and adjust audio). We also explored the effect of `passage length` using: (1) *easyCBM* passages as traditional CBM-R passages of about 250 words read for 60 seconds; and **CORE** passages read in their entirety that were (2) *long*, about 85 words, (3) *medium*, about 50 words, and (4) *short*, about 25 words.
 
-This is the first study to compare scores by expert assessors to both ASR and traditional CMB-R scores consistent with those conducted in schools. These comparisons allowed for the analysis of the potential net gain of ASR compared to current school practices (as opposed to scores based on audio recordings), which we speculate is a more useful metric for educators, administrators, school district officials, and stakeholders. 
+This is the first study to compare scores by expert assessors to both ASR and traditional CMB-R scores consistent with those conducted in schools. These comparisons allowed for the analysis of the potential net gain of ASR compared to current school practices (as opposed to scores based on audio recordings), which we speculate is a more useful metric for educators, administrators, school district officials, and stakeholders.
+
 These results are part of our larger **Content & Convergent Evidence Study**. For details about the Content & Convergent Evidence Study procedures, including information on the sample, CBM-R passages, administration, and scoring methods, go [here](https://jnese.github.io/core-blog/posts/2019-04-04-content-convergent-evidence-study-procedures/).
 
 
@@ -203,7 +204,7 @@ step_fixd_effcts %>%
   
 Based on the model's results, we calculated pairwise comparisons from the estimated marginal means to examine the effects of `scoring method`.
 
-The figure below shows the estimated marginal WCPM means for each `scoring method` by grade and `passage length`. The 95% confidence intervals for al comparisons overlap, suggestig that the estimated WCPM scores across `scoring methods` are relatively comparable. 
+The figure below shows the estimated marginal **WCPM** means for each `scoring method` by grade and `passage length`. The 95% confidence intervals for al comparisons overlap, suggesting that the estimated WCPM scores across `scoring methods` are relatively comparable. 
 
 ```{r layout="l-body-outset"}
 knitr::include_graphics("fig_est_means_blog.png")

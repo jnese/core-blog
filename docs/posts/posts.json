@@ -1,7 +1,7 @@
 [
   {
     "path": "posts/2019-04-19-high-accuracy-of-asr-word-scores/",
-    "title": "high-accuracy-of-asr-word-scores",
+    "title": "High Accuracy of Automatic Speech Recogntion (ASR) Word Scores",
     "description": "The purpose of this post is to determine whether there are differences in word score agreement rates between the human scoring criterion versus traditional or ASR scoring of traditional CBM-R and CORE passages.",
     "author": [
       {
@@ -19,7 +19,7 @@
       "Automatic Speech Recognition (ASR)"
     ],
     "preview": "posts/2019-04-19-high-accuracy-of-asr-word-scores/fig_violin_blog.png",
-    "last_modified": "2019-04-22T12:36:26-07:00"
+    "last_modified": "2019-04-22T13:46:44-07:00"
   },
   {
     "path": "posts/2019-04-18-latent-variable-model-for-orf/",
