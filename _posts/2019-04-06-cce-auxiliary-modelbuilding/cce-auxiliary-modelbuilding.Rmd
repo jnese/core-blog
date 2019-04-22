@@ -19,7 +19,7 @@ output:
     self_contained: false
 categories:
   - Content & Convergent Evidence
-preview: POM00000713_316.jpg
+#preview: POM00000713_316.jpg
 ---
 
 ```{r setup, include=FALSE}
