@@ -81,7 +81,20 @@
       "Content & Convergent Evidence"
     ],
     "preview": "posts/2019-04-17-shorter-passages-can-be-used-for-cbmr-assessments/fig_est_means_pssglngth_blog.png",
-    "last_modified": "2019-04-19T14:32:00-07:00"
+    "last_modified": "2019-04-22T20:40:49-07:00"
+  },
+  {
+    "path": "posts/2019-04-22-cbmr-time-differences-between-asr-and-humans/",
+    "title": "Differences in CBM-R Timing: Automatic Speech Recognition (ASR) vs Humans",
+    "description": "The purpose of this post is to determine whether there are scoring method differences in time durations between ASR versus Traditional human scoring of traditional CBM-R and CORE passages.",
+    "author": [],
+    "date": "2019-04-15",
+    "categories": [
+      "Content & Convergent Evidence",
+      "Automatic Speech Recognition (ASR)"
+    ],
+    "preview": "posts/2019-04-22-cbmr-time-differences-between-asr-and-humans/cbmr-time-differences-between-asr-and-humans_files/figure-html5/unnamed-chunk-3-1.png",
+    "last_modified": "2019-04-22T20:41:15-07:00"
   },
   {
     "path": "posts/2019-04-06-cce-auxiliary-modelbuilding/",

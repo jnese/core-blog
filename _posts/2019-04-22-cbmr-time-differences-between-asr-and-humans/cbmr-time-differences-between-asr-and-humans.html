@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Differences in CBM-R Timing: Automatic Speech Recognition (ASR) vs Humans</title>
+  
+  <meta property="description" itemprop="description" content="The purpose of this post is to determine whether there are scoring method differences in time durations between ASR versus Traditional human scoring of traditional CBM-R and CORE passages."/>
+  
+  
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2019-04-15"/>
+  <meta property="article:created" itemprop="dateCreated" content="2019-04-15"/>
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Differences in CBM-R Timing: Automatic Speech Recognition (ASR) vs Humans"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="The purpose of this post is to determine whether there are scoring method differences in time durations between ASR versus Traditional human scoring of traditional CBM-R and CORE passages."/>
+  <meta property="og:locale" content="en_US"/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Differences in CBM-R Timing: Automatic Speech Recognition (ASR) vs Humans"/>
+  <meta property="twitter:description" content="The purpose of this post is to determine whether there are scoring method differences in time durations between ASR versus Traditional human scoring of traditional CBM-R and CORE passages."/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","aauthor","date","output","categories"]}},"value":[{"type":"character","attributes":{},"value":["Differences in CBM-R Timing: Automatic Speech Recognition (ASR) vs Humans"]},{"type":"character","attributes":{},"value":["The purpose of this post is to determine whether there are scoring method differences in time durations between ASR versus Traditional human scoring of traditional CBM-R and CORE passages.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Joseph F. T. Nese"]},{"type":"character","attributes":{},"value":["https://education.uoregon.edu/people/faculty/jnese"]},{"type":"character","attributes":{},"value":["University of Oregon"]},{"type":"character","attributes":{},"value":["https://www.uoregon.edu/"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Akihito Kamata"]},{"type":"character","attributes":{},"value":["https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata"]},{"type":"character","attributes":{},"value":["Southern Methodist University"]},{"type":"character","attributes":{},"value":["https://www.smu.edu/"]}]}]},{"type":"character","attributes":{},"value":["04-15-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth","self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[4]},{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["Content & Convergent Evidence","Automatic Speech Recognition (ASR)"]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["cbmr-time-differences-between-asr-and-humans_files/bowser-1.9.3/bowser.min.js","cbmr-time-differences-between-asr-and-humans_files/distill-2.2.21/template.v2.js","cbmr-time-differences-between-asr-and-humans_files/figure-html5/unnamed-chunk-3-1.png","cbmr-time-differences-between-asr-and-humans_files/jquery-1.11.3/jquery.min.js","cbmr-time-differences-between-asr-and-humans_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for table of contents */
+  
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+  
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+  
+  .d-toc a {
+    border-bottom: none;
+  }
+  
+  .d-toc ul {
+    padding-left: 0;
+  }
+  
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+  
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+  
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+  
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+  
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  
+  
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+  
+  d-code {
+    overflow-x: auto !important;
+  }
+  
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  pre.text-output {
+  
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-code {
+    overflow-x: visible !important;
+  }
+  
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <script src="cbmr-time-differences-between-asr-and-humans_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="cbmr-time-differences-between-asr-and-humans_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="cbmr-time-differences-between-asr-and-humans_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="cbmr-time-differences-between-asr-and-humans_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Differences in CBM-R Timing: Automatic Speech Recognition (ASR) vs Humans","description":"The purpose of this post is to determine whether there are scoring method differences in time durations between ASR versus Traditional human scoring of traditional CBM-R and CORE passages.","authors":[],"publishedDate":"2019-04-15T00:00:00.000-07:00"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Differences in CBM-R Timing: Automatic Speech Recognition (ASR) vs Humans</h1>
+<p>The purpose of this post is to determine whether there are scoring method differences in time durations between ASR versus Traditional human scoring of traditional CBM-R and CORE passages.</p>
+</div>
+
+
+<div class="d-article">
+<h3 class="d-toc-header">Table of Contents</h3>
+<nav class="d-toc" id="TOC">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#summary">Summary</a></li>
+<li><a href="#analysis">Analysis</a></li>
+<li><a href="#results">Results</a></li>
+<li><a href="#acknowledgments">Acknowledgments</a></li>
+</ul>
+</nav>
+<hr class="d-toc-separator"/>
+<h2 id="top" /h2>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<h2 id="introduction">Introduction</h2>
+<p>We examined the differences in two scoring methods for the time duration scores of curriculum-based measurement of oral reading fluency (CBM-R). The two <code>scoring methods</code> were: (1) <code>Traditional</code> - the real-time human scores, comparable to traditional CBM-R assessments in schools; and (2) <code>ASR</code> - automatic speech recognition scores. We also explored the effect of <code>passage length</code> using: (1) <em>easyCBM</em> passages as traditional CBM-R passages of about 250 words read for 60 seconds; and <strong>CORE</strong> passages read in their entirety that were (2) <em>long</em>, about 85 words, (3) <em>medium</em>, about 50 words, and (4) <em>short</em>, about 25 words. These comparisons allowed for the analysis of the potential net gain of ASR compared to current school practices.</p>
+<p>These results are part of our larger <strong>Content &amp; Convergent Evidence Study</strong>. For details about the Content &amp; Convergent Evidence Study procedures, including information on the sample, CBM-R passages, administration, and scoring methods, go <a href="https://jnese.github.io/core-blog/posts/2019-04-04-content-convergent-evidence-study-procedures/">here</a>.</p>
+<p>Passage-level results of words correct per minute (WCPM) scores for comparisons of <code>scoring methods</code> can be found <a href="https://jnese.github.io/core-blog/posts/2019-04-16-asr-can-score-cbmr-assessments/">here</a>, and results comparing <code>passage lengths</code> can be found <a href="https://jnese.github.io/core-blog/posts/2019-04-17-shorter-passages-can-be-used-for-cbmr-assessments/">here</a>.</p>
+<h2 id="summary">Summary</h2>
+<p>We found statistically different differences in time scores between the <code>ASR</code> and <code>Traditional</code> time durations. These differences favor the <code>ASR</code>, under the assumption that the <code>ASR</code> timings – which record the duration of each word and the silences between in centiseconds – are very near precise. The <code>ASR</code> time durations were of course not infallible across the 13,121 audio recordings, but in general and under general assumptions, will be much more accurate than <code>Traditional</code> CBM-R times which are susceptible to many different types of human errors.</p>
+<p>These findings go further to support the application of <code>ASR</code> in schools to score CBM-R assessments.</p>
+<h2 id="analysis">Analysis</h2>
+<p>We applied a mixed-effects model for <strong>time</strong> duration scores separately for each of Grades 2 through 4, with random effects for <code>students</code> and <code>passages</code>, and fixed effects for <code>scoring method</code> (three levels: <em>ASR</em>, <em>Recording</em>, and <em>Traditional</em>), <code>passage length</code> (four levels: <em>easyCBM</em>, <em>short</em>, <em>medium</em>, and <em>long</em>), and their interaction <code>passage length:scoring method</code>. For documentaiton of the model building process go <a href="https://jnese.github.io/core-blog/posts/2019-04-06-cce-auxiliary-modelbuilding/">here</a>.</p>
+<pre><code>
+time ~ 1 + (1|student_id) + (1|passage_id) + 
+           passage_length + scoring_method + passage_length:scoring_method, REML = FALSE))</code></pre>
+<h2 id="results">Results</h2>
+<p>The following table shows the results of the final time duration model, with random effects for <code>students</code> and <code>passages</code>, and fixed effects for <code>passage length</code>, <code>scoring method</code>, and their interaction.</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#mjuabzabft .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #000000;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  /* table.background.color */
+  width: auto;
+  /* table.width */
+  border-top-style: solid;
+  /* table.border.top.style */
+  border-top-width: 2px;
+  /* table.border.top.width */
+  border-top-color: #A8A8A8;
+  /* table.border.top.color */
+}
+
+#mjuabzabft .gt_heading {
+  background-color: #FFFFFF;
+  /* heading.background.color */
+  border-bottom-color: #FFFFFF;
+}
+
+#mjuabzabft .gt_title {
+  color: #000000;
+  font-size: 125%;
+  /* heading.title.font.size */
+  padding-top: 4px;
+  /* heading.top.padding */
+  padding-bottom: 1px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#mjuabzabft .gt_subtitle {
+  color: #000000;
+  font-size: 85%;
+  /* heading.subtitle.font.size */
+  padding-top: 1px;
+  padding-bottom: 4px;
+  /* heading.bottom.padding */
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#mjuabzabft .gt_bottom_border {
+  border-bottom-style: solid;
+  /* heading.border.bottom.style */
+  border-bottom-width: 2px;
+  /* heading.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* heading.border.bottom.color */
+}
+
+#mjuabzabft .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#mjuabzabft .gt_col_heading {
+  color: #000000;
+  background-color: #FFFFFF;
+  /* column_labels.background.color */
+  font-size: 16px;
+  /* column_labels.font.size */
+  font-weight: initial;
+  /* column_labels.font.weight */
+  vertical-align: middle;
+  padding: 10px;
+  margin: 10px;
+}
+
+#mjuabzabft .gt_sep_right {
+  border-right: 5px solid #FFFFFF;
+}
+
+#mjuabzabft .gt_group_heading {
+  padding: 8px;
+  color: #000000;
+  background-color: #FFFFFF;
+  /* stub_group.background.color */
+  font-size: 16px;
+  /* stub_group.font.size */
+  font-weight: initial;
+  /* stub_group.font.weight */
+  border-top-style: solid;
+  /* stub_group.border.top.style */
+  border-top-width: 2px;
+  /* stub_group.border.top.width */
+  border-top-color: #A8A8A8;
+  /* stub_group.border.top.color */
+  border-bottom-style: solid;
+  /* stub_group.border.bottom.style */
+  border-bottom-width: 2px;
+  /* stub_group.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* stub_group.border.bottom.color */
+  vertical-align: middle;
+}
+
+#mjuabzabft .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #000000;
+  background-color: #FFFFFF;
+  /* stub_group.background.color */
+  font-size: 16px;
+  /* stub_group.font.size */
+  font-weight: initial;
+  /* stub_group.font.weight */
+  border-top-style: solid;
+  /* stub_group.border.top.style */
+  border-top-width: 2px;
+  /* stub_group.border.top.width */
+  border-top-color: #A8A8A8;
+  /* stub_group.border.top.color */
+  border-bottom-style: solid;
+  /* stub_group.border.bottom.style */
+  border-bottom-width: 2px;
+  /* stub_group.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* stub_group.border.bottom.color */
+  vertical-align: middle;
+}
+
+#mjuabzabft .gt_striped {
+  background-color: #f2f2f2;
+}
+
+#mjuabzabft .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#mjuabzabft .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#mjuabzabft .gt_row {
+  padding: 10px;
+  /* row.padding */
+  margin: 10px;
+  vertical-align: middle;
+}
+
+#mjuabzabft .gt_stub {
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #A8A8A8;
+  padding-left: 12px;
+}
+
+#mjuabzabft .gt_stub.gt_row {
+  background-color: #FFFFFF;
+}
+
+#mjuabzabft .gt_summary_row {
+  background-color: #FFFFFF;
+  /* summary_row.background.color */
+  padding: 6px;
+  /* summary_row.padding */
+  text-transform: inherit;
+  /* summary_row.text_transform */
+}
+
+#mjuabzabft .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+}
+
+#mjuabzabft .gt_table_body {
+  border-top-style: solid;
+  /* field.border.top.style */
+  border-top-width: 2px;
+  /* field.border.top.width */
+  border-top-color: #A8A8A8;
+  /* field.border.top.color */
+  border-bottom-style: solid;
+  /* field.border.bottom.style */
+  border-bottom-width: 2px;
+  /* field.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* field.border.bottom.color */
+}
+
+#mjuabzabft .gt_footnote {
+  font-size: 90%;
+  /* footnote.font.size */
+  padding: 4px;
+  /* footnote.padding */
+}
+
+#mjuabzabft .gt_sourcenote {
+  font-size: 90%;
+  /* sourcenote.font.size */
+  padding: 4px;
+  /* sourcenote.padding */
+}
+
+#mjuabzabft .gt_center {
+  text-align: center;
+}
+
+#mjuabzabft .gt_left {
+  text-align: left;
+}
+
+#mjuabzabft .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#mjuabzabft .gt_font_normal {
+  font-weight: normal;
+}
+
+#mjuabzabft .gt_font_bold {
+  font-weight: bold;
+}
+
+#mjuabzabft .gt_font_italic {
+  font-style: italic;
+}
+
+#mjuabzabft .gt_super {
+  font-size: 65%;
+}
+
+#mjuabzabft .gt_footnote_glyph {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="mjuabzabft" style="overflow-x:auto;"><!--gt table start-->
+<table class='gt_table'>
+<tr>
+<th class='gt_col_heading gt_center' rowspan='2' colspan='1'></th>
+<th class='gt_col_heading gt_column_spanner gt_sep_right gt_center' rowspan='1' colspan='3'>Grade 2</th>
+<th class='gt_col_heading gt_column_spanner gt_sep_right gt_center' rowspan='1' colspan='3'>Grade 3</th>
+<th class='gt_col_heading gt_column_spanner gt_center' rowspan='1' colspan='3'>Grade 4</th>
+</tr>
+<tr>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>Estimate</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>SE</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>t-value</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>Estimate</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>SE</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>t-value</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>Estimate</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>SE</th>
+<th class='gt_col_heading gt_NA' rowspan='1' colspan='1'>t-value</th>
+</tr>
+<tbody class='gt_table_body'>
+<tr class='gt_group_heading_row'>
+<td colspan='10' class='gt_group_heading'>Fixed Effects</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Intercept<sup class='gt_footnote_glyph'>1</sup></td>
+<td class='gt_row gt_right'>52.49</td>
+<td class='gt_row gt_right'>4.11</td>
+<td class='gt_row gt_right'>12.79</td>
+<td class='gt_row gt_right'>52.63</td>
+<td class='gt_row gt_right'>3.53</td>
+<td class='gt_row gt_right'>14.93</td>
+<td class='gt_row gt_right'>53.55</td>
+<td class='gt_row gt_right'>2.28</td>
+<td class='gt_row gt_right'>23.48</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Long</td>
+<td class='gt_row gt_right gt_striped'>6.76</td>
+<td class='gt_row gt_right gt_striped'>4.18</td>
+<td class='gt_row gt_right gt_striped'>1.62</td>
+<td class='gt_row gt_right gt_striped'>-2.72</td>
+<td class='gt_row gt_right gt_striped'>3.59</td>
+<td class='gt_row gt_right gt_striped'>-0.76</td>
+<td class='gt_row gt_right gt_striped'>-11.37</td>
+<td class='gt_row gt_right gt_striped'>2.31</td>
+<td class='gt_row gt_right gt_striped'>-4.91</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Medium</td>
+<td class='gt_row gt_right'>-16.49</td>
+<td class='gt_row gt_right'>4.13</td>
+<td class='gt_row gt_right'>-3.99</td>
+<td class='gt_row gt_right'>-22.99</td>
+<td class='gt_row gt_right'>3.55</td>
+<td class='gt_row gt_right'>-6.47</td>
+<td class='gt_row gt_right'>-29.15</td>
+<td class='gt_row gt_right'>2.30</td>
+<td class='gt_row gt_right'>-12.68</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Short</td>
+<td class='gt_row gt_right gt_striped'>-31.12</td>
+<td class='gt_row gt_right gt_striped'>4.09</td>
+<td class='gt_row gt_right gt_striped'>-7.60</td>
+<td class='gt_row gt_right gt_striped'>-37.26</td>
+<td class='gt_row gt_right gt_striped'>3.53</td>
+<td class='gt_row gt_right gt_striped'>-10.57</td>
+<td class='gt_row gt_right gt_striped'>-41.03</td>
+<td class='gt_row gt_right gt_striped'>2.28</td>
+<td class='gt_row gt_right gt_striped'>-18.03</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Traditional</td>
+<td class='gt_row gt_right'>3.83</td>
+<td class='gt_row gt_right'>1.25</td>
+<td class='gt_row gt_right'>3.06</td>
+<td class='gt_row gt_right'>4.57</td>
+<td class='gt_row gt_right'>0.99</td>
+<td class='gt_row gt_right'>4.62</td>
+<td class='gt_row gt_right'>3.67</td>
+<td class='gt_row gt_right'>0.90</td>
+<td class='gt_row gt_right'>4.10</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Long:Traditional</td>
+<td class='gt_row gt_right gt_striped'>-6.42</td>
+<td class='gt_row gt_right gt_striped'>1.35</td>
+<td class='gt_row gt_right gt_striped'>-4.74</td>
+<td class='gt_row gt_right gt_striped'>-6.25</td>
+<td class='gt_row gt_right gt_striped'>1.04</td>
+<td class='gt_row gt_right gt_striped'>-6.03</td>
+<td class='gt_row gt_right gt_striped'>-4.96</td>
+<td class='gt_row gt_right gt_striped'>0.93</td>
+<td class='gt_row gt_right gt_striped'>-5.35</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Medium:Traditional</td>
+<td class='gt_row gt_right'>-5.39</td>
+<td class='gt_row gt_right'>1.31</td>
+<td class='gt_row gt_right'>-4.10</td>
+<td class='gt_row gt_right'>-5.93</td>
+<td class='gt_row gt_right'>1.02</td>
+<td class='gt_row gt_right'>-5.82</td>
+<td class='gt_row gt_right'>-4.57</td>
+<td class='gt_row gt_right'>0.92</td>
+<td class='gt_row gt_right'>-4.97</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Short:Traditional</td>
+<td class='gt_row gt_right gt_striped'>-5.26</td>
+<td class='gt_row gt_right gt_striped'>1.28</td>
+<td class='gt_row gt_right gt_striped'>-4.11</td>
+<td class='gt_row gt_right gt_striped'>-5.42</td>
+<td class='gt_row gt_right gt_striped'>1.00</td>
+<td class='gt_row gt_right gt_striped'>-5.39</td>
+<td class='gt_row gt_right gt_striped'>-4.41</td>
+<td class='gt_row gt_right gt_striped'>0.91</td>
+<td class='gt_row gt_right gt_striped'>-4.86</td>
+</tr>
+<tr class='gt_group_heading_row'>
+<td colspan='10' class='gt_group_heading'>Random Effects (SD)</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Students</td>
+<td class='gt_row gt_right'>10.14</td>
+<td class='gt_row gt_right'>–</td>
+<td class='gt_row gt_right'>–</td>
+<td class='gt_row gt_right'>8.53</td>
+<td class='gt_row gt_right'>–</td>
+<td class='gt_row gt_right'>–</td>
+<td class='gt_row gt_right'>5.97</td>
+<td class='gt_row gt_right'>–</td>
+<td class='gt_row gt_right'>–</td>
+</tr>
+<tr>
+<td class='gt_row gt_left gt_striped'>Passages</td>
+<td class='gt_row gt_right gt_striped'>3.96</td>
+<td class='gt_row gt_right gt_striped'>–</td>
+<td class='gt_row gt_right gt_striped'>–</td>
+<td class='gt_row gt_right gt_striped'>3.42</td>
+<td class='gt_row gt_right gt_striped'>–</td>
+<td class='gt_row gt_right gt_striped'>–</td>
+<td class='gt_row gt_right gt_striped'>2.16</td>
+<td class='gt_row gt_right gt_striped'>–</td>
+<td class='gt_row gt_right gt_striped'>–</td>
+</tr>
+<tr>
+<td class='gt_row gt_left'>Residual</td>
+<td class='gt_row gt_right'>8.68</td>
+<td class='gt_row gt_right'>–</td>
+<td class='gt_row gt_right'>–</td>
+<td class='gt_row gt_right'>6.30</td>
+<td class='gt_row gt_right'>–</td>
+<td class='gt_row gt_right'>–</td>
+<td class='gt_row gt_right'>5.03</td>
+<td class='gt_row gt_right'>–</td>
+<td class='gt_row gt_right'>–</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td colspan='10' class='gt_footnote'><sup class='gt_footnote_glyph'><em>1</em></sup> Intercept represents easyCBM passages with ASR time duration.</td>
+</tr>
+</tfoot></table>
+<!--gt table end-->
+</div>
+</div>
+<p>Based on the model’s results, we calculated pairwise comparisons from the estimated marginal means to examine the effects of <code>scoring method</code>.</p>
+<p>The figure below shows the estimated marginal means of <strong>time</strong> for each <code>scoring method</code> by grade and <code>passage length</code>. The 95% confidence intervals for al comparisons overlap, suggesting that the estimated WCPM scores across <code>scoring methods</code> are relatively comparable.</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="cbmr-time-differences-between-asr-and-humans_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
+</div>
+<p>To assist the interpretation of the results of the final model, we also report the statistical significance of the differences in marginal means, as well as Cohen’s (1988) <em>d</em> effect size estimates in the table below.</p>
+<p>We examined the differences in time duration between <code>ASR</code> and <code>Traditional</code> scoring methods and found that all pairwise comparisons were statistically significant at the <em>p</em> = .01 level. On average, the <code>Traditional</code> time duration was greater for the <em>easyCBM</em> passages across grades by about 4 seconds, and lesser for the shorter <strong>CORE</strong> passages by 1 to 2 seconds. An examination of the magnitude of the effect sizes showed quite large effects in duration differences for the <em>easyCBM</em> passages across grades (<em>d</em> = -0.88 to -1.08), and medium effects for the CORE passages (<em>d</em> = 0.10 to 0.14).</p>
+<p>These time estimates directly affect the accuracy and reliability of words correct per minute (WCPM) scores, which has implications for the consequential validity of the decisions based on those scores, including eligibility for targeted instruction, and progress monitoring decisions.</p>
+<h2 id="acknowledgments" class="appendix">Acknowledgments</h2>
+<p>The research reported here was supported by the Institute of Education Sciences, U.S. Department of Education, through Grant <a href="https://ies.ed.gov/funding/grantsearch/details.asp?ID=1492">R305A140203</a> to the University of Oregon. The opinions expressed are those of the authors and do not represent views of the Institute or the U.S. Department of Education.</p>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
