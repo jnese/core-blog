@@ -1,0 +1,247 @@
+---
+title: "Differences in CBM-R Timing: Automatic Speech Recognition (ASR) vs Humans"
+description: |
+  The purpose of this post is to determine whether there are scoring method differences in time durations between ASR versus Traditional human scoring of traditional CBM-R and CORE passages.
+aauthor:
+  - name: Joseph F. T. Nese
+    url: https://education.uoregon.edu/people/faculty/jnese
+    affiliation: University of Oregon
+    affiliation_url: https://www.uoregon.edu/
+  - name: Akihito Kamata
+    url: https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata
+    affiliation: Southern Methodist University
+    affiliation_url: https://www.smu.edu/
+date: 04-15-2019
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    self_contained: false
+categories:
+  - Content & Convergent Evidence
+  - Automatic Speech Recognition (ASR)
+---
+<h2 id="top" /h2>
+
+```{r}
+library(rio)
+library(tidyverse)
+library(stringr)
+library(gt)
+library(knitr)
+library(ggthemes)
+library(numform)
+```
+
+## Introduction
+
+We examined the differences in two scoring methods for the time duration scores of curriculum-based measurement of oral reading fluency (CBM-R). The two `scoring methods` were: (1) `Traditional` - the real-time human scores, comparable to traditional CBM-R assessments in schools; and (2) `ASR` - automatic speech recognition scores. We also explored the effect of `passage length` using: (1) *easyCBM* passages as traditional CBM-R passages of about 250 words read for 60 seconds; and **CORE** passages read in their entirety that were (2) *long*, about 85 words, (3) *medium*, about 50 words, and (4) *short*, about 25 words. These comparisons allowed for the analysis of the potential net gain of ASR compared to current school practices. 
+
+These results are part of our larger **Content & Convergent Evidence Study**. For details about the Content & Convergent Evidence Study procedures, including information on the sample, CBM-R passages, administration, and scoring methods, go [here](https://jnese.github.io/core-blog/posts/2019-04-04-content-convergent-evidence-study-procedures/).
+
+Passage-level results of words correct per minute (WCPM) scores for comparisons of `scoring methods` can be found [here](https://jnese.github.io/core-blog/posts/2019-04-16-asr-can-score-cbmr-assessments/), and results comparing `passage lengths` can be found [here](https://jnese.github.io/core-blog/posts/2019-04-17-shorter-passages-can-be-used-for-cbmr-assessments/).
+
+## Summary
+
+We found statistically different differences in time scores between the `ASR` and `Traditional` time durations. These differences favor the `ASR`, under the assumption that the `ASR` timings – which record the duration of each word and the silences between in centiseconds – are very near precise. The `ASR` time durations were of course not infallible across the 13,121 audio recordings, but in general and under general assumptions, will be much more accurate than `Traditional` CBM-R times which are susceptible to many different types of human errors. 
+
+These findings go further to support the application of `ASR` in schools to score CBM-R assessments. 
+
+## Analysis
+
+We applied a mixed-effects model for **time** duration scores separately for each of Grades 2 through 4, with random effects for `students` and `passages`, and fixed effects for `scoring method` (three levels: *ASR*, *Recording*, and *Traditional*), `passage length` (four levels: *easyCBM*, *short*, *medium*, and *long*), and their interaction `passage length:scoring method`. For documentaiton of the model building process go [here](https://jnese.github.io/core-blog/posts/2019-04-06-cce-auxiliary-modelbuilding/).
+
+```
+time ~ 1 + (1|student_id) + (1|passage_id) + 
+           passage_length + scoring_method + passage_length:scoring_method, REML = FALSE))
+```
+
+## Results
+
+The following table shows the results of the final time duration model, with random effects for `students` and `passages`, and fixed effects for `passage length`, `scoring method`, and their interaction.
+
+```{r layout="l-body-outset"}
+time_fixd_effcts <- import("C:/Users/Joe/Desktop/BRT/GRANT-CORE/Project/Publications/year_1_2_project/data/time_fixd_effcts.Rdata")
+
+time_fixd_effcts %>% 
+  select(grade, tidy_results) %>%
+  spread(grade, tidy_results) %>% 
+  unnest() %>% 
+  select(-term1, -term2) %>% 
+  gt() %>% 
+  fmt_missing(
+    columns = TRUE,
+    missing_text = "--") %>% 
+  fmt_number(
+    columns = 2:10,
+    decimals = 2
+  ) %>% 
+  tab_spanner(label = "Grade 2",
+              columns = vars(estimate, std.error, statistic)) %>% 
+  tab_spanner(label = "Grade 3",
+              columns = vars(estimate1, std.error1, statistic1)) %>% 
+  tab_spanner(label = "Grade 4",
+              columns = vars(estimate2, std.error2, statistic2)) %>% 
+  text_transform(
+    locations = cells_data(
+      columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace_all(x, "passage_length", "")
+    }
+  ) %>% 
+  text_transform(
+    locations = cells_data(
+      columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace(x, "\\s*\\([^\\)]+\\)", "Intercept")
+    }
+  ) %>% 
+  text_transform(
+    locations = cells_data(
+      columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace_all(x, "modesecs_", "")
+    }
+  ) %>%
+  text_transform(
+    locations = cells_data(
+      columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace_all(x, "sd_Intercept.", "")
+    }
+  ) %>%
+  text_transform(
+    locations = cells_data(
+      columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace_all(x, "sd_Observation.", "")
+    }
+  ) %>%
+  text_transform(
+    locations = cells_data(
+      columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace_all(x, "long", "Long")
+    }
+  ) %>% 
+  text_transform(
+    locations = cells_data(
+      columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace_all(x, "medium", "Medium")
+    }
+  ) %>% 
+  text_transform(
+    locations = cells_data(
+      columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace_all(x, "short", "Short")
+    }
+  ) %>% 
+   text_transform(
+    locations = cells_data(
+      columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace_all(x, "during2", "Traditional")
+    }
+  ) %>% 
+  text_transform(
+    locations = cells_data(
+      columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace_all(x, "student_id2", "Students")
+    }
+  ) %>% 
+  text_transform(
+    locations = cells_data(
+      columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace_all(x, "passage_id", "Passages")
+    }
+  ) %>% 
+  tab_row_group(
+    group = "Fixed Effects",
+    row = c(1:8)
+  ) %>% 
+  tab_row_group(
+    group = "Random Effects (SD)",
+    row = c(9:11)
+  ) %>% 
+  cols_label(
+    estimate = "Estimate",
+    std.error = "SE",
+    statistic = "t-value",
+    estimate1 = "Estimate",
+    std.error1 = "SE",
+    statistic1 = "t-value",
+    estimate2 = "Estimate",
+    std.error2 = "SE",
+    statistic2 = "t-value",
+    term = ""
+  ) %>% 
+  fmt_missing(
+      columns = TRUE,
+      missing_text = "--") %>% 
+  fmt_number(
+      columns = 2:10,
+      decimals = 2
+    ) %>% 
+  tab_footnote(footnote = "Intercept represents easyCBM passages with ASR time duration.",
+                locations = cells_data(
+                  columns = c(1),
+                  rows = c(1)))
+```
+
+Based on the model's results, we calculated pairwise comparisons from the estimated marginal means to examine the effects of `scoring method`.
+
+The figure below shows the estimated marginal means of **time** for each `scoring method` by grade and `passage length`. The 95% confidence intervals for al comparisons overlap, suggesting that the estimated WCPM scores across `scoring methods` are relatively comparable.
+
+```{r layout="l-body-outset"}
+dat03 <- import("C:/Users/Joe/Desktop/BRT/GRANT-CORE/Project/Publications/year_1_2_project/data/dat03.RData")
+
+dat03 %>% 
+  as_tibble() %>% 
+  select(student_id2, grade, passage_id, passage_length,
+         secs_asr602, secs_during2) %>%
+  gather(key=mode, value=time, 5:6) %>% 
+  arrange(student_id2, passage_id) %>% 
+  
+  group_by(grade, mode, passage_length) %>% 
+  summarise(time_mean = mean(time),
+            time_sd = sd(time),
+            asymp.LCL = time_mean - (1.96*time_sd),
+            asymp.UCL = time_mean + (1.96*time_sd)) %>%  
+  ungroup() %>% 
+  mutate(mode = case_when(mode == "secs_asr602" ~ "ASR",
+                          mode == "secs_during2" ~ "Traditional"),
+         grade = recode(grade,
+                        '2' = "Grade 2",
+                        '3' = "Grade 3",
+                        '4' = "Grade 4")) %>%
+  ggplot(aes(x=passage_length, y=time_mean, group=mode, colour=mode)) + 
+  facet_wrap(~grade) +
+  geom_point(position=position_dodge(width=0.5)) +
+  geom_errorbar(aes(ymin = asymp.LCL, ymax = asymp.UCL),
+                position=position_dodge(width=0.5)) +
+  theme_bw() +
+  theme(strip.background = element_rect(colour = "black", fill = "white")) +
+  labs(
+    x = "Passage Length",
+    y = "Time Duration (seconds)") +
+  guides(color = guide_legend(title = "")) +
+  scale_color_solarized('blue', name = "") +
+  theme(axis.text.x=element_text(angle = 45, hjust = 1))
+```
+
+To assist the interpretation of the results of the final model, we also report the statistical significance of the differences in marginal means, as well as Cohen’s (1988) *d* effect size estimates in the table below.
+
+We examined the differences in time duration between `ASR` and `Traditional` scoring methods and found that all pairwise comparisons were statistically significant at the *p* = .01 level. On average, the `Traditional` time duration was greater for the *easyCBM* passages across grades by about 4 seconds, and lesser for the shorter **CORE** passages by 1 to 2 seconds. An examination of the magnitude of the effect sizes showed quite large effects in duration differences for the *easyCBM* passages across grades (*d* = -0.88 to -1.08), and medium effects for the CORE passages (*d* = 0.10 to 0.14). 
+
+These time estimates directly affect the accuracy and reliability of words correct per minute (WCPM) scores, which has implications for the consequential validity of the decisions based on those scores, including eligibility for targeted instruction, and progress monitoring decisions. 
+
+## Acknowledgments {.appendix}
+
+The research reported here was supported by the Institute of Education Sciences, U.S. Department of Education, through Grant [R305A140203](https://ies.ed.gov/funding/grantsearch/details.asp?ID=1492) to the University of Oregon. The opinions expressed are those of the authors and do not represent views of the Institute or the U.S. Department of Education.
+
+
+

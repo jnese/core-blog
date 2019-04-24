@@ -1,5 +1,27 @@
 [
   {
+    "path": "posts/2019-04-19-high-accuracy-of-asr-word-scores/",
+    "title": "High Accuracy of Automatic Speech Recogntion (ASR) Word Scores",
+    "description": "The purpose of this post is to determine whether there are differences in word score agreement rates between the human scoring criterion versus traditional or ASR scoring of traditional CBM-R and CORE passages.",
+    "author": [
+      {
+        "name": "Joseph F. T. Nese",
+        "url": "https://education.uoregon.edu/people/faculty/jnese"
+      },
+      {
+        "name": "Akihito Kamata",
+        "url": "https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata"
+      }
+    ],
+    "date": "2019-04-19",
+    "categories": [
+      "Content & Convergent Evidence",
+      "Automatic Speech Recognition (ASR)"
+    ],
+    "preview": "posts/2019-04-19-high-accuracy-of-asr-word-scores/fig_violin_blog.png",
+    "last_modified": "2019-04-22T14:46:42-07:00"
+  },
+  {
     "path": "posts/2019-04-18-latent-variable-model-for-orf/",
     "title": "Latent Variable Model for ORF",
     "description": "In this post, we will describe the latent variable model that we have developed and adopted for CORE passages.",
@@ -16,7 +38,63 @@
     "date": "2019-04-18",
     "categories": [],
     "preview": {},
-    "last_modified": "2019-04-18T12:53:54-05:00"
+    "last_modified": "2019-04-19T11:38:46-07:00"
+  },
+  {
+    "path": "posts/2019-04-16-asr-can-score-cbmr-assessments/",
+    "title": "Automatic Speech Recognition (ASR) can be Applied in Schools to Score CBM-R Assessments",
+    "description": "The purpose of this post is to determine whether there are scoring method differences in WCPM between the human scoring criterion versus traditional or ASR scoring of traditional CBM-R and CORE passages.",
+    "author": [
+      {
+        "name": "Joseph F. T. Nese",
+        "url": "https://education.uoregon.edu/people/faculty/jnese"
+      },
+      {
+        "name": "Akihito Kamata",
+        "url": "https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata"
+      }
+    ],
+    "date": "2019-04-16",
+    "categories": [
+      "Content & Convergent Evidence",
+      "Automatic Speech Recognition (ASR)"
+    ],
+    "preview": "posts/2019-04-16-asr-can-score-cbmr-assessments/fig_est_means_blog.png",
+    "last_modified": "2019-04-19T14:32:23-07:00"
+  },
+  {
+    "path": "posts/2019-04-17-shorter-passages-can-be-used-for-cbmr-assessments/",
+    "title": "Shorter Passages Can Be Used for CBM-R Assessments",
+    "description": "The purpose of this post is to determine whether there are passage length differences in WCPM between traditional CBM-R passages and shorter CORE passages.",
+    "author": [
+      {
+        "name": "Joseph F. T. Nese",
+        "url": "https://education.uoregon.edu/people/faculty/jnese"
+      },
+      {
+        "name": "Akihito Kamata",
+        "url": "https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata"
+      }
+    ],
+    "date": "2019-04-16",
+    "categories": [
+      "Content & Convergent Evidence"
+    ],
+    "preview": "posts/2019-04-17-shorter-passages-can-be-used-for-cbmr-assessments/fig_est_means_pssglngth_blog.png",
+    "last_modified": "2019-04-22T20:40:49-07:00"
+  },
+  {
+    "path": "posts/2019-04-22-cbmr-time-differences-between-asr-and-humans/",
+    "title": "Differences in CBM-R Timing: Automatic Speech Recognition (ASR) vs Humans",
+    "description": "The purpose of this post is to determine whether there are scoring method differences in time durations between ASR versus Traditional human scoring of traditional CBM-R and CORE passages.",
+    "author": [],
+    "date": "2019-04-15",
+    "categories": [
+      "Content & Convergent Evidence",
+      "Automatic Speech Recognition (ASR)"
+    ],
+    "preview": "posts/2019-04-22-cbmr-time-differences-between-asr-and-humans/cbmr-time-differences-between-asr-and-humans_files/figure-html5/unnamed-chunk-3-1.png",
+    "last_modified": "2019-04-22T20:41:15-07:00"
   },
   {
     "path": "posts/2019-04-06-cce-auxiliary-modelbuilding/",
@@ -37,27 +115,12 @@
       "Content & Convergent Evidence"
     ],
     "preview": "posts/2019-04-06-cce-auxiliary-modelbuilding/POM00000713.jpg",
-    "last_modified": "2019-04-10T09:35:14-07:00"
-  },
-  {
-    "path": "posts/welcome/",
-    "title": "Welcome to CORE Study Blog",
-    "description": "Welcome to our new blog, CORE Study Blog. We hope you enjoy \nreading what we have to say!",
-    "author": [
-      {
-        "name": "Nora Jones",
-        "url": "https://example.com/norajones"
-      }
-    ],
-    "date": "2019-04-04",
-    "categories": [],
-    "preview": {},
-    "last_modified": "2019-04-04T10:38:44-07:00"
+    "last_modified": "2019-04-10T09:35:15-07:00"
   },
   {
     "path": "posts/2019-04-04-content-convergent-evidence-study-procedures/",
     "title": "Study Procedures: Content & Convergent Evidence",
-    "description": "The purpose of this study is to compare oral reading fluency (CBM-R) scores as generated by an ASR engine compared to human assessor scores, and to compare the shorter CORE passages to traditional CBM-R passages.",
+    "description": "The purpose of this post is to provide a detailed description of the Content & Convergent Evidence Study procedures.",
     "author": [
       {
         "name": "Joseph F. T. Nese",
@@ -72,7 +135,7 @@
     "categories": [
       "Content & Convergent Evidence"
     ],
-    "preview": "posts/2019-04-04-content-convergent-evidence-study-procedures/content-convergent-evidence-study-procedures_files/figure-html5/unnamed-chunk-3-1.png",
-    "last_modified": "2019-04-06T15:32:11-07:00"
+    "preview": "posts/2019-04-04-content-convergent-evidence-study-procedures/content-convergent-evidence-study-procedures_files/figure-html5/unnamed-chunk-4-1.png",
+    "last_modified": "2019-04-19T11:33:40-07:00"
   }
 ]
