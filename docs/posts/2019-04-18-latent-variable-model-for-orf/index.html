@@ -54,7 +54,7 @@
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["latent-variable-model-for-orf_files/bowser-1.9.3/bowser.min.js","latent-variable-model-for-orf_files/distill-2.2.21/template.v2.js","latent-variable-model-for-orf_files/jquery-1.11.3/jquery.min.js","latent-variable-model-for-orf_files/webcomponents-2.0.0/webcomponents.js","r-references.bib"]}
+  {"type":"character","attributes":{},"value":["FigureEq.png","latent-variable-model-for-orf_files/bowser-1.9.3/bowser.min.js","latent-variable-model-for-orf_files/distill-2.2.21/template.v2.js","latent-variable-model-for-orf_files/jquery-1.11.3/jquery.min.js","latent-variable-model-for-orf_files/webcomponents-2.0.0/webcomponents.js","r-references.bib"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 
@@ -1284,7 +1284,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Latent Variable Model for ORF","description":"In this post, we will describe the latent variable model that we have developed and adopted for CORE passages.","authors":[{"author":"Akihito Kamata","authorURL":"https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata","affiliation":"&nbsp;","affiliationURL":"#"},{"author":"Joseph F. T. Nese","authorURL":"https://education.uoregon.edu/people/faculty/jnese","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-04-18T00:00:00.000-07:00","citationText":"Kamata & Nese, 2019"}
+{"title":"Latent Variable Model for ORF","description":"In this post, we will describe the latent variable model that we have developed and adopted for CORE passages.","authors":[{"author":"Akihito Kamata","authorURL":"https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata","affiliation":"&nbsp;","affiliationURL":"#"},{"author":"Joseph F. T. Nese","authorURL":"https://education.uoregon.edu/people/faculty/jnese","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-04-18T00:00:00.000-05:00","citationText":"Kamata & Nese, 2019"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1356,6 +1356,9 @@ f(t_{ij};\tau_j,\alpha_i,\beta_i)= \frac{\alpha_i}{t_{ij}\sqrt{2\pi}} \exp\left 
 \sigma^2_{\alpha a} &amp; \sigma^2_{\alpha b} &amp; \sigma^2_\alpha &amp; \\ 
 \sigma^2_{\beta\alpha} &amp; \sigma^2_{\beta b} &amp; \sigma^2_{\beta \alpha} &amp; \sigma^2_\beta
 \end{bmatrix}.\]</span> For model identification, it is reasonable to impose constraints such as <span class="math inline">\(\mu_\theta=0\)</span>, <span class="math inline">\(\sigma_\theta^2=1\)</span>, and <span class="math inline">\(\mu_\tau=0\)</span>.</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="FigureEq.png" width="338" /></p>
+</div>
 <div id="refs" class="references">
 <div id="ref-potgieter2018">
 <p>Potgieter, N, A Kamata, and Y Kara. 2018. “An Em Algorithm for Estimating an Oral Reading Speed and Accuracy Model.” Manuscript submitted for publication.</p>
@@ -1494,7 +1497,7 @@ f(t_{ij};\tau_j,\alpha_i,\beta_i)= \frac{\alpha_i}{t_{ij}\sqrt{2\pi}} \exp\left 
 }
 @Book{sat2003,
   author = {{Harcourt Brace}},
-  title = {Stanford Achievement Testâ€”Tenth Edition: Technical data report},
+  title = {Stanford Achievement Test—Tenth Edition: Technical data report},
   year = {2003},
   publisher = {Author},
   address = {San Antonio, TX}
@@ -1651,7 +1654,7 @@ in tests of van der Linden},
 }
 @Manual{R-dplyr,
   title = {dplyr: A Grammar of Data Manipulation},
-  author = {Hadley Wickham and Romain FranÃ§ois and Lionel Henry and Kirill MÃ¼ller},
+  author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller},
   year = {2019},
   note = {R package version 0.8.0.1},
   url = {https://CRAN.R-project.org/package=dplyr},
@@ -1703,7 +1706,7 @@ in tests of van der Linden},
 }
 @Manual{R-tibble,
   title = {tibble: Simple Data Frames},
-  author = {Kirill MÃ¼ller and Hadley Wickham},
+  author = {Kirill Müller and Hadley Wickham},
   year = {2019},
   note = {R package version 2.0.1},
   url = {https://CRAN.R-project.org/package=tibble},
