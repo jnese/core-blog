@@ -73,3 +73,7 @@ $$\Sigma_I=\begin{bmatrix}
 \sigma^2_{\beta\alpha} & \sigma^2_{\beta b} & \sigma^2_{\beta \alpha} & \sigma^2_\beta
 \end{bmatrix}.$$
 For model identification, it is reasonable to impose constraints such as $\mu_\theta=0$, $\sigma_\theta^2=1$, and $\mu_\tau=0$.
+
+```{r layout="l-body-outset"}
+knitr::include_graphics("FigureEq.png")
+```
