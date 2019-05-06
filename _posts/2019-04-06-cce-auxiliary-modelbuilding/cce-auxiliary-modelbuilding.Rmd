@@ -19,7 +19,7 @@ output:
     self_contained: false
 categories:
   - Content & Convergent Evidence
-#preview: POM00000713_316.jpg
+preview: <i class="fas fa-tools"></i> 
 ---
 
 ```{r setup, include=FALSE}
@@ -113,7 +113,8 @@ Here are the **WCPM** results for Grades 2 through 4 for the model with a random
 
 <aside>
 ```{r, eval=FALSE, echo=TRUE}
-lmer(wcpm ~ 1 + (1|student_id), data = ., REML = F)
+lmer(wcpm ~ 1 + (1|student_id), 
+     data = ., REML = F)
 ```
 </aside>
 
@@ -128,7 +129,8 @@ Here are the **WCPM** results for Grades 2 through 4 for the model with a random
 
 <aside>
 ```{r, eval=FALSE, echo=TRUE}
-lmer(wcpm ~ 1 + (1|passage_id), data = ., REML = F)
+lmer(wcpm ~ 1 + (1|passage_id), 
+     data = ., REML = F)
 ```
 </aside>
 
@@ -143,7 +145,8 @@ Here are the **WCPM** results for Grades 2 through 4 for the model with a random
 
 <aside>
 ```{r, eval=FALSE, echo=TRUE}
-lmer(wcpm ~ 1 + (1|student_id) + (1|passage_id), data = ., REML = F)
+lmer(wcpm ~ 1 + (1|student_id) + (1|passage_id), 
+     data = ., REML = F)
 ```
 </aside>
 
@@ -224,7 +227,8 @@ Here are the **time** results for Grades 2 through 4 for the model with a random
 
 <aside>
 ```{r, eval=FALSE, echo=TRUE}
-lmer(time ~ 1 + (1|student_id), data = ., REML = F)
+lmer(time ~ 1 + (1|student_id), 
+     data = ., REML = F)
 ```
 </aside>
 
@@ -239,7 +243,8 @@ Here are the **time** results for Grades 2 through 4 for the model with a random
 
 <aside>
 ```{r, eval=FALSE, echo=TRUE}
-lmer(time ~ 1 + (1|passage_id), data = ., REML = F)
+lmer(time ~ 1 + (1|passage_id), 
+     data = ., REML = F)
 ```
 </aside>
 
@@ -254,7 +259,8 @@ Here are the **time** results for Grades 2 through 4 for the model with a random
 
 <aside>
 ```{r, eval=FALSE, echo=TRUE}
-lmer(time ~ 1 + (1|student_id) + (1|passage_id), data = ., REML = F)
+lmer(time ~ 1 + (1|student_id) + (1|passage_id), 
+     data = ., REML = F)
 ```
 </aside>
 
@@ -309,7 +315,8 @@ To the model with random effects for `student` and `passages`, we then added fix
 
 <aside>
 ```{r, eval=FALSE, echo=TRUE}
-lmer(time ~ 1 + (1|student_id) + (1|passage_id), data = ., REML = F)
+lmer(time ~ 1 + (1|student_id) + (1|passage_id), 
+     data = ., REML = F)
 ```
 </aside>
 
@@ -350,8 +357,10 @@ Here are the **WCPM** results for Grades 2 through 4 for the model with a random
 
 <aside>
 ```{r, eval=FALSE, echo=TRUE}
-lmer(wcpm ~ 1 + (1|student_id) + (1|passage_id) + 
-                          passage_length + scoring_method, data = ., REML = F))
+lmer(wcpm ~ 1 + (1|student_id) + (1|passage_id) +
+       passage_length + 
+       scoring_method, 
+     data = ., REML = F))
 ```
 </aside>
 
@@ -366,8 +375,11 @@ And here are the **WCPM** results for Grades 2 through 4 for the model with a ra
 
 <aside>
 ```{r, eval=FALSE, echo=TRUE}
-lmer(wcpm ~ 1 + (1|student_id) + (1|passage_id) + 
-                          passage_length + scoring_method + passage_length:scoring_method, data = ., REML = F))
+lmer(wcpm ~ 1 + (1|student_id) + (1|passage_id) +
+       passage_length + 
+       scoring_method + 
+       passage_length:scoring_method, 
+     data = ., REML = F))
 ```
 </aside>
 
@@ -423,8 +435,10 @@ Here are the **time** results for Grades 2 through 4 for the model with a random
 
 <aside>
 ```{r, eval=FALSE, echo=TRUE}
-lmer(time ~ 1 + (1|student_id) + (1|passage_id) + 
-                          passage_length + scoring_method, data = ., REML = F))
+lmer(time ~ 1 + (1|student_id) + (1|passage_id) +
+       passage_length + 
+       scoring_method, 
+     data = ., REML = F))
 ```
 </aside>
 
@@ -439,8 +453,11 @@ And here are the **time** results for Grades 2 through 4 for the model with a ra
 
 <aside>
 ```{r, eval=FALSE, echo=TRUE}
-lmer(time ~ 1 + (1|student_id) + (1|passage_id) + 
-                          passage_length + scoring_method + passage_length:scoring_method, data = ., REML = F))
+lmer(time ~ 1 + (1|student_id) + (1|passage_id) +
+       passage_length + 
+       scoring_method + 
+       passage_length:scoring_method, 
+     data = ., REML = F))
 ```
 </aside>
 
