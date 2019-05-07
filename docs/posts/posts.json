@@ -1,5 +1,24 @@
 [
   {
+    "path": "posts/2019-05-07-calibration-equating-linking-study-procedures/",
+    "title": "calibration-equating-linking-study-procedures",
+    "description": "The purpose of this post is to provide a detailed description of the Calibration, Equating, Linking Study procedures.",
+    "author": [
+      {
+        "name": "Joseph F. T. Nese",
+        "url": "https://education.uoregon.edu/people/faculty/jnese"
+      },
+      {
+        "name": "Akihito Kamata",
+        "url": "https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata"
+      }
+    ],
+    "date": "2019-05-07",
+    "categories": [],
+    "preview": {},
+    "last_modified": "2019-05-07T16:17:24-07:00"
+  },
+  {
     "path": "posts/2019-04-19-high-accuracy-of-asr-word-scores/",
     "title": "High Accuracy of Automatic Speech Recogntion (ASR) Word Scores",
     "description": "The purpose of this post is to determine whether there are differences in word score agreement rates between the human scoring criterion versus traditional or ASR scoring of traditional CBM-R and CORE passages.",

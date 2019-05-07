@@ -1,0 +1,222 @@
+---
+title: "calibration-equating-linking-study-procedures"
+description: |
+  The purpose of this post is to provide a detailed description of the Calibration, Equating, Linking Study procedures.
+author:
+  - name: Joseph F. T. Nese
+    url: https://education.uoregon.edu/people/faculty/jnese
+    affiliation: University of Oregon
+    affiliation_url: https://www.uoregon.edu/
+  - name: Akihito Kamata
+    url: https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata
+    affiliation: Southern Methodist University
+    affiliation_url: https://www.smu.edu/
+date: 05-07-2019
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    self_contained: false
+---
+
+<h2 id="top" /h2>
+
+```{r}
+library(rio)
+library(tidyverse)
+library(stringr)
+library(gt)
+library(knitr)
+library(ggthemes)
+library(numform)
+```
+
+# Study Purpose
+
+The purpose of this study was to equate and link – across Grades 3 through 4 – passage parameters within and across the CORE passages. We administered one **calibration** form and one **equating/linking** form for each examinee, where a **calibration** form consisted of 3 *long* and 3 *medium* passages, and an **equating/linking** form consisted of 1 *long* and 1 *medium* passage (for Grades 2 and 4) or 2 *long* and 2 *medium* passage (for Grade 3).
+
+The data collection was designed such that all passage parameters within and across the CORE passages (long and medium) are equated, and scores are linked scores across the three grade levels. This study allows for calibrating passage parameters that are placed on a common scale, as well as fluency estimates that are also on the same scale across grade levels (i.e., vertically linked). This approach provides more advantage for across-grade-level growth analysis of students oral reading fluency scores. Note that equating will make passages exchangeable, however, linking will not. Although we will vertically link fluency scores between grade levels to allow us to progress-monitor across multiple grade levels, it does not guarantee exchangeability of passages between grade levels. In order to claim vertical “equating” to make passages exchangeable across grade level, we will have to have a strong argument that the construct that passages are measuring are identical across grade level. Although it is likely the case, we will take a conservative approach and not make that strong assumption.
+
+# Method
+
+This study was conducted in the springs of 2017 and 2018. We were unable to meet the targeted sample size in 2017, so we conducted a replication study in 2018 to accrue the remaining student participants. (The 2018 replication ran concurrently with the [Consequential Validity Study]()). Note that we will also use data from the 2019 CORE to increase the sample size.
+
+Data were collected between February 20 - March 10, 2017, and between February 12 - March 23, 2018. 
+
+Below we describe the study procedure, and note any design differences between the years.
+
+## Sample
+
+In 2017, we recruited three school districts for participation, and in 2018 we recruited three school districts. District A has less than 3,000 students, about 3% EL students and 19% students with IEPs (Town: Distant). District B has about 11,000 students, about 6% EL students and 17% students with IEPs (Suburb: Midsize). District C has about 17,400 students, about 3% EL students and 15% students with IEPs (City: Midsize). District D has about 4,600 students, about 4% EL students and 16% students with IEPs (City: Midsize). District E has about 4,400 students, about 14% EL students and 16% students with IEPs (Town: Distant). We worked with Districts A and B in the prior two years of the project (2014-15 and 2015-16).
+
+We targeted the largest elementary schools within two districts because (a) we needed such a large number of student participants that it was desirable to have all Grade 2 – 4 classrooms in a school participate, and (b) because the budget called for schools to share a set of 30 headsets with noise-cancelling microphones, it was most beneficial to share one set of headphones across as many classrooms as possible.
+
+Data for this study to date include approximately 2,094 students and approximately 26,272 audio files (where each passage read is a file). 
+
+The table below details the number of schools, teachers, and the approximate number of students who participated in this study.
+
+```{r sample_table}
+
+samp_tab <- tibble::tribble(
+    ~Year, ~'School District', ~Schools, ~Teachers, ~'Approximate Students',
+   "2017",              "District A",        1,        10,                   158,
+   "2017",              "District B",        6,        55,                   662,
+   "2017",              "District C",        4,        18,                   414,
+   "2018",              "District D",        1,        11,                   256,
+   "2018",              "District E",        2,        25,                   462,
+   "2018",              "District A",        1,         9,                   142,
+  "",               "Total",       15,       128,                  2094
+  )
+
+samp_tab %>% 
+  group_by(Year) %>% 
+  gt() %>% 
+ fmt_number(
+    columns = vars('Approximate Students'),
+    sep_mark = ",",
+             decimals = 0)
+```
+
+Participating districts received a reduction in the annual cost of the district version of [easyCBM]( https://easycbm.com/). Schools were compensated \$100 per participating classroom to maximize the number of teacher participants within each school (in order to maximize the number of students who could share a set of headsets and minimize the number of headsets purchased). In addition, all participating teachers were paid a research incentive (\$50 gift card) for completing a survey about the assessment process.
+
+For teacher participants we used the active informed consent procedure, by which we provided the teachers with a written document containing all the required elements of informed consent that gives teachers the opportunity and sufficient time to provide permission. For student participants we used (a) the passive parental consent procedure, by which caregivers were provided with a written document containing all the required elements of informed notification within two weeks of the study start date (giving caregivers the opportunity and sufficient time to opt-out of providing permission), and (b) assent from student participants, by which an assent form appeared to each student before online reading began and students were asked to click whether they were willing to participate in the study before they could continue. 
+
+## Measures
+
+### CORE assessment
+
+*For more detailed information about CORE passage development, please see the [Study Procedures for the Content & Convergent Evidence Study]( https://jnese.github.io/core-blog/posts/2019-04-04-content-convergent-evidence-study-procedures/#core-assessment).*
+
+Passages were written with the following specifications. Each passage was to be an original work of fiction, and be ±5 words of the target length (i.e., *short* = 25 words, *medium* = 50 words, *long* = 85 words). Each passage was to have a beginning, middle, and end; this broad specification was intended to give the passage writer freedom in meeting the word constraint specification, which was crucial in this project. 
+
+Final passages included 330 passages total, 110 at each of Grades 2-4, with 20 *long* passages, 30 *medium* passages, and 60 *short* passages for each grade.
+
+We decided to exclude the *short* passages (≈ 25 words) from this study for three reasons. First, the results of our [Teacher Survey of the Accessibility and Text Features of the Computerized Oral Reading Evaluation (CORE)]( https://www.brtprojects.org/wp-content/uploads/2016/05/TechRpt_1601TeacherSurveyCORE.pdf) suggested that our the CORE short passages are most appropriate for Grade 2 students and the CORE *long* and *medium* passages were preferred by teachers for students in Grades 3 and 4. Second, our preliminary psychometric analyses revealed that more words read by a student will increase reliability of the scale score, and this does not depend on passage length (i.e., 200 words from *short* passages or from *medium* passages are equally reliable). Third, we determined that our original plan that consisted of administering 4 *long*, 7 **medium, and 12 *short* passages would take too much time and be too burdensome on teachers and students, particularly low-performing students.
+
+## Procedures
+
+The project website was programmed to accommodate the study design. This consists of a **log-in** for teachers to upload their classroom roster. 
+
+Teachers gave students a quick overview of what they would be doing. 
+
+> “Today we are going to have you read some short passages on a computer. You are going to help researchers at the University of Oregon see if computers can be used to listen how students read. You will be wearing head sets so the computer can listen to the readings. Just do your best reading.”
+
+Teachers made sure the mute buttons were not switched on, that the volume was turned up so students could hear the directions, and that the microphones were about an inch away from the students’ mouths, and asked them not to touch it while they read.
+
+Students were directed to go to the study website. The first page showed a student assent form, where students clicked whether they would like to participate. If they clicked **Yes** the testing continued. If they clicked **No** they were opted-out of the study. 
+
+The study instructions were then be presented via audio as well as print. 
+
+> “Get ready, [student name]! You are about to do some reading! After pressing start, read the story on the screen. When you are finished click done. Do your best reading, and have fun!”
+
+Students clicked **Start** to begin reading, and were randomly assigned to a fixed set of passages. Student then read each passage aloud, and progressed through each of the study’s 10 to 12 passages. Students clicked **Done** after reading a passage, and the system automatically advanced a student to the next screen after 90 seconds (with a 10 second warning). Students clicked **Continue** to read the next passage, and the system automatically advanced a student to the next passage after 10 seconds. The purpose of automatically advancing students was to ensure students, particularly low-performing readers, were not burdened with the task and did not take an excessive amount of time to complete the task. 
+
+Collected data for the purpose of the study included, for all passages: duration and digital audio recording (which will be scored by the automated speech recognition engine). Audio recordings of fluency readings can be used for the purposes of scoring, data analysis, improving the scoring engine, and equating all passages within each grade, as well as linking all passages across grades. 
+
+### Form Assembly Design
+
+The tables below shows form assembly design.
+
+We administered one **calibration** form and one **equating/linking** form to each student, where: a **calibration** form consisted of 3 *long* and 3 *medium* passages, and an **equating/linking** form consisted of 1 *long* and 1 *medium* passage for Grades 2 and 4 and 2 *long* and 2 *medium* passage for Grade 3. 
+
+All **calibration** forms had common passages to two other forms within each version (1 and 2 common passages for *long* and *medium*, respectively). Each **calibration** form had 2 unique passage for *long* and 2 unique passages for *medium*. 
+
+Each **equating/linking** forms was assembled with *long* and *medium* passages, but fewer passages from each type. Each *equating/linking* forms contained 1 (Grade 2 and 4) or 2 (Grade 3) *long* passage(s), and 1 (Grade 2 and 4) or 2 (Grade 3) *medium* passage(s). In addition, each **equating/linking** form had off-grade-level passages. All Grade 2 and 4 students received Grade 3 passages as off-grade-level passages, and all Grade 3 students received Grade 3 passages as off-grade-level passages. For each grade level, the CORE reading passages were assembled into 10 *calibration / equating/linking* forms. Passages were randomly ordered within forms. 
+
+```{r grs2-4_table}
+
+gr24 <- tibble::tribble(
+  ~Form,  ~on1,  ~on2,  ~on3,  ~on4,  ~on5,  ~on6,  ~on7,  ~on8, ~off1, ~off2,
+          1,  "1L",  "2L",  "3L",  "1M",  "2M",  "3M",  "4M",  "5M",  "2L",  "3M",
+          2,  "3L",  "4L",  "5L",  "4M",  "5M",  "6M",  "7M",  "8M",  "4L",  "6M",
+          3,  "5L",  "6L",  "7L",  "7M",  "8M",  "9M", "10M", "11M",  "6L",  "9M",
+          4,  "7L",  "8L",  "9L", "10M", "11M", "12M", "13M", "14M",  "8L", "12M",
+          5,  "9L", "10L", "11L", "13M", "14M", "15M", "16M", "17M", "10L", "15M",
+          6, "11L", "12L", "13L", "16M", "17M", "18M", "19M", "20M", "12L", "18M",
+          7, "13L", "14L", "15L", "19M", "20M", "21M", "22M", "23M", "14L", "21M",
+          8, "15L", "16L", "17L", "22M", "23M", "24M", "25M", "26M", "16L", "24M",
+          9, "17L", "18L", "19L", "25M", "26M", "27M", "28M", "29M", "18L", "27M",
+         10, "19L", "20L",  "1L", "28M", "29M", "30M",  "1M",  "2M", "20L", "30M"
+  )
+
+gr24 %>% 
+  gt() %>% 
+  tab_spanner(label = "On-Grade Passages",
+              columns = vars(on1, on2, on3, on4, on5, on6, on7, on8)) %>% 
+  tab_spanner(label = "Off-Grade Passages",
+              columns = vars(off1, off2)) %>%
+  cols_label(
+    on1 = "",
+    on2 = "",
+    on3 = "",
+    on4 = "",
+    on5 = "",
+    on6 = "",
+    on7 = "",
+    on8 = "",
+    off1 = "",
+    off2 = ""
+  ) %>% 
+  tab_footnote(
+    footnote = "Note. L = long passage; M = medium passage.",
+    locations = cells_column_labels(groups = "On-Grade Passages")) %>% 
+  tab_footnote(
+    footnote = "All Grade 2 and 4 students received Grade 3 off-grade passages.",
+    locations = cells_column_labels(groups = "Off-Grade Passages")) %>% 
+  tab_header(
+    title = "Form Assembly Design for Grades 2 and 4"
+  )
+```
+
+---
+
+```{r grs3_table}
+
+gr3 <- tibble::tribble(
+         ~Form,  ~on1,  ~on2,  ~on3,  ~on4,  ~on5,  ~on6,  ~on7,  ~on8,       ~'Grade 2',       ~'Grade 4',
+                 1,  "1L",  "2L",  "3L",  "1M",  "2M",  "3M",  "4M",  "5M",  "2L       3M",   "2L      3M",
+                 2,  "3L",  "4L",  "5L",  "4M",  "5M",  "6M",  "7M",  "8M",   "4L      6M",   "4L      6M",
+                 3,  "5L",  "6L",  "7L",  "7M",  "8M",  "9M", "10M", "11M",   "6L      9M",   "6L      9M",
+                 4,  "7L",  "8L",  "9L", "10M", "11M", "12M", "13M", "14M",  "8L      12M",  "8L      12M",
+                 5,  "9L", "10L", "11L", "13M", "14M", "15M", "16M", "17M", "10L      15M", "10L      15M",
+                 6, "11L", "12L", "13L", "16M", "17M", "18M", "19M", "20M", "12L      18M", "12L      18M",
+                 7, "13L", "14L", "15L", "19M", "20M", "21M", "22M", "23M", "14L      21M", "14L      21M",
+                 8, "15L", "16L", "17L", "22M", "23M", "24M", "25M", "26M", "16L      24M", "16L      24M",
+                 9, "17L", "18L", "19L", "25M", "26M", "27M", "28M", "29M", "18L      27M", "18L      27M",
+                10, "19L", "20L",  "1L", "28M", "29M", "30M",  "1M",  "2M", "20L      30M", "20L      30M"
+         )
+
+
+
+gr3 %>% 
+  gt() %>% 
+  tab_spanner(label = "On-Grade Passages",
+              columns = vars(on1, on2, on3, on4, on5, on6, on7, on8)) %>% 
+  tab_spanner(label = "Off-Grade Passages",
+              columns = vars('Grade 2', 'Grade 4')) %>%
+  cols_label(
+    on1 = "",
+    on2 = "",
+    on3 = "",
+    on4 = "",
+    on5 = "",
+    on6 = "",
+    on7 = "",
+    on8 = ""
+  ) %>% 
+  tab_footnote(
+    footnote = "Note. L = long passage; M = medium passage.",
+    locations = cells_column_labels(groups = "On-Grade Passages")) %>% 
+  tab_footnote(
+    footnote = "All Grade 3 students received two Grade 2 and two Grade 4 off-grade passages.",
+    locations = cells_column_labels(groups = "Off-Grade Passages")) %>% 
+  tab_header(
+    title = "Form Assembly Design for Grade 3"
+  )
+```
+
+<center><i class="fas fa-link"></i></center>
+
+## Acknowledgments {.appendix}
+
+The research reported here was supported by the Institute of Education Sciences, U.S. Department of Education, through Grant [R305A140203](https://ies.ed.gov/funding/grantsearch/details.asp?ID=1492) to the University of Oregon. The opinions expressed are those of the authors and do not represent views of the Institute or the U.S. Department of Education.
