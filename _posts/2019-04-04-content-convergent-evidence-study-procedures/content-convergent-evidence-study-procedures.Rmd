@@ -38,8 +38,11 @@ The purpose of this study is to compare oral reading fluency (CBM-R) scores as g
 ## Research Questions
 
 (1a) Are there differences in words correct per minute (WCPM) between the human scoring criterion versus traditional or ASR scoring of traditional CBM-R and CORE passages?
+
 (1b) Are there differences in words correct per minute (WCPM) between the traditional CBM-R and CORE passages?
+
 (2) Are there differences in time duration between the human scoring criterion versus traditional or ASR scoring of traditional CBM-R and CORE passages?
+
 (3) Are there differences at the passage-level in word score agreement rates between the human scoring criterion versus traditional or ASR scoring of traditional CBM-R and CORE passages?
 
 # Method

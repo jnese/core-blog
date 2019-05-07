@@ -98,8 +98,8 @@
   },
   {
     "path": "posts/2019-04-06-cce-auxiliary-modelbuilding/",
-    "title": "Auxilary Model Building: Content & Convergent Evidence",
-    "description": "In this post we provide the results of the mixed-effect model building process applied in our Content & Convergent Evidence Study to answer research questions about differences in words correct per minute (WCPM) scores between three scoring methods, and between passage lenghts, and differences in time duration between three scoring methods.",
+    "title": "Auxillary Model Building: Content & Convergent Evidence",
+    "description": "In this post we provide the results of the mixed-effects model building process applied in our Content & Convergent Evidence Study to answer research questions about differences in words correct per minute (WCPM) scores between three scoring methods, and between passage lenghts, and differences in time duration between three scoring methods.",
     "author": [
       {
         "name": "Joseph F. T. Nese",
@@ -114,8 +114,8 @@
     "categories": [
       "Content & Convergent Evidence"
     ],
-    "preview": "posts/2019-04-06-cce-auxiliary-modelbuilding/POM00000713.jpg",
-    "last_modified": "2019-04-10T09:35:15-07:00"
+    "preview": {},
+    "last_modified": "2019-05-06T13:19:29-07:00"
   },
   {
     "path": "posts/2019-04-04-content-convergent-evidence-study-procedures/",
@@ -136,6 +136,6 @@
       "Content & Convergent Evidence"
     ],
     "preview": "posts/2019-04-04-content-convergent-evidence-study-procedures/content-convergent-evidence-study-procedures_files/figure-html5/unnamed-chunk-4-1.png",
-    "last_modified": "2019-04-19T11:33:40-07:00"
+    "last_modified": "2019-05-07T09:46:59-07:00"
   }
 ]
