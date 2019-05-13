@@ -1,7 +1,7 @@
 [
   {
     "path": "posts/2019-05-07-calibration-equating-linking-study-procedures/",
-    "title": "calibration-equating-linking-study-procedures",
+    "title": "Study Procedures: Calibration Equating Linking",
     "description": "The purpose of this post is to provide a detailed description of the Calibration, Equating, Linking Study procedures.",
     "author": [
       {
@@ -15,8 +15,8 @@
     ],
     "date": "2019-05-07",
     "categories": [],
-    "preview": {},
-    "last_modified": "2019-05-07T16:17:24-07:00"
+    "preview": "posts/2019-05-07-calibration-equating-linking-study-procedures/link-solid.svg",
+    "last_modified": "2019-05-13T14:04:50-07:00"
   },
   {
     "path": "posts/2019-04-19-high-accuracy-of-asr-word-scores/",
@@ -133,8 +133,8 @@
     "categories": [
       "Content & Convergent Evidence"
     ],
-    "preview": {},
-    "last_modified": "2019-05-06T13:19:29-07:00"
+    "preview": "posts/2019-04-06-cce-auxiliary-modelbuilding/tools-solid.svg",
+    "last_modified": "2019-05-13T14:09:42-07:00"
   },
   {
     "path": "posts/2019-04-04-content-convergent-evidence-study-procedures/",

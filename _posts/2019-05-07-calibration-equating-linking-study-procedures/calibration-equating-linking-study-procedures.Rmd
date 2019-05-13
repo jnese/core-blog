@@ -1,5 +1,5 @@
 ---
-title: "calibration-equating-linking-study-procedures"
+title: "Study Procedures: Calibration Equating Linking"
 description: |
   The purpose of this post is to provide a detailed description of the Calibration, Equating, Linking Study procedures.
 author:
@@ -29,6 +29,7 @@ library(gt)
 library(knitr)
 library(ggthemes)
 library(numform)
+devtools::install_github("ropenscilabs/icon")
 ```
 
 # Study Purpose
@@ -47,7 +48,7 @@ Below we describe the study procedure, and note any design differences between t
 
 ## Sample
 
-In 2017, we recruited three school districts for participation, and in 2018 we recruited three school districts. District A has less than 3,000 students, about 3% EL students and 19% students with IEPs (Town: Distant). District B has about 11,000 students, about 6% EL students and 17% students with IEPs (Suburb: Midsize). District C has about 17,400 students, about 3% EL students and 15% students with IEPs (City: Midsize). District D has about 4,600 students, about 4% EL students and 16% students with IEPs (City: Midsize). District E has about 4,400 students, about 14% EL students and 16% students with IEPs (Town: Distant). We worked with Districts A and B in the prior two years of the project (2014-15 and 2015-16).
+In each of 2017 and 2018, we recruited three school districts for participation. District A has less than 3,000 students, about 3% EL students and 19% students with IEPs (Town: Distant). District B has about 11,000 students, about 6% EL students and 17% students with IEPs (Suburb: Midsize). District C has about 17,400 students, about 3% EL students and 15% students with IEPs (City: Midsize). District D has about 4,600 students, about 4% EL students and 16% students with IEPs (City: Midsize). District E has about 4,400 students, about 14% EL students and 16% students with IEPs (Town: Distant). We worked with Districts A and B in the prior two years of the project (2014-15 and 2015-16).
 
 We targeted the largest elementary schools within two districts because (a) we needed such a large number of student participants that it was desirable to have all Grade 2 – 4 classrooms in a school participate, and (b) because the budget called for schools to share a set of 30 headsets with noise-cancelling microphones, it was most beneficial to share one set of headphones across as many classrooms as possible.
 
@@ -215,7 +216,14 @@ gr3 %>%
   )
 ```
 
-<center><i class="fas fa-link"></i></center>
+---
+
+<center>
+```{r, out.width = "10%"}
+knitr::include_graphics("link-solid.svg")
+#<center><i class="fas fa-link"></i></center>
+```
+</center>
 
 ## Acknowledgments {.appendix}
 

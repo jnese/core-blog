@@ -483,6 +483,11 @@ time_fixd_effcts$a_b_anova
 <a href="#top">Top</a>
 </aside>
 
+<center>
+```{r, out.width = "10%"}
+knitr::include_graphics("tools-solid.svg")
+```
+</center>
 
 ## Acknowledgments {.appendix}
 
