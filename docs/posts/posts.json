@@ -1,5 +1,24 @@
 [
   {
+    "path": "posts/2019-05-14-consequential-validity-study-procedures/",
+    "title": "Study Procedures: Consequential Validity",
+    "description": "The purpose of this post is to provide a detailed description of the Consequential Validity Study procedures.",
+    "author": [
+      {
+        "name": "Joseph F. T. Nese",
+        "url": "https://education.uoregon.edu/people/faculty/jnese"
+      },
+      {
+        "name": "Akihito Kamata",
+        "url": "https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata"
+      }
+    ],
+    "date": "2019-05-14",
+    "categories": [],
+    "preview": "posts/2019-05-14-consequential-validity-study-procedures/chart-line-solid.svg",
+    "last_modified": "2019-05-14T12:40:40-07:00"
+  },
+  {
     "path": "posts/2019-05-07-calibration-equating-linking-study-procedures/",
     "title": "Study Procedures: Calibration Equating Linking",
     "description": "The purpose of this post is to provide a detailed description of the Calibration, Equating, Linking Study procedures.",

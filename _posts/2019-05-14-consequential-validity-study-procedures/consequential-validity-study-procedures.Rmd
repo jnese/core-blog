@@ -119,3 +119,135 @@ The [easyCBM](https://easycbm.com/) ORF measures were the traditional ORF assess
 
 The ORF passages used in easyCBM were developed to assess students’ ability to fluently read narrative text. During instrument development, each form was created to be consistent in length and the readability of each form was verified to fit appropriate grade-level, initially using the Flesch-Kincaid index feature available on Microsoft Word ([Alonzo & Tindal, 2007)](http://www.brtprojects.org/wp-content/uploads/2016/05/TechRpt40_DevWrdPassFluency.pdf). The passages were developed to be of equivalent difficulty for each grade level following word-count, grade-level guidelines (e.g., Flesch-Kincaid readability estimates), and form equivalence empirical testing using repeated measures ANOVA to evaluate comparability of forms ([Alonzo & Tindal, 2007)](http://www.brtprojects.org/wp-content/uploads/2016/05/TechRpt40_DevWrdPassFluency.pdf). 
 
+## Procedures
+
+The project website was programmed to accommodate the study design. This consists of a **log-in** for teachers to upload their classroom roster. 
+
+Teachers gave students a quick overview of what they would be doing. 
+
+> “Today we are going to have you read some short passages on a computer. You are going to help researchers at the University of Oregon see if computers can be used to listen how students read. You will be wearing head sets so the computer can listen to the readings. Just do your best reading.”
+
+Teachers made sure the mute buttons were not switched on, that the volume was turned up so students could hear the directions, and that the microphones were about an inch away from the students’ mouths, and asked them not to touch it while they read.
+
+Students were directed to go to the study website. The first page showed a student assent form, where students clicked whether they would like to participate. If they clicked **Yes** the testing continued. If they clicked **No** they were opted-out of the study. 
+
+The study instructions were then be presented via audio as well as print. 
+
+> “Get ready, [student name]! You are about to do some reading! After pressing start, read the story on the screen. When you are finished click done. Do your best reading, and have fun!”
+
+Students clicked **Start** to begin reading, and were randomly assigned to a fixed set of passages. Student then read each passage aloud, and progressed through each of the study’s 10 to 12 passages. Students clicked **Done** after reading a passage, and the system automatically advanced a student to the next screen after 90 seconds (with a 10 second warning). Students clicked **Continue** to read the next passage, and the system automatically advanced a student to the next passage after 10 seconds. The purpose of automatically advancing students was to ensure students, particularly low-performing readers, were not burdened with the task and did not take an excessive amount of time to complete the task. 
+
+### Form Assembly Design
+
+We were unable to meet the targeted sample size for our 2015-16 [Calibration, Equating, Linking Study](https://jnese.github.io/core-blog/posts/2019-05-07-calibration-equating-linking-study-procedures/), so we used Wave 3 of the **Consequential Validity Study** (2017-18 and 2018-19) as a replication to accrue the remaining student participants for the Calibration, Equating, Linking Study. Thus, Wave 3 of each year of the Consequential Validity Study also served as a replication of the Calibration, Equating, Linking Study, such that the sample and data for the Wave 3 measurement occasion served the purpose of both studies. The form assembly design is as follows. 
+
+The participating students were randomly assigned to one of the 10 forms at the beginning of the study. Forms for Waves 1, 2, and 4 consisted of one easyCBM passage and nine passages from the CORE system (6 *medium* passages and 3 *long* passages). Ten forms were constructed such that Wave 3 forms were identical to those delivered in 2016-17 and 2017-2018, and CORE *medium* and *long* passages were randomly selected from the remaining passages such that no passage was duplicated at any point across the four waves. Forms for Wave 3 consisted of one easyCBM passage and: 10 CORE passages for Grades 2 and 4, and 12 CORE passages for Grade 3. Because Wave 3 also served as a replication of the Passage Calibration, Equating, Linking Study, forms were identical to those created in 2016-17 (meaning that the same CORE passages were associated with the same form id). However, there were two caveats: (1) one traditional ORF (easyCBM) passage was included in each form (to meet the needs of the Consequential Validity Study), and (2) passages within forms, including the traditional ORF passage, were randomly ordered (so as to control for fatigue and order effects, as well as reduce the chance that two adjacent students read the same passage at the same time) so that the passage delivery order was likely different across years. 
+
+For Wave 3, we administered one calibration form and one equating/linking form for each examinee, where a calibration form consisted of 3 *long* and 3 *medium* passages, and an equating/linking form consisted of 1 *long* and 1 *medium* passage for Grades 2 and 4, and 2 *long* and 2 *medium* passage for Grade 3. 
+
+All calibration forms had common passages to two other forms within each version (1 and 2 common passages for *long* and *medium*, respectively). Each calibration form had 2 unique passage for *long* and 2 unique passages for *medium.* Each equating/linking forms was assembled with *long* and *medium* passages, but fewer passages from each type. Each equating/linking forms contained one (Grade 2 and 4) or two (Grade 3) *long* passage(s), and one (Grade 2 and 4) or two (Grade 3) *medium* passage(s). In addition, each equating/linking form had off-grade-level passages. All Grade 2 and 4 students received Grade 3 passages as off-grade-level passages, and all Grade 3 students received Grade 3 passages as off-grade-level passages. For each grade level, the CORE reading passages were assembled into 10 calibration/ equating/linking forms. Passages were randomly ordered within forms. The tables below shows form assembly design.
+
+```{r grs2-4_table}
+
+gr24 <- tibble::tribble(
+  ~Form,  ~on1,  ~on2,  ~on3,  ~on4,  ~on5,  ~on6,  ~on7,  ~on8, ~off1, ~off2,
+          1,  "1L",  "2L",  "3L",  "1M",  "2M",  "3M",  "4M",  "5M",  "2L",  "3M",
+          2,  "3L",  "4L",  "5L",  "4M",  "5M",  "6M",  "7M",  "8M",  "4L",  "6M",
+          3,  "5L",  "6L",  "7L",  "7M",  "8M",  "9M", "10M", "11M",  "6L",  "9M",
+          4,  "7L",  "8L",  "9L", "10M", "11M", "12M", "13M", "14M",  "8L", "12M",
+          5,  "9L", "10L", "11L", "13M", "14M", "15M", "16M", "17M", "10L", "15M",
+          6, "11L", "12L", "13L", "16M", "17M", "18M", "19M", "20M", "12L", "18M",
+          7, "13L", "14L", "15L", "19M", "20M", "21M", "22M", "23M", "14L", "21M",
+          8, "15L", "16L", "17L", "22M", "23M", "24M", "25M", "26M", "16L", "24M",
+          9, "17L", "18L", "19L", "25M", "26M", "27M", "28M", "29M", "18L", "27M",
+         10, "19L", "20L",  "1L", "28M", "29M", "30M",  "1M",  "2M", "20L", "30M"
+  )
+
+gr24 %>% 
+  gt() %>% 
+  tab_spanner(label = "On-Grade Passages",
+              columns = vars(on1, on2, on3, on4, on5, on6, on7, on8)) %>% 
+  tab_spanner(label = "Off-Grade Passages",
+              columns = vars(off1, off2)) %>%
+  cols_label(
+    on1 = "",
+    on2 = "",
+    on3 = "",
+    on4 = "",
+    on5 = "",
+    on6 = "",
+    on7 = "",
+    on8 = "",
+    off1 = "",
+    off2 = ""
+  ) %>% 
+  tab_footnote(
+    footnote = "Note. L = long passage; M = medium passage.",
+    locations = cells_column_labels(groups = "On-Grade Passages")) %>% 
+  tab_footnote(
+    footnote = "All Grade 2 and 4 students received Grade 3 off-grade passages.",
+    locations = cells_column_labels(groups = "Off-Grade Passages")) %>% 
+  tab_header(
+    title = "Form Assembly Design for Grades 2 and 4"
+  )
+```
+
+---
+
+```{r grs3_table}
+
+gr3 <- tibble::tribble(
+         ~Form,  ~on1,  ~on2,  ~on3,  ~on4,  ~on5,  ~on6,  ~on7,  ~on8,       ~'Grade 2',       ~'Grade 4',
+                 1,  "1L",  "2L",  "3L",  "1M",  "2M",  "3M",  "4M",  "5M",  "2L       3M",   "2L      3M",
+                 2,  "3L",  "4L",  "5L",  "4M",  "5M",  "6M",  "7M",  "8M",   "4L      6M",   "4L      6M",
+                 3,  "5L",  "6L",  "7L",  "7M",  "8M",  "9M", "10M", "11M",   "6L      9M",   "6L      9M",
+                 4,  "7L",  "8L",  "9L", "10M", "11M", "12M", "13M", "14M",  "8L      12M",  "8L      12M",
+                 5,  "9L", "10L", "11L", "13M", "14M", "15M", "16M", "17M", "10L      15M", "10L      15M",
+                 6, "11L", "12L", "13L", "16M", "17M", "18M", "19M", "20M", "12L      18M", "12L      18M",
+                 7, "13L", "14L", "15L", "19M", "20M", "21M", "22M", "23M", "14L      21M", "14L      21M",
+                 8, "15L", "16L", "17L", "22M", "23M", "24M", "25M", "26M", "16L      24M", "16L      24M",
+                 9, "17L", "18L", "19L", "25M", "26M", "27M", "28M", "29M", "18L      27M", "18L      27M",
+                10, "19L", "20L",  "1L", "28M", "29M", "30M",  "1M",  "2M", "20L      30M", "20L      30M"
+         )
+
+
+
+gr3 %>% 
+  gt() %>% 
+  tab_spanner(label = "On-Grade Passages",
+              columns = vars(on1, on2, on3, on4, on5, on6, on7, on8)) %>% 
+  tab_spanner(label = "Off-Grade Passages",
+              columns = vars('Grade 2', 'Grade 4')) %>%
+  cols_label(
+    on1 = "",
+    on2 = "",
+    on3 = "",
+    on4 = "",
+    on5 = "",
+    on6 = "",
+    on7 = "",
+    on8 = ""
+  ) %>% 
+  tab_footnote(
+    footnote = "Note. L = long passage; M = medium passage.",
+    locations = cells_column_labels(groups = "On-Grade Passages")) %>% 
+  tab_footnote(
+    footnote = "All Grade 3 students received two Grade 2 and two Grade 4 off-grade passages.",
+    locations = cells_column_labels(groups = "Off-Grade Passages")) %>% 
+  tab_header(
+    title = "Form Assembly Design for Grade 3"
+  )
+```
+
+---
+
+<center>
+```{r, out.width = "10%"}
+knitr::include_graphics("chart-line-solid.svg")
+#<center><i class="fas fa-link"></i></center>
+```
+</center>
+
+## Acknowledgments {.appendix}
+
+The research reported here was supported by the Institute of Education Sciences, U.S. Department of Education, through Grant [R305A140203](https://ies.ed.gov/funding/grantsearch/details.asp?ID=1492) to the University of Oregon. The opinions expressed are those of the authors and do not represent views of the Institute or the U.S. Department of Education.
