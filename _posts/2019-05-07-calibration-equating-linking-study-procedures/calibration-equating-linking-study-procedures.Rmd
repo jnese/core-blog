@@ -1,5 +1,5 @@
 ---
-title: "Study Procedures: Calibration Equating Linking"
+title: "Study Procedures: Calibration, Equating, and Linking"
 description: |
   The purpose of this post is to provide a detailed description of the Calibration, Equating, Linking Study procedures.
 author:
@@ -84,15 +84,15 @@ For teacher participants we used the active informed consent procedure, by which
 
 ## Measures
 
-### CORE assessment
-
 *For more detailed information about CORE passage development, please see the [Study Procedures for the Content & Convergent Evidence Study]( https://jnese.github.io/core-blog/posts/2019-04-04-content-convergent-evidence-study-procedures/#core-assessment).*
+
+### CORE assessment
 
 Passages were written with the following specifications. Each passage was to be an original work of fiction, and be ±5 words of the target length (i.e., *short* = 25 words, *medium* = 50 words, *long* = 85 words). Each passage was to have a beginning, middle, and end; this broad specification was intended to give the passage writer freedom in meeting the word constraint specification, which was crucial in this project. 
 
 Final passages included 330 passages total, 110 at each of Grades 2-4, with 20 *long* passages, 30 *medium* passages, and 60 *short* passages for each grade.
 
-We decided to exclude the *short* passages (≈ 25 words) from this study for three reasons. First, the results of our [Teacher Survey of the Accessibility and Text Features of the Computerized Oral Reading Evaluation (CORE)]( https://www.brtprojects.org/wp-content/uploads/2016/05/TechRpt_1601TeacherSurveyCORE.pdf) suggested that our the CORE short passages are most appropriate for Grade 2 students and the CORE *long* and *medium* passages were preferred by teachers for students in Grades 3 and 4. Second, our preliminary psychometric analyses revealed that more words read by a student will increase reliability of the scale score, and this does not depend on passage length (i.e., 200 words from *short* passages or from *medium* passages are equally reliable). Third, we determined that our original plan that consisted of administering 4 *long*, 7 **medium, and 12 *short* passages would take too much time and be too burdensome on teachers and students, particularly low-performing students.
+We decided to exclude the *short* passages (≈ 25 words) from this study for three reasons. First, the results of our [Teacher Survey of the Accessibility and Text Features of the Computerized Oral Reading Evaluation (CORE)]( https://www.brtprojects.org/wp-content/uploads/2016/05/TechRpt_1601TeacherSurveyCORE.pdf) suggested that our the CORE short passages are most appropriate for Grade 2 students and the CORE *long* and *medium* passages were preferred by teachers for students in Grades 3 and 4. Second, our preliminary psychometric analyses revealed that more words read by a student will increase reliability of the scale score, and this does not depend on passage length (i.e., 200 words from *short* passages or from *medium* passages are equally reliable). Third, we determined that our original plan that consisted of administering 4 *long*, 7 *medium*, and 12 *short* passages would take too much time and be too burdensome on teachers and students, particularly low-performing students.
 
 ## Procedures
 
