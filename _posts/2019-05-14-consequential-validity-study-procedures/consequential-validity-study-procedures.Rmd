@@ -1,0 +1,121 @@
+---
+title: "Study Procedures: Consequential Validity"
+description: |
+  The purpose of this post is to provide a detailed description of the Consequential Validity Study procedures.
+author:
+  - name: Joseph F. T. Nese
+    url: https://education.uoregon.edu/people/faculty/jnese
+    affiliation: University of Oregon
+    affiliation_url: https://www.uoregon.edu/
+  - name: Akihito Kamata
+    url: https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata
+    affiliation: Southern Methodist University
+    affiliation_url: https://www.smu.edu/
+date: 05-14-2019
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    self_contained: false
+---
+
+<h2 id="top" /h2>
+
+```{r}
+library(rio)
+library(tidyverse)
+library(stringr)
+library(gt)
+library(knitr)
+library(ggthemes)
+library(numform)
+library(lubridate)
+```
+
+# Study Purpose
+
+The purpose of this study was to compare the consequential validity properties of **CORE** and a traditional oral reading fluency (ORF) assessment (easyCBM) for students in Grades 2 through 4. We examine the predictive and concurrent validity of CORE and easyCBM using (a) state reading test scores for students in Grades 3 and 4, and (b) CBM comprehension scores for all students Grades 2 - 4. We also use a longitudinal design with four repeated measurement occasions (waves) to model the within-year growth separately for both the CORE scale scores and the easyCBM words correct per minute (WCPM) raw scores to compare: (a) the estimates of the standard error (*SE*) of the CORE and easyCBM intercept and slope estimates, and (b) the reliability of the growth slopes, and the reliability of each measurement occasion, for the CORE and easyCBM growth models. 
+
+# Method
+
+This study was conducted in the 2017-18 and 2018-19 school years. We were unable to meet the targeted sample size in 2017-18, so we conducted a replication study in 2018-19 to accrue the remaining student participants. These studies ran concurrently with the [Calibration, Equating, Linking Study](https://jnese.github.io/core-blog/posts/2019-05-07-calibration-equating-linking-study-procedures/). 
+
+The table below shows the open and closing dates for the four waves of testing for each year of the study. 
+
+```{r wave_table}
+
+tibble::tribble(
+                ~Wave,        ~Open,       ~Close,        ~Open1,       ~Close1,
+                    1, "10/24/2017", "11/13/2017", "10/22/2018",  "11/9/2018",
+                    2, "11/29/2017",  "2/12/2018",  "12/3/2018", "12/21/2018",
+                    3,  "2/12/2018",  "3/23/2018",  "2/11/2019",   "3/8/2019",
+                    4,   "5/1/2018",  "6/13/2018",  "5/13/2019",   "6/7/2019"
+                ) %>% 
+  mutate_if(is.character, mdy) %>% 
+  gt() %>% 
+  tab_header(
+    title = "Reading Windows for the Consequential Validity Study") %>%
+  tab_spanner(label = "2017-18",
+              columns = vars("Open", "Close")) %>% 
+  tab_spanner(label = "2018-19",
+              columns = vars("Open1", "Close1")) %>% 
+  cols_label(Open1 = "Open",
+             Close1	= "Close")
+
+```
+
+## Sample
+
+In each of the 2017-18 and 2018-19 school years, we recruited three school districts for participation. District A has less than 3,000 students, about 3% EL students and 19% students with IEPs (Town: Distant). District B has about 11,000 students, about 6% EL students and 17% students with IEPs (Suburb: Midsize). District C has about 17,400 students, about 3% EL students and 15% students with IEPs (City: Midsize). District D has about 4,600 students, about 4% EL students and 16% students with IEPs (City: Midsize). District E has about 4,400 students, about 14% EL students and 16% students with IEPs (Town: Distant). We worked with Districts A and B in the prior two years of the project (2014-15 and 2015-16).
+
+We targeted the largest elementary schools within two districts because (a) we needed such a large number of student participants that it was desirable to have all Grade 2 – 4 classrooms in a school participate, and (b) because the budget called for schools to share a set of 30 headsets with noise-cancelling microphones, it was most beneficial to share one set of headphones across as many classrooms as possible.
+
+Data for this study to date include approximately 2,094 students and approximately 26,272 audio files (where each passage read is a file).
+
+The table below details the number of schools, teachers, and the approximate number of students who participated in this study.
+
+```{r sample_table}
+samp_tab <- tibble::tribble(
+    ~Year, ~'School District', ~Schools, ~Teachers, ~'Approximate Students',
+   "2017-18",              "District A",        1,        10,                   158,
+   "2017-18",              "District B",        6,        55,                   662,
+   "2017-18",              "District C",        4,        18,                   414,
+   "2018-19",              "District D",        1,        11,                   256,
+   "2018-19",              "District E",        2,        25,                   462,
+   "2018-19",              "District A",        1,         9,                   142,
+  "",               "Total",       15,       128,                  2094
+  )
+
+samp_tab %>% 
+  group_by(Year) %>% 
+  gt() %>% 
+  tab_header(
+    title = "Participants in the Consequential Validity Study") %>% 
+ fmt_number(
+    columns = vars('Approximate Students'),
+    sep_mark = ",",
+             decimals = 0)
+```
+
+Participating districts received a reduction in the annual cost of the district version of [easyCBM]( https://easycbm.com/). Schools were compensated \$100 per participating classroom to maximize the number of teacher participants within each school (in order to maximize the number of students who could share a set of headsets and minimize the number of headsets purchased). In addition, all participating teachers were paid a research incentive (\$50 gift card) for completing a survey about the assessment process.
+
+For teacher participants we used the active informed consent procedure, by which we provided the teachers with a written document containing all the required elements of informed consent that gives teachers the opportunity and sufficient time to provide permission. For student participants we used (a) the passive parental consent procedure, by which caregivers were provided with a written document containing all the required elements of informed notification within two weeks of the study start date (giving caregivers the opportunity and sufficient time to opt-out of providing permission), and (b) assent from student participants, by which an assent form appeared to each student before online reading began and students were asked to click whether they were willing to participate in the study before they could continue. 
+
+## Measures
+
+*For more detailed information about CORE and easyCBM passage development, please see the [Study Procedures for the Content & Convergent Evidence Study]( https://jnese.github.io/core-blog/posts/2019-04-04-content-convergent-evidence-study-procedures/#core-assessment).*
+
+### CORE assessment
+
+Passages were written with the following specifications. Each passage was to be an original work of fiction, and be ±5 words of the target length (i.e., *short* = 25 words, *medium* = 50 words, *long* = 85 words). Each passage was to have a beginning, middle, and end; this broad specification was intended to give the passage writer freedom in meeting the word constraint specification, which was crucial in this project. 
+
+Final passages included 330 passages total, 110 at each of Grades 2-4, with 20 *long* passages, 30 *medium* passages, and 60 *short* passages for each grade.
+
+We decided to exclude the *short* passages (≈ 25 words) from this study for three reasons. First, the results of our [Teacher Survey of the Accessibility and Text Features of the Computerized Oral Reading Evaluation (CORE)]( https://www.brtprojects.org/wp-content/uploads/2016/05/TechRpt_1601TeacherSurveyCORE.pdf) suggested that our the CORE short passages are most appropriate for Grade 2 students and the CORE *long* and *medium* passages were preferred by teachers for students in Grades 3 and 4. Second, our preliminary psychometric analyses revealed that more words read by a student will increase reliability of the scale score, and this does not depend on passage length (i.e., 200 words from *short* passages or from *medium* passages are equally reliable). Third, we determined that our original plan that consisted of administering 4 *long*, 7 *medium*, and 12 *short* passages would take too much time and be too burdensome on teachers and students, particularly low-performing students.
+
+### Traditional ORF assessment
+
+The [easyCBM](https://easycbm.com/) ORF measures were the traditional ORF assessments administered for the purpose of comparison to the CORE system. Developed in 2006, easyCBM is an online screening and progress monitoring assessment system for use in schools working under an RTI framework, available for an annual fee for district-wide adoption. easyCBM is currently used by over 143,000 teachers, representing over 1 million students in schools across every state in the country.
+
+The ORF passages used in easyCBM were developed to assess students’ ability to fluently read narrative text. During instrument development, each form was created to be consistent in length and the readability of each form was verified to fit appropriate grade-level, initially using the Flesch-Kincaid index feature available on Microsoft Word ([Alonzo & Tindal, 2007)](http://www.brtprojects.org/wp-content/uploads/2016/05/TechRpt40_DevWrdPassFluency.pdf). The passages were developed to be of equivalent difficulty for each grade level following word-count, grade-level guidelines (e.g., Flesch-Kincaid readability estimates), and form equivalence empirical testing using repeated measures ANOVA to evaluate comparability of forms ([Alonzo & Tindal, 2007)](http://www.brtprojects.org/wp-content/uploads/2016/05/TechRpt40_DevWrdPassFluency.pdf). 
+
