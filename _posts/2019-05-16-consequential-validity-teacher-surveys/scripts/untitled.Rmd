@@ -1,0 +1,83 @@
+---
+title: "Untitled"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(rio)
+library(here)
+library(tidyverse)
+```
+
+```{r data}
+
+wave_1 <- import(here::here("_posts", 
+                                   "2019-05-16-consequential-validity-teacher-surveys", 
+                                   "data", 
+                                   "wave_1.csv")) %>% 
+  as_tibble()
+
+header_1 <- import(here::here("_posts", 
+                                   "2019-05-16-consequential-validity-teacher-surveys", 
+                                   "data", 
+                                   "header_1.csv")) %>% 
+  as_tibble()
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### `r header_1$q2`
+
+```{r}
+wave_1 %>% 
+  ggplot(aes(q2)) +
+  geom_bar(fill = "#268bd2") + 
+  theme_bw() +
+  labs(x = "",
+       y = "") +
+  scale_y_continuous(breaks = seq(0, 80, by = 10)) +
+  coord_flip()
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### `r header_1$q3`
+
+```{r}
+wave_1 %>% 
+  mutate(q3 = factor(q3,
+                     levels = c("Very uncomfortable", "Somewhat uncomfortable", "Neutral", "Somewhat comfortable", "Very comfortable"))) %>% 
+  ggplot(aes(q3)) +
+  geom_bar(fill = "#dc322f") + 
+  theme_bw() +
+  labs(x = "",
+       y = "") +
+  scale_x_discrete(breaks = unique(wave_1$q3), 
+    labels = c("Somewhat \ncomfortable", "Very \ncomfortable", "Very \nuncomfortable", "Somewhat \ncomfortable", "Neutral")) +
+   scale_y_continuous(breaks = seq(0, 60, by = 10)) +
+    coord_flip()
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### `r header_1$q7`
+
+```{r}
+wave_1 %>% 
+  ggplot(aes(q7)) +
+  geom_bar(fill = "#859900") + 
+  theme_bw() +
+  labs(x = "",
+       y = "") +
+  coord_flip() +
+  scale_y_continuous(breaks = seq(0, 60, by = 10))
+```
+

@@ -1,0 +1,248 @@
+---
+title: "Teacher Survey"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(rio)
+library(here)
+library(tidyverse)
+library(DT)
+library(ggbeeswarm)
+```
+
+```{r wave1_data}
+
+wave_1 <- import(here::here("_posts", 
+                                   "2019-05-16-consequential-validity-teacher-surveys", 
+                                   "data", 
+                                   "wave_1.csv")) %>% 
+  as_tibble()
+
+header_1 <- import(here::here("_posts", 
+                                   "2019-05-16-consequential-validity-teacher-surveys", 
+                                   "data", 
+                                   "header_1.csv")) %>% 
+  as_tibble()
+
+```
+
+Study Testing Procedures {}
+===================================== 
+
+Row {data-height=550}
+-----------------------------------------------------------------------
+
+### **`r header_1$q3`** {data-width=300}
+
+```{r }
+wave_1 %>% 
+  mutate(q3 = factor(q3,
+                     levels = c("Very uncomfortable", "Somewhat uncomfortable", "Neutral", "Somewhat comfortable", "Very comfortable"))) %>% 
+  ggplot(aes(q3)) +
+  geom_bar(fill = "#dc322f") + 
+  theme_bw() +
+  labs(x = "",
+       y = "") +
+  scale_x_discrete(breaks = unique(wave_1$q3), 
+    labels = c("Somewhat \ncomfortable", "Very \ncomfortable", "Very \nuncomfortable", "Somewhat \ncomfortable", "Neutral")) +
+   scale_y_continuous(breaks = seq(0, 60, by = 10)) #+
+#    coord_flip()
+```
+
+### Only showing data for teachers that included comments
+
+```{r}
+q3_table <- wave_1 %>% 
+  select(year, q3, q3_comments) %>%
+  filter(q3_comments != "") %>% 
+  arrange(factor(q3, levels = c("Very comfortable", "Somewhat comfortable", "Neutral", "Somewhat uncomfortable", "Very uncomfortable")), desc(q3)) %>% 
+    rename("Year" = year,
+         "Rating" = q3,
+         "Comments" = q3_comments)
+
+datatable(q3_table,
+          rownames = FALSE,
+#          caption = "Only showing data for teachers that included comments",
+          options = list(dom = 't'))
+```
+
+Row {data-height=550}
+-----------------------------------------------------------------------
+
+### **`r header_1$q2`** {data-width=300}
+
+```{r}
+wave_1 %>% 
+  ggplot(aes(q2)) +
+  geom_bar(fill = "#268bd2") + 
+  theme_bw() +
+  labs(x = "",
+       y = "") +
+  scale_y_continuous(breaks = seq(0, 80, by = 10)) #+
+#  coord_flip()
+
+```
+
+### Comments Table
+
+```{r}
+q2_table <- wave_1 %>% 
+  select(year, q2, q2_comments) %>%
+  filter(q2_comments != "") %>% 
+  arrange(factor(q2, levels = c("Small groups", "Whole class")), desc(q2)) %>% 
+    rename("Year" = year,
+         "Rating" = q2,
+         "Comments" = q2_comments)
+
+datatable(q2_table,
+          rownames = FALSE,
+          caption = "Only showing data for teachers that included comments",
+          options = list(dom = 't'))
+```
+
+Row {data-height=550}
+-----------------------------------------------------------------------
+
+### **`r header_1$q7`** {data-width=300}
+
+```{r}
+wave_1 %>% 
+  ggplot(aes(q7)) +
+  geom_bar(fill = "#859900") + 
+  theme_bw() +
+  labs(x = "",
+       y = "") +
+#  coord_flip() +
+  scale_y_continuous(breaks = seq(0, 60, by = 10))
+
+```
+
+### Comments Table
+
+```{r}
+q7_table <- wave_1 %>% 
+  select(year, q7, q7_comments) %>%
+  filter(q7_comments != "") %>% 
+  arrange(factor(q7, levels = c("CORE", "Traditional ORF")), desc(q7)) %>% 
+    rename("Year" = year,
+         "Rating" = q7,
+         "Comments" = q7_comments)
+
+datatable(q7_table,
+          rownames = FALSE,
+          caption = "Only showing data for teachers that included comments",
+          options = list(dom = 't'))
+```
+
+Traditional ORF Administration {}
+===================================== 
+
+```{r data2}
+
+wave_2 <- import(here::here("_posts", 
+                                   "2019-05-16-consequential-validity-teacher-surveys", 
+                                   "data", 
+                                   "wave_2.csv")) %>% 
+  as_tibble()
+
+header_2 <- import(here::here("_posts", 
+                                   "2019-05-16-consequential-validity-teacher-surveys", 
+                                   "data", 
+                                   "header_2.csv")) %>% 
+  as_tibble()
+
+```
+
+Column {data-width=550}
+-----------------------------------------------------------------------
+
+### **`r header_2$q2`** {data-width=300}
+
+```{r}
+wave_2 %>% 
+  ggplot(aes(q2)) +
+  geom_bar(fill = "#268bd2") + 
+  theme_bw() +
+  labs(x = "",
+       y = "") +
+  scale_y_continuous(breaks = seq(0, 100, by = 10))
+
+```
+
+
+```{r, eval=FALSE}
+q2_table2 <- wave_2 %>% 
+  select(year, q2, q2_comments) %>%
+  filter(q2_comments != "") %>% 
+  arrange(factor(q2, levels = c("Yes", "No")), desc(q2)) %>% 
+    rename("Year" = year,
+         "Rating" = q2,
+         "Comments" = q2_comments)
+
+datatable(q2_table,
+          rownames = FALSE,
+          caption = "Only showing data for teachers that included comments",
+          options = list(dom = 't'))
+```
+
+Column {.tabset}
+-----------------------------------------------------------------------
+
+### **`r header_2$q10`** {data-width=300}
+
+```{r}
+wave_2 %>% 
+  ggplot(aes(q10)) +
+  geom_bar(fill = "#dc322f") + 
+  theme_bw() +
+  labs(x = "",
+       y = "") +
+  scale_y_continuous(breaks = seq(0, 50, by = 10))
+```
+
+```{r, eval=FALSE}
+q10_table2 <- wave_2 %>% 
+  select(year, q10, q10_comments) %>%
+  filter(q10_comments != "") %>% 
+  arrange(factor(q10, levels = c("Yes", "No")), desc(q10)) %>% 
+    rename("Year" = year,
+         "Rating" = q10,
+         "Comments" = q10_comments)
+
+datatable(q10_table,
+          rownames = FALSE,
+          caption = "Only showing data for teachers that included comments",
+          options = list(dom = 't'))
+```
+
+### **`r header_2$q7`** {data-width=300}
+
+```{r}
+wave_2 %>% 
+  ggplot(aes(q7)) +
+  geom_bar(fill = "#859900") + 
+  theme_bw() +
+  labs(x = "",
+       y = "") +
+  scale_y_continuous(breaks = seq(0, 50, by = 10))
+```
+
+```{r, eval=FALSE}
+q7_table2 <- wave_2 %>% 
+  select(year, q7, q7_comments) %>%
+  filter(q7_comments != "") %>% 
+  arrange(factor(q7, levels = c("Yes", "No")), desc(q7)) %>% 
+    rename("Year" = year,
+         "Rating" = q7,
+         "Comments" = q7_comments)
+
+datatable(q7_table2,
+          rownames = FALSE,
+          caption = "Only showing data for teachers that included comments",
+          options = list(dom = 't'))
+```
