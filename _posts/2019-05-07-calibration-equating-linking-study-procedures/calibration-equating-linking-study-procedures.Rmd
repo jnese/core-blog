@@ -40,7 +40,7 @@ The data collection was designed such that all passage parameters within and acr
 
 # Method
 
-This study was conducted in the springs of 2017 and 2018. We were unable to meet the targeted sample size in 2017, so we conducted a replication study in 2018 to accrue the remaining student participants. (The 2018 replication ran concurrently with the [Consequential Validity Study]()). Note that we will also use data from the 2019 CORE to increase the sample size.
+This study was conducted in the springs of 2017 and 2018. We were unable to meet the targeted sample size in 2017, so we conducted a replication study in 2018 to accrue the remaining student participants. (The 2018 replication ran concurrently with the [Consequential Validity Study](https://jnese.github.io/core-blog/posts/2019-05-14-consequential-validity-study-procedures/)). Note that we will also use data from the 2019 CORE to increase the sample size.
 
 Data were collected between February 20 - March 10, 2017, and between February 12 - March 23, 2018. 
 
