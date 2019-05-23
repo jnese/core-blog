@@ -1,24 +1,27 @@
 ---
-title: "consequential-validity-teacher-surveys"
+title: "Teacher Surveys: Consequential Validity Study"
 description: |
-  A short description of the post.
+  In this post we present [data and comments]() from the teacher particapants of our [Consequential Validity Study](https://jnese.github.io/core-blog/posts/2019-05-14-consequential-validity-study-procedures/).
 author:
   - name: Joseph F. T. Nese
     url: https://education.uoregon.edu/people/faculty/jnese
   - name: Akihito Kamata
     url: https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata
-date: 05-16-2019
+date: 05-23-2019
 output:
   distill::distill_article:
     self_contained: false
 draft: true
+preview: CORE_v_ORF.png
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-Distill is a publication format for scientific and technical writing, native to the web.
+The Consequential Validity Study was a longitudinal study conducted in each of the 2017-18 and 2018-19 school years, with four waves of assessments during each year. For specific details about the study procedures, go [here](https://jnese.github.io/core-blog/posts/2019-05-14-consequential-validity-study-procedures/).
 
-Learn more about using Distill at <https://rstudio.github.io/distill>.
+After each assessment wave, participating teachers responded to brief surveys with questions about traditional oral reading fluency (ORF) assessments, the CORE system, the assessment environment, or the study itself. Survey items were similar at each wave of assessment (across years), but different across the each of four waves within a school year.
+
+
 
