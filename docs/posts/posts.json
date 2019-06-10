@@ -1,5 +1,24 @@
 [
   {
+    "path": "posts/2019-06-10-consequential-validity-teacher-surveys/",
+    "title": "Teacher Surveys: Consequential Validity Study",
+    "description": "In this post we present data and comments from the teacher particapants of our Consequential Validity Study.",
+    "author": [
+      {
+        "name": "Joseph F. T. Nese",
+        "url": "https://education.uoregon.edu/people/faculty/jnese"
+      },
+      {
+        "name": "Akihito Kamata",
+        "url": "https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata"
+      }
+    ],
+    "date": "2019-06-10",
+    "categories": [],
+    "preview": "posts/2019-06-10-consequential-validity-teacher-surveys/ORF_valuable.png",
+    "last_modified": "2019-06-10T11:29:19-07:00"
+  },
+  {
     "path": "posts/2019-05-14-consequential-validity-study-procedures/",
     "title": "Study Procedures: Consequential Validity",
     "description": "The purpose of this post is to provide a detailed description of the Consequential Validity Study procedures.",
@@ -16,7 +35,7 @@
     "date": "2019-05-14",
     "categories": [],
     "preview": "posts/2019-05-14-consequential-validity-study-procedures/chart-line-solid.svg",
-    "last_modified": "2019-05-14T12:40:40-07:00"
+    "last_modified": "2019-05-14T12:40:41-07:00"
   },
   {
     "path": "posts/2019-05-07-calibration-equating-linking-study-procedures/",
@@ -35,7 +54,7 @@
     "date": "2019-05-07",
     "categories": [],
     "preview": "posts/2019-05-07-calibration-equating-linking-study-procedures/link-solid.svg",
-    "last_modified": "2019-05-13T14:04:50-07:00"
+    "last_modified": "2019-05-13T14:04:52-07:00"
   },
   {
     "path": "posts/2019-04-19-high-accuracy-of-asr-word-scores/",
@@ -57,7 +76,7 @@
       "Automatic Speech Recognition (ASR)"
     ],
     "preview": "posts/2019-04-19-high-accuracy-of-asr-word-scores/fig_violin_blog.png",
-    "last_modified": "2019-04-22T14:46:42-07:00"
+    "last_modified": "2019-04-22T14:46:43-07:00"
   },
   {
     "path": "posts/2019-04-18-latent-variable-model-for-orf/",
@@ -76,7 +95,7 @@
     "date": "2019-04-18",
     "categories": [],
     "preview": "posts/2019-04-18-latent-variable-model-for-orf/FigureEq.png",
-    "last_modified": "2019-05-04T14:03:57-05:00"
+    "last_modified": "2019-05-06T10:09:42-07:00"
   },
   {
     "path": "posts/2019-04-16-asr-can-score-cbmr-assessments/",
@@ -119,7 +138,7 @@
       "Content & Convergent Evidence"
     ],
     "preview": "posts/2019-04-17-shorter-passages-can-be-used-for-cbmr-assessments/fig_est_means_pssglngth_blog.png",
-    "last_modified": "2019-04-22T20:40:49-07:00"
+    "last_modified": "2019-04-22T20:40:50-07:00"
   },
   {
     "path": "posts/2019-04-22-cbmr-time-differences-between-asr-and-humans/",
@@ -132,7 +151,7 @@
       "Automatic Speech Recognition (ASR)"
     ],
     "preview": "posts/2019-04-22-cbmr-time-differences-between-asr-and-humans/cbmr-time-differences-between-asr-and-humans_files/figure-html5/unnamed-chunk-3-1.png",
-    "last_modified": "2019-04-22T20:41:15-07:00"
+    "last_modified": "2019-04-22T20:41:16-07:00"
   },
   {
     "path": "posts/2019-04-06-cce-auxiliary-modelbuilding/",
@@ -153,7 +172,7 @@
       "Content & Convergent Evidence"
     ],
     "preview": "posts/2019-04-06-cce-auxiliary-modelbuilding/tools-solid.svg",
-    "last_modified": "2019-05-13T14:09:42-07:00"
+    "last_modified": "2019-05-13T14:09:43-07:00"
   },
   {
     "path": "posts/2019-04-04-content-convergent-evidence-study-procedures/",
@@ -174,6 +193,6 @@
       "Content & Convergent Evidence"
     ],
     "preview": "posts/2019-04-04-content-convergent-evidence-study-procedures/content-convergent-evidence-study-procedures_files/figure-html5/unnamed-chunk-4-1.png",
-    "last_modified": "2019-05-07T09:46:59-07:00"
+    "last_modified": "2019-05-07T09:47:00-07:00"
   }
 ]
