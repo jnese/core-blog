@@ -1,7 +1,7 @@
 ---
-title: "Study Procedures: Calibration, Equating, and Linking"
+title: "Study Procedures: Consequential Validity"
 description: |
-  The purpose of this post is to provide a detailed description of the Calibration, Equating, Linking Study procedures.
+  The purpose of this post is to provide a detailed description of the Consequential Validity Study procedures.
 author:
   - name: Joseph F. T. Nese
     url: https://education.uoregon.edu/people/faculty/jnese
@@ -11,7 +11,7 @@ author:
     url: https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata
     affiliation: Southern Methodist University
     affiliation_url: https://www.smu.edu/
-date: 05-07-2019
+date: 04-12-2019
 output:
   distill::distill_article:
     toc: true
@@ -29,49 +29,68 @@ library(gt)
 library(knitr)
 library(ggthemes)
 library(numform)
-devtools::install_github("ropenscilabs/icon")
+library(lubridate)
 ```
 
 # Study Purpose
 
-The purpose of this study was to equate and link – across Grades 3 through 4 – passage parameters within and across the CORE passages. We administered one **calibration** form and one **equating/linking** form for each examinee, where a **calibration** form consisted of 3 *long* and 3 *medium* passages, and an **equating/linking** form consisted of 1 *long* and 1 *medium* passage (for Grades 2 and 4) or 2 *long* and 2 *medium* passage (for Grade 3).
-
-The data collection was designed such that all passage parameters within and across the CORE passages (long and medium) are equated, and scores are linked scores across the three grade levels. This study allows for calibrating passage parameters that are placed on a common scale, as well as fluency estimates that are also on the same scale across grade levels (i.e., vertically linked). This approach provides more advantage for across-grade-level growth analysis of students oral reading fluency scores. Note that equating will make passages exchangeable, however, linking will not. Although we will vertically link fluency scores between grade levels to allow us to progress-monitor across multiple grade levels, it does not guarantee exchangeability of passages between grade levels. In order to claim vertical “equating” to make passages exchangeable across grade level, we will have to have a strong argument that the construct that passages are measuring are identical across grade level. Although it is likely the case, we will take a conservative approach and not make that strong assumption.
+The purpose of this study was to compare the consequential validity properties of **CORE** and a traditional oral reading fluency (ORF) assessment (easyCBM) for students in Grades 2 through 4. We examine the predictive and concurrent validity of CORE and easyCBM using (a) state reading test scores for students in Grades 3 and 4, and (b) CBM comprehension scores for all students Grades 2 - 4. We also use a longitudinal design with four repeated measurement occasions (waves) to model the within-year growth separately for both the CORE scale scores and the easyCBM words correct per minute (WCPM) raw scores to compare: (a) the estimates of the standard error (*SE*) of the CORE and easyCBM intercept and slope estimates, and (b) the reliability of the growth slopes, and the reliability of each measurement occasion, for the CORE and easyCBM growth models. 
 
 # Method
 
-This study was conducted in the springs of 2017 and 2018. We were unable to meet the targeted sample size in 2017, so we conducted a replication study in 2018 to accrue the remaining student participants. (The 2018 replication ran concurrently with the [Consequential Validity Study](https://jnese.github.io/core-blog/posts/2019-05-14-consequential-validity-study-procedures/)). Note that we will also use data from the 2019 CORE to increase the sample size.
+This study was conducted in the 2017-18 and 2018-19 school years. We were unable to meet the targeted sample size in 2017-18, so we conducted a replication study in 2018-19 to accrue the remaining student participants. These studies ran concurrently with the [Calibration, Equating, Linking Study](https://jnese.github.io/core-blog/posts/2019-05-07-calibration-equating-linking-study-procedures/). 
 
-Data were collected between February 20 - March 10, 2017, and between February 12 - March 23, 2018. 
+The table below shows the open and closing dates for the four waves of testing for each year of the study. 
 
-Below we describe the study procedure, and note any design differences between the years.
+```{r wave_table}
+
+tibble::tribble(
+                ~Wave,        ~Open,       ~Close,        ~Open1,       ~Close1,
+                    1, "10/24/2017", "11/13/2017", "10/22/2018",  "11/9/2018",
+                    2, "11/29/2017",  "2/12/2018",  "12/3/2018", "12/21/2018",
+                    3,  "2/12/2018",  "3/23/2018",  "2/11/2019",   "3/8/2019",
+                    4,   "5/1/2018",  "6/13/2018",  "5/13/2019",   "6/7/2019"
+                ) %>% 
+  mutate_if(is.character, mdy) %>% 
+  gt() %>% 
+  tab_header(
+    title = "Reading Windows for the Consequential Validity Study") %>%
+  tab_spanner(label = "2017-18",
+              columns = vars("Open", "Close")) %>% 
+  tab_spanner(label = "2018-19",
+              columns = vars("Open1", "Close1")) %>% 
+  cols_label(Open1 = "Open",
+             Close1	= "Close")
+
+```
 
 ## Sample
 
-In each of 2017 and 2018, we recruited three school districts for participation. District A has less than 3,000 students, about 3% EL students and 19% students with IEPs (Town: Distant). District B has about 11,000 students, about 6% EL students and 17% students with IEPs (Suburb: Midsize). District C has about 17,400 students, about 3% EL students and 15% students with IEPs (City: Midsize). District D has about 4,600 students, about 4% EL students and 16% students with IEPs (City: Midsize). District E has about 4,400 students, about 14% EL students and 16% students with IEPs (Town: Distant). We worked with Districts A and B in the prior two years of the project (2014-15 and 2015-16).
+In each of the 2017-18 and 2018-19 school years, we recruited three school districts for participation. District A has less than 3,000 students, about 3% EL students and 19% students with IEPs (Town: Distant). District B has about 11,000 students, about 6% EL students and 17% students with IEPs (Suburb: Midsize). District C has about 17,400 students, about 3% EL students and 15% students with IEPs (City: Midsize). District D has about 4,600 students, about 4% EL students and 16% students with IEPs (City: Midsize). District E has about 4,400 students, about 14% EL students and 16% students with IEPs (Town: Distant). We worked with Districts A and B in the prior two years of the project (2014-15 and 2015-16).
 
 We targeted the largest elementary schools within two districts because (a) we needed such a large number of student participants that it was desirable to have all Grade 2 – 4 classrooms in a school participate, and (b) because the budget called for schools to share a set of 30 headsets with noise-cancelling microphones, it was most beneficial to share one set of headphones across as many classrooms as possible.
 
-Data for this study to date include approximately 2,094 students and approximately 26,272 audio files (where each passage read is a file). 
+Data for this study to date include approximately 2,094 students and approximately 26,272 audio files (where each passage read is a file).
 
 The table below details the number of schools, teachers, and the approximate number of students who participated in this study.
 
 ```{r sample_table}
-
 samp_tab <- tibble::tribble(
     ~Year, ~'School District', ~Schools, ~Teachers, ~'Approximate Students',
-   "2017",              "District A",        1,        10,                   158,
-   "2017",              "District B",        6,        55,                   662,
-   "2017",              "District C",        4,        18,                   414,
-   "2018",              "District D",        1,        11,                   256,
-   "2018",              "District E",        2,        25,                   462,
-   "2018",              "District A",        1,         9,                   142,
+   "2017-18",              "District A",        1,        10,                   158,
+   "2017-18",              "District B",        6,        55,                   662,
+   "2017-18",              "District C",        4,        18,                   414,
+   "2018-19",              "District D",        1,        11,                   256,
+   "2018-19",              "District E",        2,        25,                   462,
+   "2018-19",              "District A",        1,         9,                   142,
   "",               "Total",       15,       128,                  2094
   )
 
 samp_tab %>% 
   group_by(Year) %>% 
   gt() %>% 
+  tab_header(
+    title = "Participants in the Consequential Validity Study") %>% 
  fmt_number(
     columns = vars('Approximate Students'),
     sep_mark = ",",
@@ -84,7 +103,7 @@ For teacher participants we used the active informed consent procedure, by which
 
 ## Measures
 
-*For more detailed information about CORE passage development, please see the [Study Procedures for the Content & Convergent Evidence Study]( https://jnese.github.io/core-blog/posts/2019-04-04-content-convergent-evidence-study-procedures/#core-assessment).*
+*For more detailed information about CORE and easyCBM passage development, please see the [Study Procedures for the Content & Convergent Evidence Study]( https://jnese.github.io/core-blog/posts/2019-04-04-content-convergent-evidence-study-procedures/#core-assessment).*
 
 ### CORE assessment
 
@@ -93,6 +112,12 @@ Passages were written with the following specifications. Each passage was to be 
 Final passages included 330 passages total, 110 at each of Grades 2-4, with 20 *long* passages, 30 *medium* passages, and 60 *short* passages for each grade.
 
 We decided to exclude the *short* passages (≈ 25 words) from this study for three reasons. First, the results of our [Teacher Survey of the Accessibility and Text Features of the Computerized Oral Reading Evaluation (CORE)]( https://www.brtprojects.org/wp-content/uploads/2016/05/TechRpt_1601TeacherSurveyCORE.pdf) suggested that our the CORE short passages are most appropriate for Grade 2 students and the CORE *long* and *medium* passages were preferred by teachers for students in Grades 3 and 4. Second, our preliminary psychometric analyses revealed that more words read by a student will increase reliability of the scale score, and this does not depend on passage length (i.e., 200 words from *short* passages or from *medium* passages are equally reliable). Third, we determined that our original plan that consisted of administering 4 *long*, 7 *medium*, and 12 *short* passages would take too much time and be too burdensome on teachers and students, particularly low-performing students.
+
+### Traditional ORF assessment
+
+The [easyCBM](https://easycbm.com/) ORF measures were the traditional ORF assessments administered for the purpose of comparison to the CORE system. Developed in 2006, easyCBM is an online screening and progress monitoring assessment system for use in schools working under an RTI framework, available for an annual fee for district-wide adoption. easyCBM is currently used by over 143,000 teachers, representing over 1 million students in schools across every state in the country.
+
+The ORF passages used in easyCBM were developed to assess students’ ability to fluently read narrative text. During instrument development, each form was created to be consistent in length and the readability of each form was verified to fit appropriate grade-level, initially using the Flesch-Kincaid index feature available on Microsoft Word ([Alonzo & Tindal, 2007)](http://www.brtprojects.org/wp-content/uploads/2016/05/TechRpt40_DevWrdPassFluency.pdf). The passages were developed to be of equivalent difficulty for each grade level following word-count, grade-level guidelines (e.g., Flesch-Kincaid readability estimates), and form equivalence empirical testing using repeated measures ANOVA to evaluate comparability of forms ([Alonzo & Tindal, 2007)](http://www.brtprojects.org/wp-content/uploads/2016/05/TechRpt40_DevWrdPassFluency.pdf). 
 
 ## Procedures
 
@@ -112,17 +137,17 @@ The study instructions were then be presented via audio as well as print.
 
 Students clicked **Start** to begin reading, and were randomly assigned to a fixed set of passages. Student then read each passage aloud, and progressed through each of the study’s 10 to 12 passages. Students clicked **Done** after reading a passage, and the system automatically advanced a student to the next screen after 90 seconds (with a 10 second warning). Students clicked **Continue** to read the next passage, and the system automatically advanced a student to the next passage after 10 seconds. The purpose of automatically advancing students was to ensure students, particularly low-performing readers, were not burdened with the task and did not take an excessive amount of time to complete the task. 
 
-Collected data for the purpose of the study included, for all passages: duration and digital audio recording (which will be scored by the automated speech recognition engine). Audio recordings of fluency readings can be used for the purposes of scoring, data analysis, improving the scoring engine, and equating all passages within each grade, as well as linking all passages across grades. 
+Collected data for the purpose of the study included, for all passages: duration and digital audio recording (which will be scored by the automated speech recognition engine). Audio recordings of fluency readings are used for the purposes of scoring, data analysis, improving the scoring engine, and equating all passages within each grade, as well as linking all passages across grades. 
 
 ### Form Assembly Design
 
-The tables below shows form assembly design.
+We were unable to meet the targeted sample size for our 2015-16 [Calibration, Equating, Linking Study](https://jnese.github.io/core-blog/posts/2019-05-07-calibration-equating-linking-study-procedures/), so we used Wave 3 of the **Consequential Validity Study** (2017-18 and 2018-19) as a replication to accrue the remaining student participants for the Calibration, Equating, Linking Study. Thus, Wave 3 of each year of the Consequential Validity Study also served as a replication of the Calibration, Equating, Linking Study, such that the sample and data for the Wave 3 measurement occasion served the purpose of both studies. The form assembly design is as follows. 
 
-We administered one **calibration** form and one **equating/linking** form to each student, where: a **calibration** form consisted of 3 *long* and 3 *medium* passages, and an **equating/linking** form consisted of 1 *long* and 1 *medium* passage for Grades 2 and 4 and 2 *long* and 2 *medium* passage for Grade 3. 
+The participating students were randomly assigned to one of the 10 forms at the beginning of the study. Forms for Waves 1, 2, and 4 consisted of one easyCBM passage and nine passages from the CORE system (6 *medium* passages and 3 *long* passages). Ten forms were constructed such that Wave 3 forms were identical to those delivered in 2016-17 and 2017-2018, and CORE *medium* and *long* passages were randomly selected from the remaining passages such that no passage was duplicated at any point across the four waves. Forms for Wave 3 consisted of one easyCBM passage and: 10 CORE passages for Grades 2 and 4, and 12 CORE passages for Grade 3. Because Wave 3 also served as a replication of the Passage Calibration, Equating, Linking Study, forms were identical to those created in 2016-17 (meaning that the same CORE passages were associated with the same form id). However, there were two caveats: (1) one traditional ORF (easyCBM) passage was included in each form (to meet the needs of the Consequential Validity Study), and (2) passages within forms, including the traditional ORF passage, were randomly ordered (so as to control for fatigue and order effects, as well as reduce the chance that two adjacent students read the same passage at the same time) so that the passage delivery order was likely different across years. 
 
-All **calibration** forms had common passages to two other forms within each version (1 and 2 common passages for *long* and *medium*, respectively). Each **calibration** form had 2 unique passage for *long* and 2 unique passages for *medium*. 
+For Wave 3, we administered one calibration form and one equating/linking form for each examinee, where a calibration form consisted of 3 *long* and 3 *medium* passages, and an equating/linking form consisted of 1 *long* and 1 *medium* passage for Grades 2 and 4, and 2 *long* and 2 *medium* passage for Grade 3. 
 
-Each **equating/linking** forms was assembled with *long* and *medium* passages, but fewer passages from each type. Each *equating/linking* forms contained 1 (Grade 2 and 4) or 2 (Grade 3) *long* passage(s), and 1 (Grade 2 and 4) or 2 (Grade 3) *medium* passage(s). In addition, each **equating/linking** form had off-grade-level passages. All Grade 2 and 4 students received Grade 3 passages as off-grade-level passages, and all Grade 3 students received Grade 3 passages as off-grade-level passages. For each grade level, the CORE reading passages were assembled into 10 *calibration / equating/linking* forms. Passages were randomly ordered within forms. 
+All calibration forms had common passages to two other forms within each version (1 and 2 common passages for *long* and *medium*, respectively). Each calibration form had 2 unique passage for *long* and 2 unique passages for *medium.* Each equating/linking forms was assembled with *long* and *medium* passages, but fewer passages from each type. Each equating/linking forms contained one (Grade 2 and 4) or two (Grade 3) *long* passage(s), and one (Grade 2 and 4) or two (Grade 3) *medium* passage(s). In addition, each equating/linking form had off-grade-level passages. All Grade 2 and 4 students received Grade 3 passages as off-grade-level passages, and all Grade 3 students received Grade 3 passages as off-grade-level passages. For each grade level, the CORE reading passages were assembled into 10 calibration/ equating/linking forms. Passages were randomly ordered within forms. The tables below shows form assembly design.
 
 ```{r grs2-4_table}
 
@@ -220,7 +245,7 @@ gr3 %>%
 
 <center>
 ```{r, out.width = "10%"}
-knitr::include_graphics("link-solid.svg")
+knitr::include_graphics("chart-line-solid.svg")
 #<center><i class="fas fa-link"></i></center>
 ```
 </center>

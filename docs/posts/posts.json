@@ -19,44 +19,6 @@
     "last_modified": "2019-06-10T11:29:20-07:00"
   },
   {
-    "path": "posts/2019-05-14-consequential-validity-study-procedures/",
-    "title": "Study Procedures: Consequential Validity",
-    "description": "The purpose of this post is to provide a detailed description of the Consequential Validity Study procedures.",
-    "author": [
-      {
-        "name": "Joseph F. T. Nese",
-        "url": "https://education.uoregon.edu/people/faculty/jnese"
-      },
-      {
-        "name": "Akihito Kamata",
-        "url": "https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata"
-      }
-    ],
-    "date": "2019-05-14",
-    "categories": [],
-    "preview": "posts/2019-05-14-consequential-validity-study-procedures/chart-line-solid.svg",
-    "last_modified": "2019-05-14T12:40:41-07:00"
-  },
-  {
-    "path": "posts/2019-05-07-calibration-equating-linking-study-procedures/",
-    "title": "Study Procedures: Calibration Equating Linking",
-    "description": "The purpose of this post is to provide a detailed description of the Calibration, Equating, Linking Study procedures.",
-    "author": [
-      {
-        "name": "Joseph F. T. Nese",
-        "url": "https://education.uoregon.edu/people/faculty/jnese"
-      },
-      {
-        "name": "Akihito Kamata",
-        "url": "https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata"
-      }
-    ],
-    "date": "2019-05-07",
-    "categories": [],
-    "preview": "posts/2019-05-07-calibration-equating-linking-study-procedures/link-solid.svg",
-    "last_modified": "2019-05-13T14:04:52-07:00"
-  },
-  {
     "path": "posts/2019-04-19-high-accuracy-of-asr-word-scores/",
     "title": "High Accuracy of Automatic Speech Recogntion (ASR) Word Scores",
     "description": "The purpose of this post is to determine whether there are differences in word score agreement rates between the human scoring criterion versus traditional or ASR scoring of traditional CBM-R and CORE passages.",
@@ -152,6 +114,44 @@
     ],
     "preview": "posts/2019-04-22-cbmr-time-differences-between-asr-and-humans/cbmr-time-differences-between-asr-and-humans_files/figure-html5/unnamed-chunk-3-1.png",
     "last_modified": "2019-04-22T20:41:16-07:00"
+  },
+  {
+    "path": "posts/2019-04-12-consequential-validity-study-procedures/",
+    "title": "Study Procedures: Consequential Validity",
+    "description": "The purpose of this post is to provide a detailed description of the Consequential Validity Study procedures.",
+    "author": [
+      {
+        "name": "Joseph F. T. Nese",
+        "url": "https://education.uoregon.edu/people/faculty/jnese"
+      },
+      {
+        "name": "Akihito Kamata",
+        "url": "https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata"
+      }
+    ],
+    "date": "2019-04-12",
+    "categories": [],
+    "preview": "posts/2019-04-12-consequential-validity-study-procedures/chart-line-solid.svg",
+    "last_modified": "2019-06-10T20:31:53-07:00"
+  },
+  {
+    "path": "posts/2019-04-09-calibration-equating-linking-study-procedures/",
+    "title": "Study Procedures: Calibration, Equating, and Linking",
+    "description": "The purpose of this post is to provide a detailed description of the Calibration, Equating, Linking Study procedures.",
+    "author": [
+      {
+        "name": "Joseph F. T. Nese",
+        "url": "https://education.uoregon.edu/people/faculty/jnese"
+      },
+      {
+        "name": "Akihito Kamata",
+        "url": "https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata"
+      }
+    ],
+    "date": "2019-04-09",
+    "categories": [],
+    "preview": "posts/2019-04-09-calibration-equating-linking-study-procedures/link-solid.svg",
+    "last_modified": "2019-06-10T20:30:18-07:00"
   },
   {
     "path": "posts/2019-04-06-cce-auxiliary-modelbuilding/",
