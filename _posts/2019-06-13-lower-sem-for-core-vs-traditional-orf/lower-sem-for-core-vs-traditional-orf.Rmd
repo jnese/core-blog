@@ -1,0 +1,266 @@
+---
+title: "Lower Standard Error for CORE than Traditional CBM-R"
+description: |
+  The purpose of this post is to compare the standard error of measurement (*SEM*) of traditional CBM-R WCPM scores and the conditional SEM (CSEM) estimates of CORE scale scores.
+author:
+  - name: Joseph F. T. Nese
+    url: https://education.uoregon.edu/people/faculty/jnese
+  - name: Akihito Kamata
+    url: https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata
+date: 06-13-2019
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r}
+library(rio)
+library(tidyverse)
+library(stringr)
+library(gt)
+library(knitr)
+library(ggthemes)
+library(janitor)
+library(gt)
+library(gghighlight)
+```
+
+## INTRO
+
+Reducing the standard error of CBM-R scores has positive implications for teachers using these measures to monitor student growth. 
+
+The large *SEM* of traditional CBM-R assessments make the results less useful because the magnitude of error is too great. As teachers use CBM-R data to inform instruction, the large *SEM* of traditional CBM-R can affect the interpretations and consequences of the progress monitoring results, with implications for instructional decision-making. In order for CBM-R measures to have meaningful consequential validity for educators, scores need to be sensitive to instructional change - in other words, have a small *SEM*.
+
+
+In addition, 
+
+## Standard Error of Measurement (*SEM*)
+
+The standard error of measurement (*SEM*) is a measure of precision of an assessment score. The smaller the *SEM*, the more precise the score. The *SEM* is generally more useful than a reliability coefficient for assessment consumers - like teachers - because it informs the interpretation of scores.  
+
+The *SEM* can be used to generate *confidence intervals* around reported scores. This interval is the range - given a specific degree of certainty - that a student’s "true score" is contained. For example, a range of ± 1 *SEM* around a reported score provides an interval for which there is a 68% chance the true score falls therein, and a range of ± 2 *SEM* provides a 95% confidence interval that contains the true score.
+
+The values of the *SEM* of traditional curriculum-based measurement of oral reading fluency (CBM-R) measures have been reported to range from 5-20 words correct per minute (WCPM) (e.g., [Christ & Silberglitt, 2007](https://search.proquest.com/docview/219655442?pq-origsite=gscholar); [Poncy et al., 2005](https://journals.sagepub.com/doi/abs/10.1177/073428290502300403)), and although data with *SEM* = 5 have been anecdotally described as "[very good](https://journals.sagepub.com/doi/abs/10.1177/001440291207800306)," a more realistic range is 8-10 WCPM. 
+
+For example, the reported WCPM *SEM* ranges across grades for the following CBM-R assessments are as follows: [aimsweb](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=14&ved=2ahUKEwjwyNPXnPHiAhUEip4KHUbPDkQQFjANegQIAhAC&url=https%3A%2F%2Fwww.pearson.com%2Fcontent%2Fdam%2Fone-dot-com%2Fone-dot-com%2Fglobal%2FFiles%2Fefficacy-and-research%2Freports%2Fefficacy-assessment-reports%2Faimsweb-Plus-research-report.pdf&usg=AOvVaw35ZIZoNcxyNaEZPE8FySY6): 6.28 to 9.58 WCPM; [DIBELS 8th Edition](https://dibels.uoregon.edu/assessment/dibels/dibels-eighth-edition): 7.12 to 11.23 WCPM; [easyCBM](https://www.brtprojects.org/wp-content/uploads/2016/05/TechRpt0906_RelabilityEasycbmG1358.pdf) 7.71 to 12.11 WCPM; and [FastBrdige](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&ved=2ahUKEwiW1sWjx-LiAhWyMn0KHTfTBkYQFjABegQIARAC&url=https%3A%2F%2Fwww.fastbridge.org%2Fwp-content%2Fuploads%2F2015%2F11%2F2015-16FastBridgeNormsandBenchmarksAllMeasuresFINAL.pdf&usg=AOvVaw162L_-mXhp-sFOE6O2RnhK): 8.54 to 10.41 WCPM. It is important to note that the CBM-R *SEM* generally increases across grade level for all CBM-R systems.
+
+### Large SEM of Traditional CBM-R Scores
+
+When measuring student progress, smaller *SEM*s become quite important.
+
+The figure here shows the [Hasbrouk & Tindal ORF Norms](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=3&ved=2ahUKEwiosZGKzOniAhVSvZ4KHZTwCh4QFjACegQIAhAC&url=https%3A%2F%2Fintensiveintervention.org%2Fsites%2Fdefault%2Ffiles%2F2017%2520ORF%2520NORMS%2520PDF.pdf&usg=AOvVaw38bQBojPhBTBxU1we35vVI) for 3rd graders at the 25th percentile. We chose the 25th percentile as these students may be classified as at risk of poor reading outcomes, and targeted to receive Tier 2 instructional supports. You can see the average fall CBM-R score is 59 WCPM, and the average spring score is 91 WCPM. Here, the average expected within-year growth for a Grade 3 student at the 25th percentile is 91 - 59 = **32 WCPM**.
+
+```{r}
+hb <- import("C:/Users/Joe/Desktop/BRT/Professional/MO_app/job_talk/data/h_and_t_2017.csv") %>% 
+  as_tibble() %>% 
+  clean_names()
+
+hb %>% 
+  gather(season, PRF, -c(1:2)) %>% 
+  mutate(season = as.factor(season),
+         season = fct_relevel(season, "fall", "winter"),
+         time = recode(season,
+                       "fall" = 1,
+                       "winter" = 2,
+                       "spring" = 3)) %>% 
+  rename(ORF = PRF) %>% 
+  filter(percentile == 25,
+         grade == 3,
+         season != "winter") %>% 
+  ggplot(aes(x = factor(season), y = ORF, group = 1)) +
+  geom_line(size = 1) +
+  geom_point() +
+  theme_minimal() +
+  geom_text(aes(label=ORF), hjust=-1, vjust=0) +
+  geom_segment(aes(x = 2, y = 59, xend = 2, yend = 91, color = "red")) +
+  geom_text(aes(x = 2, y = 75, label = "32", color = "red")) +
+    labs(
+    x = "Benchmark",
+    y = "WCPM",
+    title = "Grade 3 25th Percentile",
+    subtitle = "ORF Norms - Hasbrouk & Tindal (2017)") +
+  theme(legend.position="none")
+```
+
+We can construct a 95% confidence interval around any score on the line between the two scores. Given a realistic *SEM* of 9 WCPM, we can estimate a 95% confidence interval of about **36 WCPM**. That is: ±10 * 2 *SEM* = 36 WCPM.
+
+We can see that the confidence interval - 36 WCPM - around any score on that line of growth is more than the expected growth for the entire year - 32 WCPM. 
+
+This large confidence is problematic when CBM-R measures are used to monitor student progress and to help make instructional decisions.
+
+## Conditional *SEM* of CORE
+
+The CORE system uses model-based estimate of WCPM, based on a recently proposed latent-variable psychometric model of speed and accuracy for CBM-R data. More more details, please see the post on our [Latent Variable Model for ORF](https://jnese.github.io/core-blog/posts/2019-04-18-latent-variable-model-for-orf/).  
+
+There are several advantages of CORE's model-based WCPM estimates compared to traditional CBM-R WCPM scores.
+
+1. Standard errors of model-based WCPM can be computed for each observation with a single test administration.
+2. Missing data are allowed.
+    + We can collect data and “equate” model parameters with a “common-passage non-equivalent group” design.
+    + Passages between multiple grade levels can be equated.
+3. With equated model parameters, estimated model-based WCPM will naturally be on a common scale.
+    + Post-equating is thus not necessary.
+    + This applies for **any** set of passages in the equated passage pool, making it especially useful for longitudinal observations - that is, progress mointoring.
+    
+Here we focus on (1) above: standard errors of our model-based WCPM can be computed for each observation with a single test administration. Traditional CBM-R WCPM scores are reported with a single *SEM* that using a classical test theory approach, where the standard deviation of the CBM-R measures is multiplied by the square root of one minus the reliability of the CBM-R measure.
+
+<aside>
+$$SEM=SD\times\sqrt{1-\rho_{xx'}}$$ 
+</aside>
+
+Estimates of the standard errors at different score levels is referred to here as *conditional standard errors of measurement*, or ***CSEM***. According to the 2014 [*Standards for Educational and Psychological Testing*](https://www.apa.org/science/programs/testing/standards), 
+
+> *CSEM* "can be much more informative than a single average *SE* for a population. If decisions are based on test scores and these decisions are concentrated in one area or a few areas of the scale score, then the conditional errors in those areas are of special interest.
+
+This is true for CBM-R, and formative assessments or CBMs in general, where educators use scores to screen for students at risk for poor reading outcomes, and modify instruction based on student progress data. Teachers analyze and evaluate student assessment data to inform the following educational decisions: 
+
+- Based on universal screening data, is the student at risk of poor reading outcomes? 
+- Based on progress monitoring data, is the intervention working? 
+  + If so, should instruction cease or continue?
+  + If not, should instruction continue or be modified?
+  
+For progress monitoring data, decisions are concentrated in one area of the scale score - around the 20th percentile and below, making the use of *CSEM* particularly valuable for CBM-R decision-making.
+
+## Analyses
+
+We used the 2017-18 data from the [Consequential Validity Study](https://jnese.github.io/core-blog/posts/2019-04-12-consequential-validity-study-procedures/), and estimated model-based WCPM and the associated *SE* for each student's score. We examined the data by grade and wave of data collection (Oct, Nov, Feb, May) and found no differences across waves, so we report results by grade. 
+
+We compared our CORE *CSEM* results to the reported traditional *SEM* of observed WCPM for the following CBM-R systems: aimsweb Plus, DIBELS 8th Edition, easyCBM, and FastBridge.
+
+```{r}
+
+trad_sem <- tibble::tribble(
+                           ~System,    ~Grade,  ~SEM,
+              "DIBELS 8th Edition", "Grade 2",   8.6,
+              "DIBELS 8th Edition", "Grade 3", 10.07,
+              "DIBELS 8th Edition", "Grade 4", 10.86,
+                      "FastBridge", "Grade 2",  8.54,
+                      "FastBridge", "Grade 3",  8.54,
+                      "FastBridge", "Grade 4", 10.41,
+                         "easyCBM", "Grade 2",    NA,
+                         "easyCBM", "Grade 3",  9.73,
+                         "easyCBM", "Grade 4",    NA,
+                    "aimsweb Plus", "Grade 2",  7.78,
+                    "aimsweb Plus", "Grade 3",  7.46,
+                    "aimsweb Plus", "Grade 4",   8.4
+              )
+
+
+trad_sem %>% 
+  spread(Grade, SEM) %>% 
+  gt() %>% 
+  tab_header(
+    title = "Reference SEMs of Traditional ORF Measures") %>% 
+  fmt_missing(columns = c("Grade 2", "Grade 3", "Grade 4"),
+              missing_text = "--")
+
+```
+
+The traditional *SEM* is conceptually the average *CSEM* for a given sample. One way to compare our *CSEM* results to traditional *SEM*
+is to use examine where the distribution of our *CSEM* is located relative to a reference point; here, we use the traditional *SEM* for observed WCPM. We do this in two wasy.
+
+1. We compute the average *CSEM*. More precisely, we compute the mean of *CSEM*^2^ and then take the square root, and compare that estimate to the reference *SEM*s (see table above).
+2. We report the proportion of observations that have smaller *CSEM* than the reference *SEM*, and suggest that >50% of the *CSEM* estimates below the reference *SEM* indicates our *CSEM* is of better quality than the traditional *SEM*. 
+
+For our purposes here, we used a conservative reference *SEM* of 8 WCPM for each grade.
+
+## Results
+
+```{r}
+se_data <- import("Y:/COREfiles/CORE_Year4/data/Year_4_data_prep/data/year_4_joins/year4_consq_valid_dta.csv") %>% 
+  as_tibble() %>% 
+  select(student_id, grade, 
+         wcpm_core_scale_se_wave1, wcpm_core_scale_se_wave2, wcpm_core_scale_se_wave3, wcpm_core_scale_se_wave4,
+         wcpm_core_scale_wave1, wcpm_core_scale_wave2, wcpm_core_scale_wave3, wcpm_core_scale_wave4) %>% 
+  gather(key, value, -c(student_id, grade)) %>% 
+  mutate(wave = parse_number(key)) %>% 
+  distinct(., .keep_all = TRUE) %>%
+  mutate(foo = ifelse(str_detect(key, "_se_"), "se", "wcpm")) %>% 
+  select(-key) %>% 
+  spread(foo, value)
+
+core_csem <- se_data %>% 
+  mutate(Grade = recode(grade,
+                        '2' = "Grade 2",
+                        '3' = "Grade 3",
+                        '4' = "Grade 4")) %>% 
+  mutate(sqrd = se^2,
+       less8 = ifelse(is.na(se), NA_integer_,
+                       ifelse(se <= 8, 1, 0))) %>% 
+  group_by(Grade) %>% #, wave) %>% 
+  summarize(mean = mean(se, na.rm = TRUE),
+            ave_csem = sqrt(mean(sqrd, na.rm = TRUE)),
+            pctless8 = round(mean(less8, na.rm = TRUE), 2),
+            cor = round(cor(wcpm, se, use = "complete.obs"), 2))
+```
+
+The average estimated *CSEM* was less than 8 WCPM for all grades, and `r round(core_csem %>% filter(Grade == "Grade 2") %>% pull(ave_csem), 2)` WCPM for Grade 2, `r round(core_csem %>% filter(Grade == "Grade 3") %>% pull(ave_csem), 2)` WCPM for Grade 3, and `r round(core_csem %>% filter(Grade == "Grade 4") %>% pull(ave_csem), 2)` WCPM for Grade 4.
+
+```{r}
+core_csem %>% 
+  select(Grade, ave_csem) %>% 
+  rename("Mean CSEM" = ave_csem) %>% 
+  spread(Grade, 'Mean CSEM') %>% 
+  gt() %>% 
+  tab_header(
+    title = "CORE Average CSEM") %>% 
+  fmt_number(columns = c("Grade 2", "Grade 3", "Grade 4"),
+              decimals = 2)
+```
+
+```{r}
+pctless8 <- core_csem %>% 
+  mutate(pctless8 = round(pctless8, 2)*100) %>% 
+  pull(pctless8)
+```
+
+In addition, across all grades, 84% of estimated CORE *CSE*s were less than the reference *SEM* of 8 WCPM. For Grade 2, `r pctless8[1]`% of estimated *CSE*s were less than the reference *SEM* of 8 WCPM, `r pctless8[2]`% were less in Grade 3, and `r pctless8[3]`% were less in Grade 4. These percentages are all above the 50% criterion we established *a priori*. 
+
+```{r}
+
+se_data %>% 
+  rename("WCPM" = wcpm,
+         "SE" = se) %>% 
+  mutate(grade = recode(grade,
+                        '2' = "Grade 2",
+                        '3' = "Grade 3",
+                        '4' = "Grade 4")) %>% 
+  ggplot(aes(WCPM, SE)) +
+  geom_point(color = "#073642") + 
+  gghighlight(SE < 8) + 
+  geom_hline(yintercept = 8, color = "#d33682", size = 1) +
+  annotate(x = 150, y = 2, 
+           label = paste0(pctless8, "%"), 
+           geom = "text") +
+  annotate(x = 150, y = 1, 
+           label = paste0("< 8 WCPM SEM"), 
+           geom = "text", size = 3) +
+  facet_grid(~grade) +
+  theme_minimal()
+
+
+# se_data %>% 
+#   mutate(se_round = floor(se)) %>% 
+#   ggplot(aes(se_round)) +
+#   geom_bar() +
+#   facet_grid(~grade)
+
+```
+
+This figure also shows the relation between the estimated WCPM score and the *SE*, which are postively correlated (Grade 2 *r* = `r core_csem %>% filter(Grade == "Grade 2") %>% pull(cor)`; Grade 3 *r* = `r core_csem %>% filter(Grade == "Grade 3") %>% pull(cor)`; Grade 4 *r* = `r core_csem %>% filter(Grade == "Grade 4") %>% pull(cor)`). 
+
+ALSO ANALYZE THE CSEM FOR THE LOWER END OF THE DISTRIBUTION...
+
+## Conclusion
+
+These results together provide solid evidence that the CORE scale scores contain lower *CSEM* estimates compared to the *SEM* of traditional CBM-R WCPM scores. Lower *CSEM* estimates make CORE better suited for measuring CBM-R, both for screening and progress monitoring, as a more precise score will lead to more accurate instructional decisions.
+
+
+
+
+
+
+
+
+
+

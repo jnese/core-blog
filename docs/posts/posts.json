@@ -1,5 +1,24 @@
 [
   {
+    "path": "posts/2019-06-13-lower-sem-for-core-vs-traditional-orf/",
+    "title": "lower-SEm-for-core-vs-traditional-orf",
+    "description": "A short description of the post.",
+    "author": [
+      {
+        "name": "Joseph F. T. Nese",
+        "url": "https://education.uoregon.edu/people/faculty/jnese"
+      },
+      {
+        "name": "Akihito Kamata",
+        "url": "https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata"
+      }
+    ],
+    "date": "2019-06-13",
+    "categories": [],
+    "preview": "posts/2019-06-13-lower-sem-for-core-vs-traditional-orf/lower-sem-for-core-vs-traditional-orf_files/figure-html5/unnamed-chunk-2-1.png",
+    "last_modified": "2019-06-17T14:36:34-07:00"
+  },
+  {
     "path": "posts/2019-06-10-consequential-validity-teacher-surveys/",
     "title": "Teacher Surveys: Consequential Validity Study",
     "description": "In this post we present data and comments from the teacher particapants of our Consequential Validity Study.",
@@ -132,7 +151,7 @@
     "date": "2019-04-12",
     "categories": [],
     "preview": "posts/2019-04-12-consequential-validity-study-procedures/chart-line-solid.svg",
-    "last_modified": "2019-06-10T20:31:53-07:00"
+    "last_modified": "2019-06-13T12:44:54-07:00"
   },
   {
     "path": "posts/2019-04-09-calibration-equating-linking-study-procedures/",
