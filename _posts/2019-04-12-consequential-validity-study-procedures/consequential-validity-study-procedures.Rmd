@@ -49,7 +49,7 @@ tibble::tribble(
                     1, "10/24/2017", "11/13/2017", "10/22/2018",  "11/9/2018",
                     2, "11/29/2017",  "2/12/2018",  "12/3/2018", "12/21/2018",
                     3,  "2/12/2018",  "3/23/2018",  "2/11/2019",   "3/8/2019",
-                    4,   "5/1/2018",  "6/13/2018",  "5/13/2019",   "6/7/2019"
+                    4,   "5/1/2018",  "6/13/2018",  "5/13/2019",   "6/13/2019"
                 ) %>% 
   mutate_if(is.character, mdy) %>% 
   gt() %>% 
@@ -66,11 +66,15 @@ tibble::tribble(
 
 ## Sample
 
-In each of the 2017-18 and 2018-19 school years, we recruited three school districts for participation. District A has less than 3,000 students, about 3% EL students and 19% students with IEPs (Town: Distant). District B has about 11,000 students, about 6% EL students and 17% students with IEPs (Suburb: Midsize). District C has about 17,400 students, about 3% EL students and 15% students with IEPs (City: Midsize). District D has about 4,600 students, about 4% EL students and 16% students with IEPs (City: Midsize). District E has about 4,400 students, about 14% EL students and 16% students with IEPs (Town: Distant). We worked with Districts A and B in the prior two years of the project (2014-15 and 2015-16).
+In the 2017-18 school year we recruited three school districts for participation, and in the 2018-19 school year, we recruited four school districts for participation. District A has less than 3,000 students, about 3% EL students and 19% students with IEPs (Town: Distant). District B has about 11,000 students, about 6% EL students and 17% students with IEPs (Suburb: Midsize). District C has about 17,400 students, about 3% EL students and 15% students with IEPs (City: Midsize). District D has about 4,600 students, about 4% EL students and 16% students with IEPs (City: Midsize). District E has about 4,400 students, about 14% EL students and 16% students with IEPs (Town: Distant). District F has about 11,000 students, about 6% EL students and 17% students with IEPs (Suburb: Midsize). We worked with Districts A and B in 2014-15 and 2015-16, and District F in 2014-15 through 206-17.
+
+<aside>
+District data sourced from NCES [Common Core of Data](https://nces.ed.gov/ccd/districtsearch/). Locale definitions can be found [here](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&ved=2ahUKEwipic_UlufiAhXKpJ4KHfDECsEQFjABegQIARAC&url=https%3A%2F%2Fnces.ed.gov%2Fprograms%2Fedge%2Fdocs%2FNCES_LOCALE_USERSMANUAL_2016012.pdf&usg=AOvVaw0UxwBc4h0HGQYj2CJ5qfjW).
+</aside>
 
 We targeted the largest elementary schools within two districts because (a) we needed such a large number of student participants that it was desirable to have all Grade 2 – 4 classrooms in a school participate, and (b) because the budget called for schools to share a set of 30 headsets with noise-cancelling microphones, it was most beneficial to share one set of headphones across as many classrooms as possible.
 
-Data for this study to date include approximately 2,094 students and approximately 26,272 audio files (where each passage read is a file).
+Data for this study to date include approximately 2,633 students and approximately 31,000 audio files (where each passage read is a file).
 
 The table below details the number of schools, teachers, and the approximate number of students who participated in this study.
 
@@ -82,8 +86,9 @@ samp_tab <- tibble::tribble(
    "2017-18",              "District C",        4,        18,                   414,
    "2018-19",              "District D",        1,        11,                   256,
    "2018-19",              "District E",        2,        25,                   462,
+   "2018-19",              "District F",        3,        21,                   569,
    "2018-19",              "District A",        1,         9,                   142,
-  "",               "Total",       15,       128,                  2094
+  "",               "Total",       18,       149,                  2663
   )
 
 samp_tab %>% 
