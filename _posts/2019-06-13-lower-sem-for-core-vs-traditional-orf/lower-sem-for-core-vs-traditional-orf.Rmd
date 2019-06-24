@@ -1,5 +1,5 @@
 ---
-title: "Lower Standard Error for CORE than Traditional CBM-R"
+title: "CORE has Lower Standard Error than Traditional CBM-R Measures"
 description: |
   The purpose of this post is to compare the standard error of measurement (*SEM*) of traditional CBM-R WCPM scores and the conditional SEM (CSEM) estimates of CORE scale scores.
 author:
@@ -144,7 +144,7 @@ se_data <- import("Y:/COREfiles/CORE_Year4/data/Year_4_data_prep/data/year_4_joi
   spread(foo, value)
 ```
 
-The sample included `r f_comma(length(unique(se_data$student_id)))` total students, `r f_comma(group_by(se_data, grade) %>% count() %>% filter(grade == 2) %>% pull(n))` at Grade 2, `r f_comma(group_by(se_data, grade) %>% count() %>% filter(grade == 3) %>% pull(n))` at Grade 3, and `r f_comma(group_by(se_data, grade) %>% count() %>% filter(grade == 4) %>% pull(n))` at Grade 4.
+The sample included `r f_comma(length(unique(se_data$student_id)))` total students; `r f_comma(group_by(se_data, grade) %>% count() %>% filter(grade == 2) %>% pull(n))` at Grade 2, `r f_comma(group_by(se_data, grade) %>% count() %>% filter(grade == 3) %>% pull(n))` at Grade 3, and `r f_comma(group_by(se_data, grade) %>% count() %>% filter(grade == 4) %>% pull(n))` at Grade 4.
 
 We compared our CORE *CSEM* results to the reported traditional *SEM* of observed WCPM for the following CBM-R systems:
 [aimsweb Plus](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=14&ved=2ahUKEwjwyNPXnPHiAhUEip4KHUbPDkQQFjANegQIAhAC&url=https%3A%2F%2Fwww.pearson.com%2Fcontent%2Fdam%2Fone-dot-com%2Fone-dot-com%2Fglobal%2FFiles%2Fefficacy-and-research%2Freports%2Fefficacy-assessment-reports%2Faimsweb-Plus-research-report.pdf&usg=AOvVaw35ZIZoNcxyNaEZPE8FySY6), [DIBELS 8th Edition](https://dibels.uoregon.edu/assessment/dibels/dibels-eighth-edition), [easyCBM](https://www.brtprojects.org/wp-content/uploads/2016/05/TechRpt0906_RelabilityEasycbmG1358.pdf), and [FastBrdige](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&ved=2ahUKEwiW1sWjx-LiAhWyMn0KHTfTBkYQFjABegQIARAC&url=https%3A%2F%2Fwww.fastbridge.org%2Fwp-content%2Fuploads%2F2015%2F11%2F2015-16FastBridgeNormsandBenchmarksAllMeasuresFINAL.pdf&usg=AOvVaw162L_-mXhp-sFOE6O2RnhK).
@@ -262,7 +262,7 @@ pctless8 <- core_csem %>%
 
 In addition, at the individual student level, across all grades, 84% of estimated CORE *SE*s were less than the reference *SEM* of 8 WCPM. For Grade 2, `r pctless8[1]`% of estimated *SE*s were less than the reference *SEM* of 8 WCPM, `r pctless8[2]`% were less in Grade 3, and `r pctless8[3]`% were less in Grade 4. These percentages are all above the 50% criterion we established *a priori*. 
 
-```{r}
+```{r, layout="l-body-outset", preview=TRUE}
 
 se_data %>% 
   rename("WCPM" = wcpm,
@@ -337,3 +337,6 @@ se_data %>%
     title = "CORE - Students At/Below 20th Percentile") 
 ```
 
+## Acknowledgments {.appendix}
+
+The research reported here was supported by the Institute of Education Sciences, U.S. Department of Education, through Grant [R305A140203](https://ies.ed.gov/funding/grantsearch/details.asp?ID=1492) to the University of Oregon. The opinions expressed are those of the authors and do not represent views of the Institute or the U.S. Department of Education.
