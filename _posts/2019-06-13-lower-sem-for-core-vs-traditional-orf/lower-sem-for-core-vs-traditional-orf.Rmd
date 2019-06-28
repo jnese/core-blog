@@ -87,7 +87,7 @@ hb %>%
   theme(legend.position="none")
 ```
 
-We can construct a 95% confidence interval around any score on the line between the two scores. Given a realistic *SEM* of 9 WCPM, we can estimate a 95% confidence interval of about **36 WCPM**. That is: ±10 * 2 *SEM* = 36 WCPM.
+We can construct a 95% confidence interval around any score on the line between the two scores. Given a realistic *SEM* of 9 WCPM, we can estimate the range of a 95% confidence interval of about **36 WCPM**. That is: 2 * 2 *SEM* = 36 WCPM.
 
 We can see that the confidence interval range of 36 WCPM around any score on that line of growth is more than the expected growth for the entire year of 32 WCPM. 
 
