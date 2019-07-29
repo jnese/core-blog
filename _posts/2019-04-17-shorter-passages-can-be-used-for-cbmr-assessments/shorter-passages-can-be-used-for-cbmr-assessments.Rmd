@@ -17,8 +17,8 @@ output:
     toc: true
     toc_depth: 4
     self_contained: false
-categories:
-  - Content & Convergent Evidence
+# categories:
+#   - Content & Convergent Evidence
 ---
 
 <h2 id="top" /h2>

@@ -18,9 +18,9 @@ output:
     toc: true
     toc_depth: 4
     self_contained: false
-categories:
-  - Content & Convergent Evidence
-  - Automatic Speech Recognition (ASR)
+# categories:
+#   - Content & Convergent Evidence
+#   - Automatic Speech Recognition (ASR)
 ---
 <h2 id="top" /h2>
 
