@@ -1,0 +1,859 @@
+---
+title: "Accuracy of Speech Recognition in Oral Reading Fluency for Diverse Student Groups"
+description: |
+  The purpose of this post is to compare the accuracy of CBM-R scores by an automatic speech recognition engine and human assessor scores for students with disabilities and those receiving English learner supports.
+author:
+  - name: Joseph F. T. Nese
+    url: https://education.uoregon.edu/people/faculty/jnese
+  - name: Akihito Kamata
+    url: https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata
+date: 01-10-2020
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 4
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE,
+                      message = FALSE)
+
+library(rio)
+library(here)
+library(tidyverse)
+library(janitor)
+library(gtsummary)
+library(ggridges)
+remotes::install_github("rstudio/gt")
+library(gt)
+library(lme4)
+library(cowplot)
+library(ggthemes)
+library(ggeffects)
+
+theme_set(theme_minimal())
+
+```
+
+## Introduction
+
+Automatic speech recognition (ASR) can be [applied in schools to score CBM-R assessments](https://jnese.github.io/core-blog/posts/2019-04-16-asr-can-score-cbmr-assessments/), helping to: reduce administration errors by standardizing the delivery, setting, and scoring (e.g., timing the reading for exactly 60 seconds, correctly calculating and recording the correct WCPM score in the database); reduce the opportunity cost of large-scale CBM-R administration by assessing small groups or an entire classroomsimultaneously in only a few minutes so that a single educator can monitor the integrity of the environment for a group of students. 
+
+But more research is needed on how these ASR systems perform for diverse student groups. The purpose of this study is to compare the accuracy of CBM-R scores by an automatic speech recognition engine and human assessor scores for students with disabilities (SWD) and those receiving English learner supports (EL). 
+
+These results are part of our larger [Content & Convergent Evidence Study](https://jnese.github.io/core-blog/posts/2019-04-04-content-convergent-evidence-study-procedures/).
+
+## Research Questions
+
+1. Are the agreement rates of word scores between the human scoring criterion and ASR scoring of ORF lower for SWDs or EL students?
+2. Are the differences in WCPM between the human scoring criterion and ASR scoring of ORF exacerbated for SWD or EL students?
+
+## Summary
+
+In answer to our first research question, across Grades 2 to 4, the **ORF word score agreement rates between human criterion and ASR were lower for SWDs compared to their non-SWD/non-EL peers**. There was no difference in agreement rates between EL students and their non-SWD/non-EL peers. 
+
+In answer our second research question, **the differences in WCPM between the human scoring criterion and ASR scoring of ORF were not exacerbated for SWD or EL students**. In other words, the one can expect similar ASR WCPM scores for SWD and EL students as for their non-SWD and non-EL peers.
+
+**Thus, we can speculate that the ASR may be less accurate than a human scorer for SWDs at the word level, but the difference in scoring for SWDs is mitigated when scores are aggregated at the passage level.**
+
+```{r data}
+
+sample_demos <- import("C:/Users/jnese/Desktop/BRT/GRANT-CORE/Project/Data/Merge_easyCBM/demographics/data/sampledemos.csv", 
+                        na.strings=c("","NA")) %>% 
+  as_tibble()
+
+sample_demos_t <- sample_demos %>% 
+  select(student_id, grade, school, teacher, gender, disability, ethnicity, ell) %>% 
+  mutate_at(vars(gender, disability, ethnicity, ell), ~replace_na(., "Missing"))
+  
+
+dat03 <- import("C:/Users/jnese/Desktop/BRT/GRANT-CORE/Project/Publications/year_1_2_project/data/dat03.csv") %>% 
+  as_tibble()
+
+
+dta_r1 <- dat03 %>% 
+  select(student_id, grade, passage_id, passage_length,
+         wcpm_asr3, wcpm_during2, wcpm_after3) %>%
+  rename(wcpm_asr = wcpm_asr3,
+         wcpm_traditional = wcpm_during2,
+         wcpm_criterion = wcpm_after3) %>% 
+  mutate(`wcpm_criterion-asr` = wcpm_criterion - wcpm_asr,
+         `wcpm_traditional-asr` = wcpm_traditional - wcpm_asr) %>% 
+  left_join(sample_demos_t) %>% 
+  mutate_at(vars(gender, disability, ethnicity, ell), ~replace_na(., "Missing")) %>% 
+  mutate(grade = recode(grade,
+                        '2' = "Grade 2",
+                        '3' = "Grade 3",
+                        '4' = "Grade 4"),
+         gender = recode(gender,
+                         "F" = "Female",
+                         "M" = "Male"),
+         ethnicity = fct_relevel(ethnicity, "Hispanic/Latino", "Not Hispanic/Latino")) %>% 
+  mutate_at(vars(disability, ell), ~recode(.,
+                                          "Y" = "Yes",
+                                          "N" = "No")) %>% 
+  mutate_at(vars(disability, ell), ~fct_relevel(., "Yes", "No")) 
+  
+dat11 <- import("C:/Users/jnese/Desktop/BRT/GRANT-CORE/Project/Publications/year_1_2_project/data/dat11.csv") %>% as_tibble()
+
+asr.aft.dat <- import("C:/Users/jnese/Desktop/BRT/GRANT-CORE/Project/Publications/year_1_2_project/data/asr.aft.dat.csv") %>% as_tibble()
+
+dta_r2word <- dat11 %>% 
+  mutate(word_disagree = ifelse(score_asr_aftlstwrd == score_after, 0, 1)) %>% 
+  select(student_id, passage_id, session_id, grade, word_disagree) %>% 
+  left_join(sample_demos_t) %>% 
+  mutate_at(vars(gender, disability, ethnicity, ell), ~replace_na(., "Missing")) %>% 
+  mutate(grade = recode(grade,
+                        '2' = "Grade 2",
+                        '3' = "Grade 3",
+                        '4' = "Grade 4"),
+         gender = recode(gender,
+                         "F" = "Female",
+                         "M" = "Male"),
+         ethnicity = fct_relevel(ethnicity, "Hispanic/Latino", "Not Hispanic/Latino")) %>% 
+  mutate_at(vars(disability, ell), ~recode(.,
+                                          "Y" = "Yes",
+                                          "N" = "No")) %>% 
+  mutate_at(vars(disability, ell), ~fct_relevel(., "Yes", "No")) 
+
+
+dta_r2 <- asr.aft.dat %>% 
+  select(student_id, grade, passage_id, passage_length = length,
+         agree, n, totalwords_passage, ag.rate) %>%
+  left_join(sample_demos_t) %>% 
+  mutate_at(vars(gender, disability, ethnicity, ell), ~replace_na(., "Missing")) %>% 
+  mutate(grade = recode(grade,
+                        '2' = "Grade 2",
+                        '3' = "Grade 3",
+                        '4' = "Grade 4"),
+         gender = recode(gender,
+                         "F" = "Female",
+                         "M" = "Male"),
+         ethnicity = fct_relevel(ethnicity, "Hispanic/Latino", "Not Hispanic/Latino")) %>% 
+  mutate_at(vars(disability, ell), ~recode(.,
+                                          "Y" = "Yes",
+                                          "N" = "No")) %>% 
+  mutate_at(vars
+            
+            (disability, ell), ~fct_relevel(., "Yes", "No")) %>% 
+  mutate(disagree = n - agree)
+```
+
+## Sample
+
+The total sample size was $N$ = `r length(unique(dta_r1$student_id))` students; `r nrow(filter(distinct(dta_r1, student_id, .keep_all = TRUE), grade == "Grade 2"))` in Grade 2, `r nrow(filter(distinct(dta_r1, student_id, .keep_all = TRUE), grade == "Grade 3"))` in Grade 3, and `r nrow(filter(distinct(dta_r1, student_id, .keep_all = TRUE), grade == "Grade 4"))` in Grade 4.  
+
+We did not require systematic student demographic information from each school, rendering a complete description of the student sample's demographics unfeasible; however, we were able to merge study data with archived data and recover some sample demographic data. The archived demographic data incomplete, so we report missing data here, and also include `Missing` in our models as a group in both *disability* and *EL* status.
+
+```{r sample_table}
+
+dta_r1 %>% 
+  distinct(student_id, .keep_all = TRUE) %>% 
+  ungroup() %>% 
+  select(grade, gender, ethnicity, disability, ell) %>% 
+  rename(Sex = gender,
+         Ethnicity = ethnicity,
+         `Students with a Disability (SWD)` = disability,
+         `English Learners (EL)` = ell) %>% 
+  tbl_summary(by = grade) %>% 
+  bold_labels() %>%
+  as_gt() %>% 
+  tab_header(
+    title = "Sample Description") 
+
+```
+
+### Research Question 1
+
+To answer research question one, we calculated the word score agreement rates between human and ASR scoring. That is, if both hman and ASR scored a word read as either correct or incorrect, their scores agreed; if one scored a word as read incorrectly and the other as read correctly, their scores disagreed. The agreement rates were calculated for each passage passage each student read. 
+
+The table below shows the average observed ORF word score agreement rates between human and ASR scoring by grade. The `r length(unique(dta_r1$student_id))` sample students read a total of `r nrow(dta_r2)` passages. Agreement rates were lowest for Grade 2 (.89), and higher for Grades 3 (.93) and 4 (.94).
+
+```{r}
+
+nrow(dta_r2)
+
+dta_r2 %>% 
+  group_by(grade) %>%
+  mutate(n_passages = unique(passage_id) %>% length(),
+           # n.students = unique(student_id) %>% length(),
+            n.sessions = n(),
+            mean.ag.rate = mean(ag.rate),
+            sd.ag.rate = sqrt(var(ag.rate))) %>% 
+  ungroup() %>% 
+  distinct(student_id, .keep_all = TRUE) %>% 
+  group_by(grade) %>% 
+  summarize(n.passages = unique(n_passages),
+            n.students = unique(student_id) %>% length(),
+            n.sessions = unique(n.sessions),
+            mean.ag.rate = unique(mean.ag.rate),
+            sd.ag.rate = unique(sd.ag.rate)) %>%
+  ungroup() %>% 
+  select(` ` = grade, Mean = mean.ag.rate, SD = sd.ag.rate, Students = n.students, Passages = n.passages, Recordings = n.sessions) %>% 
+  gt() %>% 
+  tab_spanner(label = "Agreement Rate",
+              columns = vars(Mean, SD)) %>%
+  tab_spanner(label = "n",
+              columns = vars(Students, Passages, Recordings)) %>% 
+  fmt_number(
+      columns = 2:3,
+      decimals = 2
+    ) %>% 
+  fmt_number(columns = vars(Recordings),
+             sep_mark = ",",
+             decimals = 0) %>% 
+  tab_header(
+    title = "Average ORF Word Score Agreement Rates between Human Criterion and ASR Scoring, by Grade")
+```
+
+The table below shows the average observed ORF word score agreement rates between human and ASR scoring by student group. Across groups, the agreement rates ranged from .83 (Grade 3 SWD) to .94.
+
+```{r}
+dta_r2 %>% 
+  select(grade, disability, ell, ag.rate) %>%
+  mutate(disability = recode(disability,
+                             "Yes" = "SWD",
+                             "No" = "Non-SWD",
+                             "Missing" = "SWD Missing"),
+         ell = recode(ell,
+                             "Yes" = "EL",
+                             "No" = "Non-EL",
+                             "Missing" = "EL Missing")) %>% 
+  pivot_longer(
+    cols = c(disability, ell),
+    names_to = "demo",
+    values_to = "status"
+  ) %>% 
+  select(-demo) %>% 
+  group_by(grade, status) %>% 
+  summarise(Mean = mean(ag.rate),
+            SD = sd(ag.rate) ) %>%  
+  group_by(grade) %>% 
+  gt() %>% 
+  tab_spanner(label = "Agreement Rate",
+              columns = vars(Mean, SD)) %>%
+  cols_label(
+    status = ""
+  ) %>% 
+  fmt_number(
+      columns = 3:4,
+      decimals = 2
+    ) %>% 
+  cols_align(align = c("right"), columns = 2) %>%
+  tab_header(
+    title = "Average ORF Word Score Agreement Rates between Human Criterion and ASR Scoring, by Student Groups")
+
+
+```
+
+The figure below shows the distribution of agreement rates across grade and student groups. Although the mean agreement rates were generally strong across groups, there were many instances in which the agreement rate was quite low.
+
+```{r}
+
+p3 <- dta_r2 %>% 
+  ggplot(aes(x=factor(ell), y=ag.rate)) + 
+  geom_boxplot(color = "#073642") + 
+  facet_wrap(~grade) +
+  labs(
+    x = "EL Groups",
+    y = "Agreement Rate",
+    title = "EL") +
+  theme(strip.background = element_rect(colour = "black", fill = "white")) +
+  theme(axis.text.x = element_text(angle = 45))
+
+  
+p4 <- dta_r2 %>% 
+  ggplot(aes(x=factor(disability), y=ag.rate)) + 
+  geom_boxplot(color = "#073642") + 
+  facet_wrap(~grade) +
+  labs(
+    x = "SWD Groups",
+    y = "Agreement Rate",
+    title = "SWD") +
+  theme(strip.background = element_rect(colour = "black", fill = "white")) +
+  theme(axis.text.x = element_text(angle = 45))
+
+title_box <- ggdraw() + 
+  draw_label(
+    "ORF Word Score Agreement Rates between Human Criterion and ASR Scoring, by Student Groups",
+    fontface = 'bold',
+    x = 0,
+    hjust = 0
+  ) +
+  theme(
+    # add margin on the left of the drawing canvas,
+    # so title is aligned with left edge of first plot
+    plot.margin = margin(0, 0, 0, 7)
+  )
+
+prow_box <- plot_grid(
+  p4 + theme(legend.position="none"),
+  p3 + theme(legend.position="none"),
+  align = 'vh',
+#  labels = c("SWD", "EL"),
+  hjust = -1,
+  nrow = 1
+)
+
+plot_grid(title_box, prow_box, ncol = 1, rel_heights = c(.1, 1))
+
+```
+
+```{r}
+
+# foo <- dta_r2 %>% 
+#  filter(grade == "Grade 2") %>% 
+#  glmer(disagree ~ offset(log(n)) + disability + ell + (1|student_id) + (1|passage_id), 
+#      family = "poisson", 
+#      data = .) 
+# summary(foo)
+# 
+# m_word <- dta_r2word %>% 
+#   filter(grade == "Grade 2") %>% 
+#   glmer(word_disagree ~ 1 + disability + ell + (1|student_id) + (1|passage_id), 
+#       family = "binomial", 
+#       data = .) 
+# summary(m_word)
+# 
+# m_rate <- dta_r2 %>% 
+#   filter(grade == "Grade 2") %>% 
+#   glmer(ag.rate ~ 1 + disability + ell + (1|student_id) + (1|passage_id), 
+#       family = "binomial", 
+#       weights = n, 
+#       data = .)   
+# summary(m_rate)
+
+start_time <- Sys.time()
+mods_r2 <- dta_r2 %>% 
+  mutate_at(vars(disability, ell), ~fct_relevel(., "No", "Yes")) %>% 
+  nest(-grade) %>% 
+  arrange(grade) %>% 
+  mutate(
+    mod_main = map(data,
+                  ~glmer(ag.rate ~ 1 + disability + ell + (1|student_id) + (1|passage_id), 
+                         family = "binomial", 
+                         weights = n,
+                         data = .)),
+    mod_intx = map(data,
+                  ~glmer(ag.rate ~ 1 + disability + ell + disability:ell + (1|student_id) + (1|passage_id), 
+                         family = "binomial", 
+                         weights = n,
+                         data = .)),
+    smmry_main = map(mod_main, 
+                     ~broom::tidy(.)),
+    smmry_intx = map(mod_intx, 
+                     ~broom::tidy(.)),
+    anova_main_intx = map2(mod_main, mod_intx, 
+                     ~anova(.x, .y)))
+end_time <- Sys.time()
+
+anova_main_intx_r2 <- mods_r2 %>% 
+  select(grade, anova_main_intx) %>%
+  unnest(cols = c(anova_main_intx)) %>% 
+  drop_na(Chisq)
+
+results_r2 <- mods_r2 %>% 
+  select(grade, smmry_main) %>% 
+  unnest(cols = c(smmry_main)) 
+
+results_probs <- results_r2 %>% 
+  mutate(int = ifelse(term == "(Intercept)", estimate, NA),
+         prob_int = ifelse(term == "(Intercept)", exp(estimate)/(1 + exp(estimate)), NA)) %>% 
+  group_by(grade) %>% 
+  mutate(int = mean(int, na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  mutate(prob_param = ifelse(term != "(Intercept)", exp(int + estimate)/(1 + exp(int + estimate)), NA),
+         prob_param = ifelse(is.na(prob_param), prob_int, prob_param)) %>% 
+  select(-c(int, prob_int))
+  
+#ggpredict(mods_r2$mod_main[[3]], ci.lvl = NA, type = "re")
+
+```
+
+#### Results: RQ1
+
+For our first research question, we fit mixed-effect generalized linear models (GLM) for each grade with random effects for student and passage, and regressed the word score agreement rate (the proportion of words scored correct or incorrect by both the human and the ASR for each student reading) on *disability* and *EL* status (three levels for each: `Yes`, `No`, and `Missing`). We compared these models to models that included an interaction term for *disability* by *EL*, but for models across grades, the addition of the interaction effects did not statistically improved the model fit compared to model without the interaction (Grade 2: *df* = `r anova_main_intx_r2$Df[1]`, $\chi^2$ = `r round(anova_main_intx_r2$Chisq[1], 3)`, *p*-value = `r round(anova_main_intx_r2$'Pr(>Chisq)'[1], 3)`; Grade 3: *df* = `r anova_main_intx_r2$Df[2]`, $\chi^2$ = `r round(anova_main_intx_r2$Chisq[2], 3)`, *p*-value = `r round(anova_main_intx_r2$'Pr(>Chisq)'[2], 3)`; Grade 4: *df* = `r anova_main_intx_r2$Df[3]`, $\chi^2$ = `r round(anova_main_intx_r2$Chisq[3], 3)`, *p*-value = `r round(anova_main_intx_r2$'Pr(>Chisq)'[3], 3)`). Thus, our final model for all grades included random effects for student and passage, and fixed effects for *disability* and *EL* status.
+
+In response to research question 1, the table below shows the results of the final mixed effects model, with random effects for student and passage, and fixed effects *disability* and *EL* status.  Note that the parameter estimates are on the logit scale. The intercepts represent the average word score agreement between the human criterion and the ASR scores for non-SWD and non-EL students, such that the average agreement rate for these students Grades 2 through 4 were `r results_probs %>% filter(grade == "Grade 2", term == "(Intercept)") %>% select(prob_param) %>% pull() %>% round(., 2)`, `r results_probs %>% filter(grade == "Grade 3", term == "(Intercept)") %>% select(prob_param) %>% pull() %>% round(., 2)`, and `r results_probs %>% filter(grade == "Grade 4", term == "(Intercept)") %>% select(prob_param) %>% pull() %>% round(., 2)`. 
+
+Across all grades, SWDs had a statistically significantly lower agreement rate than their non-EL and non-SWD (intercept) peers: Grade 2 = `r results_probs %>% filter(grade == "Grade 2", term == "disabilityYes") %>% select(prob_param) %>% pull() %>% round(., 2)`, Grade 3 = `r results_probs %>% filter(grade == "Grade 3", term == "disabilityYes") %>% select(prob_param) %>% pull() %>% round(., 2)`, and Grade 4 = `r results_probs %>% filter(grade == "Grade 4", term == "disabilityYes") %>% select(prob_param) %>% pull() %>% round(., 2)`. There was no such statistically significant differences in agreement rates for EL students. 
+
+<aside>
+Note that the parameter estimates in the table are on the logit scale. We tranform these to probability estimates by: `probability = exp(intercept) / (1 + exp(intercept)` or `probability = exp(intercept + estimate) / (1 + exp(intercept + estimate)`.
+</aside>
+
+```{r}
+mods_r2 %>% 
+  select(grade, smmry_main) %>% 
+  unnest(cols = c(smmry_main)) %>% 
+  mutate(p_value = ifelse(p.value < .001, "> .001", str_sub(round(p.value, 3), 2))) %>% 
+  select(-c(p.value, group)) %>% 
+  add_row(grade = "Grade 2", term = "ellMissing") %>% 
+  add_row(grade = "Grade 4", term = "ellMissing") %>% 
+  arrange(grade, term) %>% 
+  nest(-grade) %>% 
+  pivot_wider(
+     names_from = grade,
+     values_from = data
+   ) %>% 
+  unnest() %>% 
+  select(-term1, -term2) %>% 
+  gt() %>%  
+  tab_spanner(label = "Grade 2",
+              columns = vars(estimate, std.error, statistic, p_value)) %>% 
+  tab_spanner(label = "Grade 3",
+              columns = vars(estimate1, std.error1, statistic1, p_value1)) %>% 
+  tab_spanner(label = "Grade 4",
+              columns = vars(estimate2, std.error2, statistic2, p_value2)) %>% 
+  text_transform(
+    locations = cells_data(
+    columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace(x, "\\s*\\([^\\)]+\\)", "Intercept")
+    }
+  ) %>%  
+  text_transform(
+    locations = cells_data(
+      columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace_all(x, "disabilityMissing", "SWD-Missing")
+    }
+  ) %>% 
+  text_transform(
+    locations = cells_data(
+      columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace_all(x, "disabilityYes", "SWD")
+    }
+  ) %>% 
+  text_transform(
+    locations = cells_data(
+      columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace_all(x, "ellMissing", "EL-Missing")
+    }
+  ) %>% 
+  text_transform(
+    locations = cells_data(
+      columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace_all(x, "ellYes", "EL")
+    }
+  ) %>% 
+  text_transform(
+    locations = cells_data(
+      columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace_all(x, "sd_Intercept.passage_id", "Passages")
+    }
+  ) %>% 
+  text_transform(
+    locations = cells_data(
+      columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace_all(x, "sd_Intercept.student_id", "Students")
+    }
+  ) %>%
+  text_transform(
+    locations = cells_data(
+      columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace_all(x, "sd_Observation.Residual", "Residual")
+    }
+  ) %>%
+    tab_row_group(
+    group = "Random Effects",
+    row = c(6:7)
+  ) %>% 
+  tab_row_group(
+    group = "Fixed Effects",
+    row = c(1:5)
+  )  %>% 
+  cols_label(
+    estimate = "Estimate",
+    std.error = "SE",
+    statistic = "z-value",
+    p_value = "p-value",
+    estimate1 = "Estimate",
+    std.error1 = "SE",
+    statistic1 = "z-value",
+    p_value1 = "p-value",
+    estimate2 = "Estimate",
+    std.error2 = "SE",
+    statistic2 = "z-value",
+    p_value2 = "p-value",
+    term = ""
+  ) %>% 
+  fmt_missing(
+      columns = TRUE,
+      missing_text = "--") %>% 
+  fmt_number(
+      columns = c(2:4, 6:8, 10:12),
+      decimals = 2
+    ) %>%  
+  tab_footnote(footnote = "The intercept represents non-SWD and non-EL students.",
+                locations = cells_data(
+                  columns = c(1),
+                  rows = c(1))) %>% 
+  tab_footnote(
+    footnote = "Estimates reflect the standard deviations of the random effects.",
+    locations = cells_row_groups(
+    groups = "Random Effects")
+  ) %>% 
+  cols_align(align = c("right"), columns = TRUE) %>% 
+  tab_header(
+    title = "Results of Word Score Agreement Rate Mixed-Effect GLMs, by Grade")
+
+```
+
+Thus, to answer our first research question, across Grades 2 to 4, **the ORF word score agreement rates between human criterion and ASR were lower for SWDs compared to their non-SWD/non-EL peers**. There was no difference in agreement rates between EL students and their non-SWD/non-EL peers.
+
+```{r}
+
+results_probs %>% 
+  filter(group == "fixed") %>% 
+  mutate(term = recode(term,
+                       "(Intercept)" = "Non\nSWD/EL",
+                       "disabilityYes" = "SWD",
+                       "disabilityMissing" = "SWD\nMissing",
+                       "ellYes" = "EL",
+                       "ellMissing" = "EL\nMissing"),
+         term = fct_relevel(term, "Non\nSWD/EL", "SWD", "EL", "SWD\nMissing")) %>% 
+  ggplot(aes(term, prob_param)) +
+  geom_segment( aes(x = term, xend = term, y = 0, yend = prob_param)) +
+  geom_point(aes(color = term), size = 4) +
+  #geom_col(aes(fill = term)) +
+  facet_wrap(~grade) +
+  #scale_fill_solarized("blue") +
+  scale_color_colorblind() +
+  theme(strip.background = element_rect(colour = "black", fill = "white")) +
+  labs(x = "",
+       y = "Agreement Rate",
+       title = "Human-ASR Word Score Agreement Rate") +
+  theme(legend.position = "none") +
+  geom_text(
+    aes(label = str_sub(round(prob_param, 2), 2), y = prob_param + 0.05),
+    position = position_dodge(0.9),
+    vjust = 0
+  )
+
+```
+
+### Research Question 2
+
+To answer research question two, we calculated the ORF WCPM difference score between human and ASR scoring (i.e., human - ASR). The table below shows the observed mean WCPM scores by human and ASR, and their mean difference score, by student groups. The positive difference scores indicates that, on average, the human scores were greater than the ASR scores.
+
+```{r}
+
+dta_r1 %>% 
+  select(grade, disability, ell, wcpm_criterion, wcpm_asr, `wcpm_criterion-asr`) %>%
+  mutate(disability = recode(disability,
+                             "Yes" = "SWD",
+                             "No" = "Non-SWD",
+                             "Missing" = "SWD Missing"),
+         ell = recode(ell,
+                             "Yes" = "EL",
+                             "No" = "Non-EL",
+                             "Missing" = "EL Missing")) %>% 
+  pivot_longer(
+    cols = c(disability, ell),
+    names_to = "demo",
+    values_to = "status"
+  ) %>% 
+  select(-demo) %>% 
+  group_by(grade, status) %>% 
+  summarise_all(list(~mean(.), ~sd(.))) %>% 
+  select(grade, status,
+         wcpm_criterion_mean, wcpm_criterion_sd,
+         wcpm_asr_mean, wcpm_asr_sd,
+         `wcpm_criterion-asr_mean`, `wcpm_criterion-asr_sd`
+         ) %>% 
+  group_by(grade) %>% 
+  gt() %>% 
+  tab_spanner(label = "Human Criterion WCPM",
+              columns = vars(wcpm_criterion_mean, wcpm_criterion_sd)) %>%
+  tab_spanner(label = "ASR WCPM",
+              columns = vars(wcpm_asr_mean, wcpm_asr_sd)) %>%
+  tab_spanner(label = "Human-ASR",
+              columns = vars(`wcpm_criterion-asr_mean`, `wcpm_criterion-asr_sd`)) %>%
+  cols_label(
+    wcpm_criterion_mean = "Mean",
+    wcpm_criterion_sd = "SD",
+    wcpm_asr_mean = "Mean",
+    wcpm_asr_sd = "SD",
+    `wcpm_criterion-asr_mean` = "Mean",
+    `wcpm_criterion-asr_sd` = "SD",
+    status = ""
+  ) %>% 
+  fmt_number(
+      columns = 3:8,
+      decimals = 1
+    ) %>% 
+  cols_align(align = c("right"), columns = TRUE) %>% 
+  tab_header(
+    title = "Average WCPM Scores by Human and ASR, and their Difference, by Student Groups")
+```
+
+The figure below shows the distributions of WCPM scores for human and ASR scoring, by grade and student group. Across groups, the distributions largely overlap, indicating the human and ASR scores were generally quite similar.
+
+```{r}
+
+p1 <- dta_r1 %>%
+  select(grade, disability, ell, wcpm_criterion, wcpm_asr) %>%
+  mutate(Disability = recode(disability,
+                             "Yes" = "SWD",
+                             "No" = "Non-SWD",
+                             "Missing" = "SWD-Missing"),
+         Disability = fct_relevel(Disability, "SWD-Missing", "Non-SWD")) %>% 
+  pivot_longer(
+    cols = starts_with("wcpm"),
+    names_to = "Scoring",
+    values_to = "WCPM",
+    names_prefix = "wcpm_"
+  ) %>%
+  mutate(Scoring = recode(Scoring,
+                          "criterion" = "Human",
+                          "asr" = "ASR")) %>% 
+  ggplot(aes(WCPM, Disability, fill = Scoring)) +
+  geom_density_ridges(alpha = .5) +
+  facet_wrap(~grade) +
+  scale_fill_colorblind() +
+  theme(strip.background = element_rect(colour = "black", fill = "white")) +
+  theme(legend.position="none")  +
+  scale_y_discrete(expand = c(0, 0))
+#scale_fill_solarized('blue', name = "") +
+  # scale_fill_manual(labels = c("ASR", "Human Score"),
+  #                   values = c("#D55E00", "#0072B2")) +
+
+p2 <- dta_r1 %>%
+  select(grade, disability, ell, wcpm_criterion, wcpm_asr) %>%
+  mutate(EL = recode(ell,
+                             "Yes" = "EL",
+                             "No" = "Non-EL",
+                             "Missing" = "EL-Missing"),
+         EL = fct_relevel(EL, "EL-Missing", "Non-EL")) %>% 
+  pivot_longer(
+    cols = starts_with("wcpm"),
+    names_to = "Scoring",
+    values_to = "WCPM",
+    names_prefix = "wcpm_"
+  ) %>%
+  mutate(Scoring = recode(Scoring,
+                          "criterion" = "Human",
+                          "asr" = "ASR")) %>% 
+  ggplot(aes(WCPM, EL, fill = Scoring)) +
+  geom_density_ridges(alpha = .5) +
+  facet_wrap(~grade) +
+  scale_fill_colorblind() +
+  theme(strip.background = element_rect(colour = "black", fill = "white")) +
+  theme(legend.position="none") +
+  scale_y_discrete(expand = c(0, 0))
+
+prow <- plot_grid(
+  p1 + theme(legend.position="none"),
+  p2 + theme(legend.position="none"),
+  align = 'vh',
+  labels = c("SWD", "EL"),
+  hjust = -1,
+  nrow = 1
+)
+
+legend_b <- get_legend(
+  p1 + 
+    guides(fill = guide_legend(nrow = 1)) +
+    theme(legend.position = "bottom", legend.title = element_blank())
+)
+
+title <- ggdraw() + 
+  draw_label(
+    "Density Plot Distributions of WCPM Scored by Human and ASR",
+    fontface = 'bold',
+    x = 0,
+    hjust = 0
+  ) +
+  theme(
+    # add margin on the left of the drawing canvas,
+    # so title is aligned with left edge of first plot
+    plot.margin = margin(0, 0, 0, 7)
+  )
+
+
+plot_grid(title, prow, legend_b, ncol = 1, rel_heights = c(.1, 1))
+
+```
+
+```{r}
+mods_r1 <- dta_r1 %>% 
+  mutate_at(vars(disability, ell), ~fct_relevel(., "No", "Yes")) %>% 
+  nest(-grade) %>% 
+  arrange(grade) %>% 
+  mutate(
+    mod_crit_main = map(data,
+                  ~lmer(`wcpm_criterion-asr` ~ 1 + disability + ell + (1|student_id) + (1|passage_id), data = ., REML = F)),
+    mod_trad_main = map(data, ~
+                  lmer(`wcpm_traditional-asr` ~ 1 + disability + ell + (1|student_id) + (1|passage_id), data=., REML=F)),
+    mod_crit_intx = map(data,
+                  ~lmer(`wcpm_criterion-asr` ~ 1 + disability + ell + disability:ell + (1|student_id) + (1|passage_id), data = ., REML = F)),
+    mod_trad_intx = map(data, ~
+                  lmer(`wcpm_traditional-asr` ~ 1 + disability + ell + disability:ell + (1|student_id) + (1|passage_id), data=., REML=F)),
+    smmry_crit_main = map(mod_crit_main, ~
+                           broom::tidy(.)),
+    smmry_trad_main = map(mod_trad_main, ~
+                           broom::tidy(.)),
+    smmry_crit_intx = map(mod_crit_intx, ~
+                           broom::tidy(.)),
+    smmry_trad_intx = map(mod_trad_intx, ~
+                           broom::tidy(.)),
+    anova_trad_main_intx = map2(mod_trad_main, mod_trad_intx, 
+                     ~anova(.x, .y)),
+    anova_crit_main_intx = map2(mod_crit_main, mod_crit_intx, 
+                     ~anova(.x, .y))
+    ) 
+
+anova_main_intx <- mods_r1 %>% 
+  select(grade, anova_crit_main_intx) %>%
+  unnest() %>% 
+  drop_na(Chisq)
+
+
+results_r1 <- mods_r1 %>% 
+  select(grade, smmry_crit_main) %>% 
+  unnest(cols = c(smmry_crit_main)) 
+
+#round(min(results_r1[results_r1$group == "fixed", "estimate"]), 2)
+
+```
+
+#### ResultsL RQ2
+
+For our second research question, we fit mixed-effect models for each grade with random effects for student and passage, and regressed the WCPM difference score (the human criterion score minus the ASR score) on *disability* and *EL* status (three levels for each: `Yes`, `No`, and `Missing`). We compared these models to models that included an interaction term for *disability* by *EL*, but for models across grades, the addition of the interaction effects did not statistically improved the model fit compared to model without the interaction (Grade 2: *df* = `r anova_main_intx$Df[1]`, $\chi^2$ = `r round(anova_main_intx$Chisq[1], 3)`, *p*-value = `r round(anova_main_intx$'Pr(>Chisq)'[1], 3)`; Grade 3: *df* = `r anova_main_intx$Df[2]`, $\chi^2$ = `r round(anova_main_intx$Chisq[2], 3)`, *p*-value = `r round(anova_main_intx$'Pr(>Chisq)'[2], 3)`; Grade 4: *df* = `r anova_main_intx$Df[3]`, $\chi^2$ = `r round(anova_main_intx$Chisq[3], 3)`, *p*-value = `r round(anova_main_intx$'Pr(>Chisq)'[3], 3)`). Thus, our final model for all grades included random effects for student and passage, and fixed effects for *disability* and *EL* status.
+
+In response to research question two, the table below shows the results of the final mixed effects model, with random effects for student and passage, and fixed effects *disability* and *EL* status. The intercepts represent the difference in WCPM scores between the human criterion score and the ASR for non-SWD and non-EL students, such that the average WCPM difference for these students Grades 2 through 4 were `r round(pull(select(filter(results_r1, term == "(Intercept)"), estimate))[1], 1)` WCPM, `r round(pull(select(filter(results_r1, term == "(Intercept)"), estimate))[2], 1)` WCPM, and `r round(pull(select(filter(results_r1, term == "(Intercept)"), estimate))[3], 1)` WCPM, respectively. These intercept estimates were all statistically significantly greater than zero, meaning that on average, the human criterion WCPM score was greater than the ASR WCPM score for non-SWD and non-EL students.
+
+Although the fixed effect parameters varied in magnitiude and direction across grades (`r round(min(results_r1[results_r1$group == "fixed", "estimate"]), 2)` to `r round(max(results_r1[results_r1$group == "fixed", "estimate"]), 2)`), no parameter was statistically significant. 
+
+Thus, to answer our second research question, the differences in WCPM between the human scoring criterion and ASR scoring of ORF are not exacerbated for SWD or EL students. In other words, the one can expect similar ASR WCPM scores for SWD and EL students as for their non-SWD and non-EL peers.
+
+Given the results of research question one, we can speculate that the ASR may be less accurate than a human scorer at the word level; but given the research question two, the difference in scoring for SWDs is mitigated when scores are aggregated at the passage level. 
+
+```{r}
+mods_r1 %>% 
+  select(grade, smmry_crit_main) %>% 
+  unnest(cols = c(smmry_crit_main)) %>% 
+  select(-group) %>% 
+  add_row(grade = "Grade 2", term = "ellMissing") %>% 
+  add_row(grade = "Grade 4", term = "ellMissing") %>% 
+  arrange(grade, term) %>% 
+  nest(-grade) %>% 
+  pivot_wider(
+     names_from = grade,
+     values_from = data
+   ) %>% 
+  unnest() %>% 
+  select(-term1, -term2) %>% 
+  gt() %>%  
+  tab_spanner(label = "Grade 2",
+              columns = vars(estimate, std.error, statistic)) %>% 
+  tab_spanner(label = "Grade 3",
+              columns = vars(estimate1, std.error1, statistic1)) %>% 
+  tab_spanner(label = "Grade 4",
+              columns = vars(estimate2, std.error2, statistic2)) %>% 
+  text_transform(
+    locations = cells_data(
+    columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace(x, "\\s*\\([^\\)]+\\)", "Intercept")
+    }
+  ) %>%  
+  text_transform(
+    locations = cells_data(
+      columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace_all(x, "disabilityMissing", "SWD-Missing")
+    }
+  ) %>% 
+  text_transform(
+    locations = cells_data(
+      columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace_all(x, "disabilityYes", "SWD")
+    }
+  ) %>% 
+  text_transform(
+    locations = cells_data(
+      columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace_all(x, "ellMissing", "EL-Missing")
+    }
+  ) %>% 
+  text_transform(
+    locations = cells_data(
+      columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace_all(x, "ellYes", "EL")
+    }
+  ) %>% 
+  text_transform(
+    locations = cells_data(
+      columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace_all(x, "sd_Intercept.passage_id", "Passages")
+    }
+  ) %>% 
+  text_transform(
+    locations = cells_data(
+      columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace_all(x, "sd_Intercept.student_id", "Students")
+    }
+  ) %>%
+  text_transform(
+    locations = cells_data(
+      columns = vars(term)),
+    fn = function(x) {
+      stringr::str_replace_all(x, "sd_Observation.Residual", "Residual")
+    }
+  ) %>%
+    tab_row_group(
+    group = "Random Effects",
+    row = c(6:8)
+  ) %>% 
+  tab_row_group(
+    group = "Fixed Effects",
+    row = c(1:5)
+  )  %>% 
+  cols_label(
+    estimate = "Estimate",
+    std.error = "SE",
+    statistic = "t-value",
+    estimate1 = "Estimate",
+    std.error1 = "SE",
+    statistic1 = "t-value",
+    estimate2 = "Estimate",
+    std.error2 = "SE",
+    statistic2 = "t-value",
+    term = ""
+  ) %>% 
+  fmt_missing(
+      columns = TRUE,
+      missing_text = "--") %>% 
+  fmt_number(
+      columns = 2:10,
+      decimals = 2
+    ) %>% 
+  tab_footnote(footnote = "The intercept represents non-SWD and non-EL students.",
+                locations = cells_data(
+                  columns = c(1),
+                  rows = c(1))) %>% 
+  tab_footnote(
+    footnote = "Estimates reflect the standard deviations of the random effects.",
+    locations = cells_row_groups(
+    groups = "Random Effects")
+  )
+```
+
+## Acknowledgments {.appendix}
+
+The research reported here was supported by the Institute of Education Sciences, U.S. Department of Education, through Grant [R305A140203](https://ies.ed.gov/funding/grantsearch/details.asp?ID=1492) to the University of Oregon. The opinions expressed are those of the authors and do not represent views of the Institute or the U.S. Department of Education.
