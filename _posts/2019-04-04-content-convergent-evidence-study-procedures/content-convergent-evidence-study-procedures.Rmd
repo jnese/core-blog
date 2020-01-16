@@ -58,9 +58,11 @@ We identified two local districts that used easyCBM as part of district policy, 
 The student sample consisted of entire classrooms such that it would be representative, to the extent possible, of typically developing students across reading proficiency levels. We used a passive parental consent procedure for student participants, and in Year 2 we also asked for student assent. Our full sample size was n = 937 (and 14,711 audio recordings). The following records with short or long passage time durations (seconds) were removed: < 15 or > 60 for easyCBM passages; < 5 or > 80 for short passages; < 7 or > 100 for medium passages; and < 10 or > 200 for long passages. The following records with anomalous correct word counts were removed: zero words read correctly, or < 5 words read correctly for one score (ASR, Recording, Traditional) and > 5 words read correctly for another score (ASR, Recording, Traditional). As a result, 38 (4%) students and 1,590 (11%) of audio recordings were removed. Our final analytic sample consisted of 899 students (261 Grade 2, 323 Grade 3, and 315 Grade 4), and 13,121 audio recordings.
 
 ```{r, echo = FALSE, layout = "l-body-outset"}
-dat01 <- import("C:/Users/Joe/Desktop/BRT/GRANT-CORE/Project/Publications/year_1_2_project/data/dat01.RData")
+dat01 <- import("C:/Users/jnese/Desktop/BRT/GRANT-CORE/Project/Publications/year_1_2_project/data/dat01.RData") %>% 
+  as_tibble()
 
-students_samp <- import("C:/Users/Joe/Desktop/BRT/GRANT-CORE/Project/Publications/year_1_2_project/data/students_samp.RData")
+students_samp <- import("C:/Users/jnese/Desktop/BRT/GRANT-CORE/Project/Publications/year_1_2_project/data/students_samp.RData") %>% 
+  as_tibble()
 
 dat01 %>% 
   group_by(grade) %>%
