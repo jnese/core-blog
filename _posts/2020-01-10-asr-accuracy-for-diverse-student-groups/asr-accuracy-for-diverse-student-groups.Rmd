@@ -510,7 +510,7 @@ mods_r2 %>%
 
 Thus, to answer our first research question, across Grades 2 to 4, **the ORF word score agreement rates between human criterion and ASR were lower for SWDs compared to their non-SWD/non-EL peers**. There was no difference in agreement rates between EL students and their non-SWD/non-EL peers.
 
-```{r}
+```{r, preview=TRUE}
 
 results_probs %>% 
   filter(group == "fixed") %>% 
