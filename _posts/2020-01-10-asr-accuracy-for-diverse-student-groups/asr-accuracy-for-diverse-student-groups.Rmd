@@ -173,8 +173,6 @@ The table below shows the average observed ORF word score agreement rates betwee
 
 ```{r}
 
-nrow(dta_r2)
-
 dta_r2 %>% 
   group_by(grade) %>%
   mutate(n_passages = unique(passage_id) %>% length(),
