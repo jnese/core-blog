@@ -39,7 +39,10 @@ theme_set(theme_minimal())
 
 ## Introduction
 
-Automatic speech recognition (ASR) can be [applied in schools to score CBM-R assessments](https://jnese.github.io/core-blog/posts/2019-04-16-asr-can-score-cbmr-assessments/), helping to: reduce administration errors by standardizing the delivery, setting, and scoring (e.g., timing the reading for exactly 60 seconds, correctly calculating and recording the correct WCPM score in the database); reduce the opportunity cost of large-scale CBM-R administration by assessing small groups or an entire classroomsimultaneously in only a few minutes so that a single educator can monitor the integrity of the environment for a group of students. 
+Automatic speech recognition (ASR) can be [applied in schools to score CBM-R assessments](https://jnese.github.io/core-blog/posts/2019-04-16-asr-can-score-cbmr-assessments/), helping to reduce:
+
+* administration errors by standardizing the delivery, setting, and scoring (e.g., timing the reading for exactly 60 seconds, correctly calculating and recording the correct WCPM score in the database)
+* opportunity cost of large-scale CBM-R administration by assessing small groups or an entire classroom simultaneously in only a few minutes so that a single educator can monitor the integrity of the environment for a group of students. 
 
 But more research is needed on how these ASR systems perform for diverse student groups. The purpose of this study is to compare the accuracy of CBM-R scores by an automatic speech recognition engine and human assessor scores for students with disabilities (SWD) and those receiving English learner supports (EL). 
 
@@ -54,7 +57,7 @@ These results are part of our larger [Content & Convergent Evidence Study](https
 
 In answer to our first research question, across Grades 2 to 4, the **ORF word score agreement rates between human criterion and ASR were lower for SWDs compared to their non-SWD/non-EL peers**. There was no difference in agreement rates between EL students and their non-SWD/non-EL peers. 
 
-In answer our second research question, **the differences in WCPM between the human scoring criterion and ASR scoring of ORF were not exacerbated for SWD or EL students**. In other words, the one can expect similar ASR WCPM scores for SWD and EL students as for their non-SWD and non-EL peers.
+In answer our second research question, **the differences in WCPM between the human scoring criterion and ASR scoring of ORF were not exacerbated for SWD or EL students**. In other words, one can expect similar ASR WCPM scores for SWD and EL students as for their non-SWD and non-EL peers.
 
 **Thus, we can speculate that the ASR may be less accurate than a human scorer for SWDs at the word level, but the difference in scoring for SWDs is mitigated when scores are aggregated at the passage level.**
 
@@ -145,7 +148,7 @@ dta_r2 <- asr.aft.dat %>%
 
 The total sample size was $N$ = `r length(unique(dta_r1$student_id))` students; `r nrow(filter(distinct(dta_r1, student_id, .keep_all = TRUE), grade == "Grade 2"))` in Grade 2, `r nrow(filter(distinct(dta_r1, student_id, .keep_all = TRUE), grade == "Grade 3"))` in Grade 3, and `r nrow(filter(distinct(dta_r1, student_id, .keep_all = TRUE), grade == "Grade 4"))` in Grade 4.  
 
-We did not require systematic student demographic information from each school, rendering a complete description of the student sample's demographics unfeasible; however, we were able to merge study data with archived data and recover some sample demographic data. The archived demographic data incomplete, so we report missing data here, and also include `Missing` in our models as a group in both *disability* and *EL* status.
+We did not require systematic student demographic information from each school, rendering a complete description of the student sample's demographics unfeasible; however, we were able to merge study data with archived data and recover some sample demographics The archived demographic data was incomplete, so we report missing data here, and also include `Missing` in our models as a group in both *SWD* and *EL* status.
 
 ```{r sample_table}
 
@@ -167,7 +170,7 @@ dta_r1 %>%
 
 ### Research Question 1
 
-To answer research question one, we calculated the word score agreement rates between human and ASR scoring. That is, if both hman and ASR scored a word read as either correct or incorrect, their scores agreed; if one scored a word as read incorrectly and the other as read correctly, their scores disagreed. The agreement rates were calculated for each passage passage each student read. 
+To answer research question one, we calculated the word score agreement rates between human and ASR scoring. That is, if both human and ASR scored a word read as either correct or incorrect, their scores agreed; if one scored a word as read incorrectly and the other as read correctly, their scores disagreed. The agreement rates were calculated for each passage that each student read. 
 
 The table below shows the average observed ORF word score agreement rates between human and ASR scoring by grade. The `r length(unique(dta_r1$student_id))` sample students read a total of `r nrow(dta_r2)` passages. Agreement rates were lowest for Grade 2 (.89), and higher for Grades 3 (.93) and 4 (.94).
 
@@ -206,7 +209,7 @@ dta_r2 %>%
     title = "Average ORF Word Score Agreement Rates between Human Criterion and ASR Scoring, by Grade")
 ```
 
-The table below shows the average observed ORF word score agreement rates between human and ASR scoring by student group. Across groups, the agreement rates ranged from .83 (Grade 3 SWD) to .94.
+The table below shows the average observed ORF word score agreement rates between human and ASR scoring by student group. Across groups, the agreement rates ranged from .83 (Grade 3 SWD) to .94 (Grade 4, several groups).
 
 ```{r}
 dta_r2 %>% 
@@ -372,14 +375,18 @@ results_probs <- results_r2 %>%
 
 #### Results: RQ1
 
-For our first research question, we fit mixed-effect generalized linear models (GLM) for each grade with random effects for student and passage, and regressed the word score agreement rate (the proportion of words scored correct or incorrect by both the human and the ASR for each student reading) on *disability* and *EL* status (three levels for each: `Yes`, `No`, and `Missing`). We compared these models to models that included an interaction term for *disability* by *EL*, but for models across grades, the addition of the interaction effects did not statistically improved the model fit compared to model without the interaction (Grade 2: *df* = `r anova_main_intx_r2$Df[1]`, $\chi^2$ = `r round(anova_main_intx_r2$Chisq[1], 3)`, *p*-value = `r round(anova_main_intx_r2$'Pr(>Chisq)'[1], 3)`; Grade 3: *df* = `r anova_main_intx_r2$Df[2]`, $\chi^2$ = `r round(anova_main_intx_r2$Chisq[2], 3)`, *p*-value = `r round(anova_main_intx_r2$'Pr(>Chisq)'[2], 3)`; Grade 4: *df* = `r anova_main_intx_r2$Df[3]`, $\chi^2$ = `r round(anova_main_intx_r2$Chisq[3], 3)`, *p*-value = `r round(anova_main_intx_r2$'Pr(>Chisq)'[3], 3)`). Thus, our final model for all grades included random effects for student and passage, and fixed effects for *disability* and *EL* status.
+For our first research question, we fit mixed-effect generalized linear models (GLM) for each grade with random effects for student and passage, and regressed the word score agreement rate (the proportion of words scored correct or incorrect by both the human and the ASR for each student reading) on *SWD* and *EL* status (three levels for each: `Yes`, `No`, and `Missing`). We compared these models to models that included an interaction term for *SWD* by *EL*, but for models across grades, the addition of the interaction effects did not statistically improved the model fit compared to model without the interaction (Grade 2: *df* = `r anova_main_intx_r2$Df[1]`, $\chi^2$ = `r round(anova_main_intx_r2$Chisq[1], 3)`, *p*-value = `r round(anova_main_intx_r2$'Pr(>Chisq)'[1], 3)`; Grade 3: *df* = `r anova_main_intx_r2$Df[2]`, $\chi^2$ = `r round(anova_main_intx_r2$Chisq[2], 3)`, *p*-value = `r round(anova_main_intx_r2$'Pr(>Chisq)'[2], 3)`; Grade 4: *df* = `r anova_main_intx_r2$Df[3]`, $\chi^2$ = `r round(anova_main_intx_r2$Chisq[3], 3)`, *p*-value = `r round(anova_main_intx_r2$'Pr(>Chisq)'[3], 3)`). Thus, our final model for all grades included random effects for student and passage, and fixed effects for *SWD* and *EL* status.
 
-In response to research question 1, the table below shows the results of the final mixed effects model, with random effects for student and passage, and fixed effects *disability* and *EL* status.  Note that the parameter estimates are on the logit scale. The intercepts represent the average word score agreement between the human criterion and the ASR scores for non-SWD and non-EL students, such that the average agreement rate for these students Grades 2 through 4 were `r results_probs %>% filter(grade == "Grade 2", term == "(Intercept)") %>% select(prob_param) %>% pull() %>% round(., 2)`, `r results_probs %>% filter(grade == "Grade 3", term == "(Intercept)") %>% select(prob_param) %>% pull() %>% round(., 2)`, and `r results_probs %>% filter(grade == "Grade 4", term == "(Intercept)") %>% select(prob_param) %>% pull() %>% round(., 2)`. 
+`r exp(2.55)/(1+exp(2.55))`
+
+In response to research question 1, the table below shows the results of the final mixed effects model, with random effects for student and passage, and fixed effects *SWD* and *EL* status.  Note that the parameter estimates are on the logit scale. The intercepts represent the average word score agreement between the human criterion and the ASR scores for non-SWD and non-EL students, such that the average agreement rate for these students Grades 2 through 4 were `r results_probs %>% filter(grade == "Grade 2", term == "(Intercept)") %>% select(prob_param) %>% pull() %>% round(., 2)`, `r results_probs %>% filter(grade == "Grade 3", term == "(Intercept)") %>% select(prob_param) %>% pull() %>% round(., 2)`, and `r results_probs %>% filter(grade == "Grade 4", term == "(Intercept)") %>% select(prob_param) %>% pull() %>% round(., 2)`. 
 
 Across all grades, SWDs had a statistically significantly lower agreement rate than their non-EL and non-SWD (intercept) peers: Grade 2 = `r results_probs %>% filter(grade == "Grade 2", term == "disabilityYes") %>% select(prob_param) %>% pull() %>% round(., 2)`, Grade 3 = `r results_probs %>% filter(grade == "Grade 3", term == "disabilityYes") %>% select(prob_param) %>% pull() %>% round(., 2)`, and Grade 4 = `r results_probs %>% filter(grade == "Grade 4", term == "disabilityYes") %>% select(prob_param) %>% pull() %>% round(., 2)`. There was no such statistically significant differences in agreement rates for EL students. 
 
 <aside>
-Note that the parameter estimates in the table are on the logit scale. We tranform these to probability estimates by: `probability = exp(intercept) / (1 + exp(intercept)` or `probability = exp(intercept + estimate) / (1 + exp(intercept + estimate)`.
+Note that the parameter estimates in the table are on the logit scale. We tranform these to probability estimates by: 
++ `probability = exp(intercept) / (1 + exp(intercept))` or 
++ `probability = exp(intercept + estimate) / (1 + exp(intercept + estimate))`.
 </aside>
 
 ```{r}
@@ -726,13 +733,13 @@ results_r1 <- mods_r1 %>%
 
 #### ResultsL RQ2
 
-For our second research question, we fit mixed-effect models for each grade with random effects for student and passage, and regressed the WCPM difference score (the human criterion score minus the ASR score) on *disability* and *EL* status (three levels for each: `Yes`, `No`, and `Missing`). We compared these models to models that included an interaction term for *disability* by *EL*, but for models across grades, the addition of the interaction effects did not statistically improved the model fit compared to model without the interaction (Grade 2: *df* = `r anova_main_intx$Df[1]`, $\chi^2$ = `r round(anova_main_intx$Chisq[1], 3)`, *p*-value = `r round(anova_main_intx$'Pr(>Chisq)'[1], 3)`; Grade 3: *df* = `r anova_main_intx$Df[2]`, $\chi^2$ = `r round(anova_main_intx$Chisq[2], 3)`, *p*-value = `r round(anova_main_intx$'Pr(>Chisq)'[2], 3)`; Grade 4: *df* = `r anova_main_intx$Df[3]`, $\chi^2$ = `r round(anova_main_intx$Chisq[3], 3)`, *p*-value = `r round(anova_main_intx$'Pr(>Chisq)'[3], 3)`). Thus, our final model for all grades included random effects for student and passage, and fixed effects for *disability* and *EL* status.
+For our second research question, we fit mixed-effect models for each grade with random effects for student and passage, and regressed the WCPM difference score (the human criterion score minus the ASR score) on *SWD* and *EL* status (three levels for each: `Yes`, `No`, and `Missing`). We compared these models to models that included an interaction term for *SWD* by *EL*, but for models across grades, the addition of the interaction effects did not statistically improved the model fit compared to model without the interaction (Grade 2: *df* = `r anova_main_intx$Df[1]`, $\chi^2$ = `r round(anova_main_intx$Chisq[1], 3)`, *p*-value = `r round(anova_main_intx$'Pr(>Chisq)'[1], 3)`; Grade 3: *df* = `r anova_main_intx$Df[2]`, $\chi^2$ = `r round(anova_main_intx$Chisq[2], 3)`, *p*-value = `r round(anova_main_intx$'Pr(>Chisq)'[2], 3)`; Grade 4: *df* = `r anova_main_intx$Df[3]`, $\chi^2$ = `r round(anova_main_intx$Chisq[3], 3)`, *p*-value = `r round(anova_main_intx$'Pr(>Chisq)'[3], 3)`). Thus, our final model for all grades included random effects for student and passage, and fixed effects for *SWD* and *EL* status.
 
-In response to research question two, the table below shows the results of the final mixed effects model, with random effects for student and passage, and fixed effects *disability* and *EL* status. The intercepts represent the difference in WCPM scores between the human criterion score and the ASR for non-SWD and non-EL students, such that the average WCPM difference for these students Grades 2 through 4 were `r round(pull(select(filter(results_r1, term == "(Intercept)"), estimate))[1], 1)` WCPM, `r round(pull(select(filter(results_r1, term == "(Intercept)"), estimate))[2], 1)` WCPM, and `r round(pull(select(filter(results_r1, term == "(Intercept)"), estimate))[3], 1)` WCPM, respectively. These intercept estimates were all statistically significantly greater than zero, meaning that on average, the human criterion WCPM score was greater than the ASR WCPM score for non-SWD and non-EL students.
+In response to research question two, the table below shows the results of the final mixed effects model, with random effects for student and passage, and fixed effects *SWD* and *EL* status. The intercepts represent the difference in WCPM scores between the human criterion score and the ASR for non-SWD and non-EL students, such that the average WCPM difference for these students Grades 2 through 4 were `r round(pull(select(filter(results_r1, term == "(Intercept)"), estimate))[1], 1)` WCPM, `r round(pull(select(filter(results_r1, term == "(Intercept)"), estimate))[2], 1)` WCPM, and `r round(pull(select(filter(results_r1, term == "(Intercept)"), estimate))[3], 1)` WCPM, respectively. These intercept estimates were all statistically significantly greater than zero, meaning that on average, the human criterion WCPM score was greater than the ASR WCPM score for non-SWD and non-EL students.
 
 Although the fixed effect parameters varied in magnitiude and direction across grades (`r round(min(results_r1[results_r1$group == "fixed", "estimate"]), 2)` to `r round(max(results_r1[results_r1$group == "fixed", "estimate"]), 2)`), no parameter was statistically significant. 
 
-Thus, to answer our second research question, the differences in WCPM between the human scoring criterion and ASR scoring of ORF are not exacerbated for SWD or EL students. In other words, the one can expect similar ASR WCPM scores for SWD and EL students as for their non-SWD and non-EL peers.
+Thus, to answer our second research question, **the differences in WCPM between the human scoring criterion and ASR scoring of ORF are not exacerbated for SWD or EL students.** In other words, one can expect similar ASR WCPM scores for SWD and EL students as for their non-SWD and non-EL peers.
 
 Given the results of research question one, we can speculate that the ASR may be less accurate than a human scorer at the word level; but given the research question two, the difference in scoring for SWDs is mitigated when scores are aggregated at the passage level. 
 
