@@ -19,6 +19,10 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+**UPDATE** 
+Part of the work described here has been published:
+
+Kara, Y., Kamata, A., Potgieter, C., & Nese, J. F. (2020). [Estimating Model-Based Oral Reading Fluency: A Bayesian Approach.](https://journals.sagepub.com/eprint/MNWBNBNIWMEE6CVT5AN2/full) *Educational and Psychological Measurement.* doi:0013164419900208.
 
 # A Latent Variable Model for ORF
 This project has adopted a latent variable model, which is a modification of a speed-accuracy model by van der Linden @vanderlinden2007. In order to fit data from ORF assessment, van der Linden’s model has been modified by utilizing a binomial count model for the accuracy part of the model, because the response data in the ORF assessment context would be the number of words read correct in each passage. On the other hand, the speed part of the model was kept the same as van der Linden’s model, where time spent to read each passage was modeled by a log-normal factor model. Below, the two parts of the model are described. For estimation of the model parameters, Popgieter et al. @potgieter2018 implemented a Monte Carlo EM algorithm. The paper by Potgieter et. al can be downloaded from <a href="https://arxiv.org/abs/1705.10446">here</a>.  
