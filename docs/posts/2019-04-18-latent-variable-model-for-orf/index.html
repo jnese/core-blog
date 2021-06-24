@@ -57,6 +57,7 @@
   {"type":"character","attributes":{},"value":["FigureEq.png","latent-variable-model-for-orf_files/bowser-1.9.3/bowser.min.js","latent-variable-model-for-orf_files/distill-2.2.21/template.v2.js","latent-variable-model-for-orf_files/jquery-1.11.3/jquery.min.js","latent-variable-model-for-orf_files/webcomponents-2.0.0/webcomponents.js","r-references.bib"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
+<meta name="distill:offset" content="../.."/>
 
 <script type="application/javascript">
 
@@ -68,6 +69,7 @@
     var header = $('header').get(0);
     var headerHeight = header.offsetHeight;
     var headroom = new Headroom(header, {
+      tolerance: 5,
       onPin : function() {
         if (window.headroom_prevent_pin) {
           window.headroom_prevent_pin = false;
@@ -116,7 +118,7 @@
 
 .distill-site-nav {
   color: rgba(255, 255, 255, 0.8);
-  background-color: #455a64;
+  background-color: #0F2E3D;
   font-size: 15px;
   font-weight: 300;
 }
@@ -179,6 +181,7 @@
 
 .distill-site-header .title {
   font-size: 18px;
+  min-width: 150px;
 }
 
 .distill-site-header .logo {
@@ -320,7 +323,7 @@
 
 
 @media screen and (max-width: 768px) {
-  .distill-site-header.responsive {position: relative;}
+  .distill-site-header.responsive {position: relative; min-height: 500px; }
   .distill-site-header.responsive a.nav-toggle {
     position: absolute;
     right: 0;
@@ -389,11 +392,277 @@ d-title {
   top: 0;
 }
 
+/* adjust viewport for navbar height */
+/* helps vertically center bootstrap (non-distill) content */
+.min-vh-100 {
+  min-height: calc(100vh - 100px) !important;
+}
+
 </style>
 
+<script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
 <link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
 <link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
 <script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
+<script src="../../site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
+<script src="../../site_libs/fuse-6.4.1/fuse.min.js"></script>
+
+<script type="application/javascript">
+
+function getMeta(metaName) {
+  var metas = document.getElementsByTagName('meta');
+  for (let i = 0; i < metas.length; i++) {
+    if (metas[i].getAttribute('name') === metaName) {
+      return metas[i].getAttribute('content');
+    }
+  }
+  return '';
+}
+
+function offsetURL(url) {
+  var offset = getMeta('distill:offset');
+  return offset ? offset + '/' + url : url;
+}
+
+function createFuseIndex() {
+
+  // create fuse index
+  var options = {
+    keys: [
+      { name: 'title', weight: 20 },
+      { name: 'categories', weight: 15 },
+      { name: 'description', weight: 10 },
+      { name: 'contents', weight: 5 },
+    ],
+    ignoreLocation: true,
+    threshold: 0
+  };
+  var fuse = new window.Fuse([], options);
+
+  // fetch the main search.json
+  return fetch(offsetURL('search.json'))
+    .then(function(response) {
+      if (response.status == 200) {
+        return response.json().then(function(json) {
+          // index main articles
+          json.articles.forEach(function(article) {
+            fuse.add(article);
+          });
+          // download collections and index their articles
+          return Promise.all(json.collections.map(function(collection) {
+            return fetch(offsetURL(collection)).then(function(response) {
+              if (response.status === 200) {
+                return response.json().then(function(articles) {
+                  articles.forEach(function(article) {
+                    fuse.add(article);
+                  });
+                })
+              } else {
+                return Promise.reject(
+                  new Error('Unexpected status from search index request: ' +
+                            response.status)
+                );
+              }
+            });
+          })).then(function() {
+            return fuse;
+          });
+        });
+
+      } else {
+        return Promise.reject(
+          new Error('Unexpected status from search index request: ' +
+                      response.status)
+        );
+      }
+    });
+}
+
+window.document.addEventListener("DOMContentLoaded", function (event) {
+
+  // get search element (bail if we don't have one)
+  var searchEl = window.document.getElementById('distill-search');
+  if (!searchEl)
+    return;
+
+  createFuseIndex()
+    .then(function(fuse) {
+
+      // make search box visible
+      searchEl.classList.remove('hidden');
+
+      // initialize autocomplete
+      var options = {
+        autoselect: true,
+        hint: false,
+        minLength: 2,
+      };
+      window.autocomplete(searchEl, options, [{
+        source: function(query, callback) {
+          const searchOptions = {
+            isCaseSensitive: false,
+            shouldSort: true,
+            minMatchCharLength: 2,
+            limit: 10,
+          };
+          var results = fuse.search(query, searchOptions);
+          callback(results
+            .map(function(result) { return result.item; })
+          );
+        },
+        templates: {
+          suggestion: function(suggestion) {
+            var img = suggestion.preview && Object.keys(suggestion.preview).length > 0
+              ? `<img src="${offsetURL(suggestion.preview)}"</img>`
+              : '';
+            var html = `
+              <div class="search-item">
+                <h3>${suggestion.title}</h3>
+                <div class="search-item-description">
+                  ${suggestion.description || ''}
+                </div>
+                <div class="search-item-preview">
+                  ${img}
+                </div>
+              </div>
+            `;
+            return html;
+          }
+        }
+      }]).on('autocomplete:selected', function(event, suggestion) {
+        window.location.href = offsetURL(suggestion.path);
+      });
+      // remove inline display style on autocompleter (we want to
+      // manage responsive display via css)
+      $('.algolia-autocomplete').css("display", "");
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+
+});
+
+</script>
+
+<style type="text/css">
+
+.nav-search {
+  font-size: x-small;
+}
+
+/* Algolioa Autocomplete */
+
+.algolia-autocomplete {
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: sub;
+  background-color: white;
+  color: black;
+  padding: 6px;
+  padding-top: 8px;
+  padding-bottom: 0;
+  border-radius: 6px;
+  border: 1px #0F2E3D solid;
+  width: 180px;
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-nav .algolia-autocomplete {
+    display: none;
+    visibility: hidden;
+  }
+  .distill-site-nav.responsive .algolia-autocomplete {
+    display: inline-block;
+    visibility: visible;
+  }
+  .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
+    margin-left: 0;
+    width: 400px;
+    max-height: 400px;
+  }
+}
+
+.algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+  width: 90%;
+  outline: none;
+  border: none;
+}
+
+.algolia-autocomplete .aa-hint {
+  color: #999;
+}
+.algolia-autocomplete .aa-dropdown-menu {
+  width: 550px;
+  max-height: 70vh;
+  overflow-x: visible;
+  overflow-y: scroll;
+  padding: 5px;
+  margin-top: 3px;
+  margin-left: -150px;
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid #999;
+  border-top: none;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+  cursor: pointer;
+  padding: 5px 4px;
+  border-bottom: 1px solid #eee;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
+  border-bottom: none;
+  margin-bottom: 2px;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
+  overflow: hidden;
+  font-size: 0.8em;
+  line-height: 1.4em;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
+  font-size: 1rem;
+  margin-block-start: 0;
+  margin-block-end: 5px;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
+  display: inline-block;
+  overflow: hidden;
+  height: 2.8em;
+  width: 80%;
+  margin-right: 4%;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
+  display: inline-block;
+  width: 15%;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
+  height: 3em;
+  width: auto;
+  display: none;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
+  display: initial;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+  background-color: #eee;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+  font-weight: bold;
+  font-style: normal;
+}
+
+</style>
+
+
 <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
 
@@ -417,6 +686,51 @@ body {
 
 .pagedtable-footer {
   font-size: 15px;
+}
+
+d-byline .byline {
+  grid-template-columns: 2fr 2fr;
+}
+
+d-byline .byline h3 {
+  margin-block-start: 1.5em;
+}
+
+d-byline .byline .authors-affiliations h3 {
+  margin-block-start: 0.5em;
+}
+
+.authors-affiliations .orcid-id {
+  width: 16px;
+  height:16px;
+  margin-left: 4px;
+  margin-right: 4px;
+  vertical-align: middle;
+  padding-bottom: 2px;
+}
+
+d-title .dt-tags {
+  margin-top: 1em;
+  grid-column: text;
+}
+
+.dt-tags .dt-tag {
+  text-decoration: none;
+  display: inline-block;
+  color: rgba(0,0,0,0.6);
+  padding: 0em 0.4em;
+  margin-right: 0.5em;
+  margin-bottom: 0.4em;
+  font-size: 70%;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+d-article table.gt_table td,
+d-article table.gt_table th {
+  border-bottom: none;
 }
 
 .html-widget {
@@ -458,6 +772,7 @@ body {
 }
 
 d-article {
+  padding-top: 2.5rem;
   padding-bottom: 30px;
 }
 
@@ -469,91 +784,48 @@ d-article>p>img {
   width: 100%;
 }
 
+d-article h2 {
+  margin: 1rem 0 1.5rem 0;
+}
+
+d-article h3 {
+  margin-top: 1.5rem;
+}
+
 d-article iframe {
   border: 1px solid rgba(0, 0, 0, 0.1);
   margin-bottom: 2.0em;
   width: 100%;
 }
 
-figure img.external {
-  background: white;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
-  padding: 18px;
-  box-sizing: border-box;
+/* Tweak code blocks */
+
+d-article div.sourceCode code,
+d-article pre code {
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
 }
 
-/* CSS for table of contents */
-
-.d-toc {
-  color: rgba(0,0,0,0.8);
-  font-size: 0.8em;
-  line-height: 1em;
+d-article pre,
+d-article div.sourceCode,
+d-article div.sourceCode pre {
+  overflow: auto;
 }
 
-.d-toc-header {
-  font-size: 0.6rem;
-  font-weight: 400;
-  color: rgba(0, 0, 0, 0.5);
-  text-transform: uppercase;
-  margin-top: 0;
-  margin-bottom: 1.3em;
+d-article div.sourceCode {
+  background-color: white;
 }
 
-.d-toc a {
-  border-bottom: none;
-}
-
-.d-toc ul {
-  padding-left: 0;
-}
-
-.d-toc li>ul {
-  padding-top: 0.8em;
-  padding-left: 16px;
-  margin-bottom: 0.6em;
-}
-
-.d-toc ul,
-.d-toc li {
-  list-style-type: none;
-}
-
-.d-toc li {
-  margin-bottom: 0.9em;
-}
-
-.d-toc-separator {
-  margin-top: 20px;
-  margin-bottom: 2em;
-}
-
-.d-article-with-toc {
-  border-top: none;
-  padding-top: 0;
-}
-
-
-
-/* Tweak code blocks (note that this CSS is repeated above in an injection
-   into the d-code shadow dom) */
-
-d-code {
-  overflow-x: auto !important;
-}
-
-pre.d-code code.d-code {
+d-article div.sourceCode pre {
   padding-left: 10px;
   font-size: 12px;
   border-left: 2px solid rgba(0,0,0,0.1);
 }
 
-pre.text-output {
-
+d-article pre {
   font-size: 12px;
   color: black;
   background: none;
-  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  margin-top: 0;
   text-align: left;
   white-space: pre;
   word-spacing: normal;
@@ -571,20 +843,128 @@ pre.text-output {
   hyphens: none;
 }
 
+d-article pre a {
+  border-bottom: none;
+}
+
+d-article pre a:hover {
+  border-bottom: none;
+  text-decoration: underline;
+}
+
+d-article details {
+  grid-column: text;
+  margin-bottom: 0.8em;
+}
+
 @media(min-width: 768px) {
 
-d-code {
-  overflow-x: visible !important;
+d-article pre,
+d-article div.sourceCode,
+d-article div.sourceCode pre {
+  overflow: visible !important;
 }
 
-pre.d-code code.d-code  {
-    padding-left: 18px;
-    font-size: 14px;
-}
-pre.text-output {
+d-article div.sourceCode pre {
+  padding-left: 18px;
   font-size: 14px;
 }
+
+d-article pre {
+  font-size: 14px;
 }
+
+}
+
+figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+/* CSS for d-contents */
+
+.d-contents {
+  grid-column: text;
+  color: rgba(0,0,0,0.8);
+  font-size: 0.9em;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+  padding-bottom: 0.5em;
+  margin-bottom: 1em;
+  padding-left: 0.25em;
+  justify-self: start;
+}
+
+@media(min-width: 1000px) {
+  .d-contents.d-contents-float {
+    height: 0;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    justify-self: center;
+    padding-right: 3em;
+    padding-left: 2em;
+  }
+}
+
+.d-contents nav h3 {
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.d-contents li {
+  list-style-type: none
+}
+
+.d-contents nav > ul {
+  padding-left: 0;
+}
+
+.d-contents ul {
+  padding-left: 1em
+}
+
+.d-contents nav ul li {
+  margin-top: 0.6em;
+  margin-bottom: 0.2em;
+}
+
+.d-contents nav a {
+  font-size: 13px;
+  border-bottom: none;
+  text-decoration: none
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.d-contents nav a:hover {
+  text-decoration: underline solid rgba(0, 0, 0, 0.6)
+}
+
+.d-contents nav > ul > li > a {
+  font-weight: 600;
+}
+
+.d-contents nav > ul > li > ul {
+  font-weight: inherit;
+}
+
+.d-contents nav > ul > li > ul > li {
+  margin-top: 0.2em;
+}
+
+
+.d-contents nav ul {
+  margin-top: 0;
+  margin-bottom: 0.25em;
+}
+
+.d-article-with-toc h2:nth-child(2) {
+  margin-top: 0;
+}
+
 
 /* Figure */
 
@@ -622,6 +1002,27 @@ pre.text-output {
   color: rgba(0, 0, 0, 1.0);
 }
 
+/* Citations */
+
+d-article .citation {
+  color: inherit;
+  cursor: inherit;
+}
+
+div.hanging-indent{
+  margin-left: 1em; text-indent: -1em;
+}
+
+/* Citation hover box */
+
+.tippy-box[data-theme~=light-border] {
+  background-color: rgba(250, 250, 250, 0.95);
+}
+
+.tippy-content > p {
+  margin-bottom: 0;
+  padding: 2px;
+}
 
 
 /* Tweak 1000px media break to show more text */
@@ -697,6 +1098,91 @@ d-appendix .citation-appendix,
   word-wrap: break-word;
 }
 
+/* Include appendix styles here so they can be overridden */
+
+d-appendix {
+  contain: layout style;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-top: 60px;
+  margin-bottom: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0,0,0,0.5);
+  padding-top: 60px;
+  padding-bottom: 48px;
+}
+
+d-appendix h3 {
+  grid-column: page-start / text-start;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 1em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.65);
+}
+
+d-appendix h3 + * {
+  margin-top: 1em;
+}
+
+d-appendix ol {
+  padding: 0 0 0 15px;
+}
+
+@media (min-width: 768px) {
+  d-appendix ol {
+    padding: 0 0 0 30px;
+    margin-left: -30px;
+  }
+}
+
+d-appendix li {
+  margin-bottom: 1em;
+}
+
+d-appendix a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-appendix > * {
+  grid-column: text;
+}
+
+d-appendix > d-footnote-list,
+d-appendix > d-citation-list,
+d-appendix > distill-appendix {
+  grid-column: screen;
+}
+
+/* Include footnote styles here so they can be overridden */
+
+d-footnote-list {
+  contain: layout style;
+}
+
+d-footnote-list > * {
+  grid-column: text;
+}
+
+d-footnote-list a.footnote-backlink {
+  color: rgba(0,0,0,0.3);
+  padding-left: 0.5em;
+}
+
+
+
+/* Anchor.js */
+
+.anchorjs-link {
+  /*transition: all .25s linear; */
+  text-decoration: none;
+  border-bottom: none;
+}
+*:hover > .anchorjs-link {
+  margin-left: -1.125em !important;
+  text-decoration: none;
+  border-bottom: none;
+}
 
 /* Social footer */
 
@@ -741,6 +1227,221 @@ d-appendix .citation-appendix,
 .article-footer .subscribe {
   font-size: 15px;
   margin-top: 45px;
+}
+
+
+.sidebar-section.custom {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.custom p {
+  margin-bottom: 0.5em;
+}
+
+/* Styles for listing layout (hide title) */
+.layout-listing d-title, .layout-listing .d-title {
+  display: none;
+}
+
+/* Styles for posts lists (not auto-injected) */
+
+
+.posts-with-sidebar {
+  padding-left: 45px;
+  padding-right: 45px;
+}
+
+.posts-list .description h2,
+.posts-list .description p {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+.posts-list .description h2 {
+  font-weight: 700;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.posts-list h2.post-tag {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding-bottom: 12px;
+}
+.posts-list {
+  margin-top: 60px;
+  margin-bottom: 24px;
+}
+
+.posts-list .post-preview {
+  text-decoration: none;
+  overflow: hidden;
+  display: block;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 24px 0;
+}
+
+.post-preview-last {
+  border-bottom: none !important;
+}
+
+.posts-list .posts-list-caption {
+  grid-column: screen;
+  font-weight: 400;
+}
+
+.posts-list .post-preview h2 {
+  margin: 0 0 6px 0;
+  line-height: 1.2em;
+  font-style: normal;
+  font-size: 24px;
+}
+
+.posts-list .post-preview p {
+  margin: 0 0 12px 0;
+  line-height: 1.4em;
+  font-size: 16px;
+}
+
+.posts-list .post-preview .thumbnail {
+  box-sizing: border-box;
+  margin-bottom: 24px;
+  position: relative;
+  max-width: 500px;
+}
+.posts-list .post-preview img {
+  width: 100%;
+  display: block;
+}
+
+.posts-list .metadata {
+  font-size: 12px;
+  line-height: 1.4em;
+  margin-bottom: 18px;
+}
+
+.posts-list .metadata > * {
+  display: inline-block;
+}
+
+.posts-list .metadata .publishedDate {
+  margin-right: 2em;
+}
+
+.posts-list .metadata .dt-authors {
+  display: block;
+  margin-top: 0.3em;
+  margin-right: 2em;
+}
+
+.posts-list .dt-tags {
+  display: block;
+  line-height: 1em;
+}
+
+.posts-list .dt-tags .dt-tag {
+  display: inline-block;
+  color: rgba(0,0,0,0.6);
+  padding: 0.3em 0.4em;
+  margin-right: 0.2em;
+  margin-bottom: 0.4em;
+  font-size: 60%;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.posts-list img {
+  opacity: 1;
+}
+
+.posts-list img[data-src] {
+  opacity: 0;
+}
+
+.posts-more {
+  clear: both;
+}
+
+
+.posts-sidebar {
+  font-size: 16px;
+}
+
+.posts-sidebar h3 {
+  font-size: 16px;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.sidebar-section {
+  margin-bottom: 30px;
+}
+
+.categories ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.categories li {
+  color: rgba(0, 0, 0, 0.8);
+  margin-bottom: 0;
+}
+
+.categories li>a {
+  border-bottom: none;
+}
+
+.categories li>a:hover {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.categories .active {
+  font-weight: 600;
+}
+
+.categories .category-count {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+
+@media(min-width: 768px) {
+  .posts-list .post-preview h2 {
+    font-size: 26px;
+  }
+  .posts-list .post-preview .thumbnail {
+    float: right;
+    width: 30%;
+    margin-bottom: 0;
+  }
+  .posts-list .post-preview .description {
+    float: left;
+    width: 45%;
+  }
+  .posts-list .post-preview .metadata {
+    float: left;
+    width: 20%;
+    margin-top: 8px;
+  }
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.5em;
+    font-size: 16px;
+  }
+  .posts-with-sidebar .posts-list {
+    float: left;
+    width: 75%;
+  }
+  .posts-with-sidebar .posts-sidebar {
+    float: right;
+    width: 20%;
+    margin-top: 60px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
 }
 
 
@@ -872,6 +1573,12 @@ d-appendix .citation-appendix,
   hyphens: none;
 }
 
+.downlevel .posts-list .post-preview {
+  color: inherit;
+}
+
+
+
 </style>
 
 <script type="application/javascript">
@@ -887,6 +1594,13 @@ function is_downlevel_browser() {
 
 // show body when load is complete
 function on_load_complete() {
+
+  // add anchors
+  if (window.anchors) {
+    window.anchors.options.placement = 'left';
+    window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+  }
+
 
   // set body to visible
   document.body.style.visibility = 'visible';
@@ -933,23 +1647,8 @@ function init_distill() {
   // create d-appendix
   $('.d-appendix').changeElementType('d-appendix');
 
-  // create d-bibliography
-  var bibliography = $('<d-bibliography></d-bibliography>');
-  $('#distill-bibliography').wrap(bibliography);
-
   // flag indicating that we have appendix items
   var appendix = $('.appendix-bottom').children('h3').length > 0;
-
-  // replace citations with <d-cite>
-  $('.citation').each(function(i, val) {
-    appendix = true;
-    var cites = $(this).attr('data-cites').split(" ");
-    var dt_cite = $('<d-cite></d-cite>');
-    dt_cite.attr('key', cites.join());
-    $(this).replaceWith(dt_cite);
-  });
-  // remove refs
-  $('#refs').remove();
 
   // replace footnotes with <d-footnote>
   $('.footnote-ref').each(function(i, val) {
@@ -967,39 +1666,21 @@ function init_distill() {
   // remove footnotes
   $('.footnotes').remove();
 
+  // move refs into #references-listing
+  $('#references-listing').replaceWith($('#refs'));
+
   $('h1.appendix, h2.appendix').each(function(i, val) {
     $(this).changeElementType('h3');
   });
   $('h3.appendix').each(function(i, val) {
     var id = $(this).attr('id');
-    $('.d-toc a[href="#' + id + '"]').parent().remove();
+    $('.d-contents a[href="#' + id + '"]').parent().remove();
     appendix = true;
     $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
   });
 
   // show d-appendix if we have appendix content
   $("d-appendix").css('display', appendix ? 'grid' : 'none');
-
-  // replace code blocks with d-code
-  $('pre>code').each(function(i, val) {
-    var code = $(this);
-    var pre = code.parent();
-    var clz = "";
-    var language = pre.attr('class');
-    if (language) {
-      // map unknown languages to "clike" (without this they just dissapear)
-      if ($.inArray(language, ["bash", "clike", "css", "go", "html",
-                               "javascript", "js", "julia", "lua", "markdown",
-                               "markup", "mathml", "python", "svg", "xml"]) == -1)
-        language = "clike";
-      language = ' language="' + language + '"';
-      var dt_code = $('<d-code block' + language + clz + '></d-code>');
-      dt_code.text(code.text());
-      pre.replaceWith(dt_code);
-    } else {
-      code.addClass('text-output').unwrap().changeElementType('pre');
-    }
-  });
 
   // localize layout chunks to just output
   $('.layout-chunk').each(function(i, val) {
@@ -1008,7 +1689,7 @@ function init_distill() {
     var layout = $(this).attr('data-layout');
 
     // apply layout to markdown level block elements
-    var elements = $(this).children().not('d-code, pre.text-output, script');
+    var elements = $(this).children().not('details, div.sourceCode, pre, script');
     elements.each(function(i, el) {
       var layout_div = $('<div class="' + layout + '"></div>');
       if (layout_div.hasClass('shaded')) {
@@ -1025,6 +1706,13 @@ function init_distill() {
     $(this).children().unwrap();
   });
 
+  // remove code block used to force  highlighting css
+  $('.distill-force-highlighting-css').parent().remove();
+
+  // remove empty line numbers inserted by pandoc when using a
+  // custom syntax highlighting theme
+  $('code.sourceCode a:empty').remove();
+
   // load distill framework
   load_distill_framework();
 
@@ -1040,12 +1728,26 @@ function init_distill() {
     if (!have_authors)
       $('d-byline').addClass('hidden');
 
-    // table of contents
-    if (have_authors) // adjust border if we are in authors
-      $('.d-toc').parent().addClass('d-article-with-toc');
+    // article with toc class
+    $('.d-contents').parent().addClass('d-article-with-toc');
 
     // strip links that point to #
     $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+    // add orcid ids
+    $('.authors-affiliations').find('.author').each(function(i, el) {
+      var orcid_id = front_matter.authors[i].orcidID;
+      if (orcid_id) {
+        var a = $('<a></a>');
+        a.attr('href', 'https://orcid.org/' + orcid_id);
+        var img = $('<img></img>');
+        img.addClass('orcid-id');
+        img.attr('alt', 'ORCID ID');
+        img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+        a.append(img);
+        $(this).append(a);
+      }
+    });
 
     // hide elements of author/affiliations grid that have no value
     function hide_byline_column(caption) {
@@ -1095,18 +1797,27 @@ function init_distill() {
       grid.children('h3:contains("Affiliations")').text('Affiliation');
     }
 
-    // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
-    $('d-code').each(function(i, val) {
-      var style = document.createElement('style');
-      style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
-                        '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
-      if (this.shadowRoot)
-        this.shadowRoot.appendChild(style);
-    });
+    // remove d-appendix and d-footnote-list local styles
+    $('d-appendix > style:first-child').remove();
+    $('d-footnote-list > style:first-child').remove();
 
     // move appendix-bottom entries to the bottom
     $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
     $('.appendix-bottom').remove();
+
+    // hoverable references
+    $('span.citation[data-cites]').each(function() {
+      var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+      window.tippy(this, {
+        allowHTML: true,
+        content: refHtml,
+        maxWidth: 500,
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'light-border',
+        placement: 'bottom-start'
+      });
+    });
 
     // clear polling timer
     clearInterval(tid);
@@ -1138,9 +1849,7 @@ function init_downlevel() {
   $('.d-byline a').remove();
 
   // remove toc
-  $('.d-toc-header').remove();
-  $('.d-toc').remove();
-  $('.d-toc-separator').remove();
+  $('.d-contents').remove();
 
   // move appendix elements
   $('h1.appendix, h2.appendix').each(function(i, val) {
@@ -1284,7 +1993,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Latent Variable Model for ORF","description":"In this post, we will describe the latent variable model that we have developed and adopted for CORE passages.","authors":[{"author":"Akihito Kamata","authorURL":"https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata","affiliation":"&nbsp;","affiliationURL":"#"},{"author":"Joseph F. T. Nese","authorURL":"https://education.uoregon.edu/people/faculty/jnese","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-04-18T00:00:00.000-07:00","citationText":"Kamata & Nese, 2019"}
+{"title":"Latent Variable Model for ORF","description":"In this post, we will describe the latent variable model that we have developed and adopted for CORE passages.","authors":[{"author":"Akihito Kamata","authorURL":"https://www.smu.edu/simmons/AboutUs/Directory/CORE/Kamata","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""},{"author":"Joseph F. T. Nese","authorURL":"https://education.uoregon.edu/people/faculty/jnese","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2019-04-18T00:00:00.000-07:00","citationText":"Kamata & Nese, 2019"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1294,11 +2003,12 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="nav-left">
 <a href="../../index.html" class="title">CORE Study Blog</a>
 <a href="../../index.html">Home</a>
+<input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
 </div>
 <div class="nav-right">
 <a href="../../about.html">About</a>
 <a href="https://github.com/jnese/core-blog">
-<i class="fa fa-github"></i>
+<i class="fa fa-github" aria-hidden="true"></i>
 </a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
@@ -1387,370 +2097,10 @@ f(t_{ij};\tau_j,\alpha_i,\beta_i)= \frac{\alpha_i}{t_{ij}\sqrt{2\pi}} \exp\left 
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->
 <!--radix_placeholder_appendices-->
-<div class="appendix-bottom"></div>
-<script id="distill-bibliography" type="text/bibtex">
-@Manual{R-base,
-  title = {R: A Language and Environment for Statistical Computing},
-  author = {{R Core Team}},
-  organization = {R Foundation for Statistical Computing},
-  address = {Vienna, Austria},
-  year = {2018},
-  url = {https://www.R-project.org/},
-}
-@Manual{R-papaja,
-  author = {Frederik Aust and Marius Barth},
-  title = {{papaja}: {Create} {APA} manuscripts with {R Markdown}},
-  year = {2018},
-  note = {R package version 0.1.0.9842},
-  url = {https://github.com/crsh/papaja},
-}
-@article{kahneman1979,
-  title={Prospect theory: An analysis of decision under risk},
-  author={Kahneman, Daniel and Tversky, Amos},
-  journal={Econometrica: Journal of the econometric society},
-  pages={263--291},
-  year={1979},
-  publisher={JSTOR}
-}
-@article{barth2012,
-  title={Reliability and validity of oral reading fluency median and mean scores among middle grade readers when using equated texts},
-  author={Barth, Amy E and Stuebing, Karla K and Fletcher, Jack M and Cirino, Paul T and Romain, Melissa and Francis, David and Vaughn, Sharon},
-  journal={Reading Psychology},
-  pages={133--161},
-  year={2012},
-  publisher={Taylor & Francis Group}
-}
-@article{fuchs2001,
-  title={Oral reading fluency as an indicator of reading competence: A theoretical, empirical, and historical analysis},
-  author={Fuchs, L S and Fuch, D and Hosp, M K and Jenkins, J R},
-  journal={Scientific Studies of Reading},
-  volume={5},
-  pages={239--256},
-  year={2001},
-  doi={10.1207/S1532799XSSR0503_3}
-}
-@article{shinn1992,
-  title={Curriculum-based measurement or oral reading fluency: A confirmatory analysis of its relation to reading},
-  author={Shinn, M R and Good, R H and Knutson, N and Tilly, W D and Collins, V L},
-  journal={School Psychology Review},
-  volume={21},
-  pages={459--479},
-  year={1992}
-}
-@article{fuchs2004,
-  title={CThe past, present, and future of curriculum-based measurement research},
-  author={Fuchs, L S},
-  journal={School Psychology Review},
-  volume={33},
-  pages={188--192},
-  year={2004}
-}
-@article{fuchs1988,
-  title={The validity of informal reading comprehension measures},
-  author={Fuchs, L S and Fuch, D and Maxwell, L},
-  journal={Remedial and Special Education},
-  volume={9},
-  pages={20--28},
-  year={1988},
-  doi={0.1177/074193258800900206}
-}
-@article{kim2010,
-  title={Does growth in oral reading fluency matter in reading comprehension achievement?},
-  author={Kim, Y S and Petscher, Y and Schatschneider, C and Foorman, B R},
-  journal={Journal of Educational Psychology},
-  volume={102},
-  pages={652--667},
-  year={2010},
-  doi={10.1007/s11336-008-9075-y}
-}
-@article{yovanoff2005,
-  title={Grade-level invariance of a theoretical causal structure predicting reading comprehension with vocabulary and oral reading fluency},
-  author={Yovanoff, P and Duesbery, L and Alonzo, J and Tindal, G},
-  journal={Educational Measurement: Issues and Practice},
-  volume={24},
-  pages={4--12},
-  year={2005},
-  doi={10.1111/j.1745-3992.2005.00014.x}
-}
-@article{hudson2005,
-  title={Reading fluency assessment and instruction: What, why, and how?},
-  author={Hudson, R F and Lane, H B and Pullen, P C},
-  journal={The Reading Teacher},
-  volume={58},
-  pages={702--714},
-  year={2005},
-  doi={10.1598/RT.58.8.1}
-}
-@Book{itbs2001,
-  author = {Hoover, H D and Dunbar, S B and Frisbie, D A},
-  title = {Iowa tests of basic skills},
-  year = {2001},
-  publisher = {Riverside},
-  address = {Itasca, IL}
-}
-@manual{csap2004,
-  author = {{Colorado Department of Education}},
-  title = {Colorado Student Assessment Program},
-  year = {2004},
-  date = {March 15, 2017},
-  url = {http://www.cde.state.co.us/}
-}
-@Book{sat2003,
-  author = {{Harcourt Brace}},
-  title = {Stanford Achievement Testâ€”Tenth Edition: Technical data report},
-  year = {2003},
-  publisher = {Author},
-  address = {San Antonio, TX}
-}
-@article{crawford2001,
-  title={Using oral reading rate to predict student performance on statewide achievement tests},
-  author={Crawford, L and Tindal, G and Stieber, S},
-  journal={Educational Assessment},
-  volume={7},
-  pages={303--323},
-  year={2001},
-  doi={10.1207/S15326977EA0704_04}
-}
-@article{roehrig2008,
-  title={Accuracy of the DIBELS oral reading fluency measure for predicting third grade reading comprehension outcomes},
-  author={Roehrig, A D and Petscher, Y and Nettles, S M and Hudson, R F and Torgesen, J K},
-  journal={Journal of School Psychology},
-  volume={46},
-  pages={343--366},
-  year={2008},
-  doi={10.1016/jjsp.2007.06.006}
-}
-@article{valencia2010,
-  title={Oral reading fluency assessment: Issues of construct, criterion, and consequential validity},
-  author={Valencia, S and Smith, A and Reece, A and Li, M and Wixson, K and Newman, H},
-  journal={Reading Research Quarterly},
-  volume={45},
-  pages={270--291},
-  year={2010},
-  doi={10.1598/RRQ.45.3.1}
-}
-@article{valencia2010,
-  title={Oral reading fluency assessment: Issues of construct, criterion, and consequential validity},
-  author={Valencia, S and Smith, A and Reece, A and Li, M and Wixson, K and Newman, H},
-  journal={Reading Research Quarterly},
-  volume={45},
-  pages={270--291},
-  year={2010},
-  doi={10.1598/RRQ.45.3.1}
-}
-@article{wood2006,
-  title={Modeling the relationship between oral reading fluency and performance on a statewide reading test},
-  author={Wood, D E},
-  journal={Educational Assessment},
-  volume={11},
-  pages={85--104},
-  year={2006},
-  doi={10.1207/s15326977ea1102_1}
-}
-@article{deno1985,
-  title={Curriculum-based measurement: The emerging alternative},
-  author={Deno, S L},
-  journal={Exceptional Children},
-  volume={52},
-  pages={219--232},
-  year={1985},
-  doi={10.1177/001440298505200303}
-}
-@article{hasbrouck2006,
-  title={Oral reading fluency norms: A valuable assessment tool for reading teachers},
-  author={Hasbrouck, J and Tindal, G},
-  journal={The Reading Teacher},
-  volume={59},
-  pages={636--644},
-  year={2006},
-  doi={10.1598/RT.59.7.3}
-}
-@booklet{nese2015,
-author = {Nese, J and Kamata, A and Alonzo, J},
-title = {exploring the evidence of speech recognition and shorter passage length in computerized oral reading fluency},
-howpublished= {Paper presented at the meeting of the Society for the Scientific Study of Reading, Kailua-Kona, HI, July 2015},
-year = {2015}
-}
-@booklet{potgieter2018,
-author = {Potgieter, N and Kamata, A and Kara, Y},
-title = {An EM algorithm for estimating an oral reading speed and accuracy model},
-howpublished= {Manuscript submitted for publication},
-year = {2018}
-}
-@article{vanderlinden2007,
-  title={A hierarchical framework for modeling speed and accuracy on test items},
-  author={{van der Linden}, W J},
-  journal={Psychometrika},
-  volume={72},
-  pages={287--308},
-  year={2007},
-  doi={10.1007/s11336-006-1478-z}
-}
-@article{fox2007,
-  title={Modeling responses and response times with package cirt},
-  author={Fox, J -P and Klein Entink, R H K and {van der Linden}, W J},
-  journal={Journal of Statistical Software},
-  volume={20},
-  pages={1--14},
-  year={2007},
-  doi={10.18637/jss.v020.i07}
-}
-@article{entink2009,
-  title={Evaluating cognitive theory: A joint modeling approach using responses and response times},
-  author={Entink, R H K and Kuhn, J -T and Hornke, L F and Fox, J -P},
-  journal={Psychological Methods},
-  volume={14},
-  pages={54--75},
-  year={2009}
-}
-@article{vanderlinden2010,
-  title={IRT parameter estimation with response times as collateral information},
-  author={{van der Linden}, W J and Entink, R H K and Fox, J -P},
-  journal={Applied Psychological Measurement},
-  volume={34},
-  pages={327--347},
-  year={2010}
-}
-@article{ranger2013,
-  title={A note on the hierarchical model for responses and response times
-in tests of van der Linden},
-  author={Ranger, J},
-  journal={Psychometrika},
-  volume={78},
-  pages={538--544},
-  year={2013}
-}
-@MISC{jags2015,
-    author = {Plummer, Martyn},
-    title = {JAGS: A program for analysis of Bayesian graphical models using Gibbs sampling (Version 4.0.0)},
-    year = {2015}
-}
-@article{link2012,
-  title={On thinning of chains in MCMC},
-  author={Link, W A and Eaton, M J},
-  journal={Methods in Ecology and Evolution},
-  volume={3},
-  pages={112--115},
-  year={2012},
-  doi={10.1023/A:1008929526011}
-}
-@article{brooks1998,
-  title={General methods for monitoring convergence of iterative simulations},
-  author={Brooks, S P and Gelman, A},
-  journal={Journal of Computational and Graphical Statistics},
-  volume={7},
-  pages={434--455},
-  year={1998},
-  doi={10.1080/10618600.1998.10474787}
-}
-@article{molenaar2014,
-  title={A generalized linear factor model approach to the hierarchical framework for responses and response times},
-  author={Molenaar, T and Tuerlinckx, F and {van der Maas}, H L J},
-  journal={British Journal of Mathematical and Statistical Psychology},
-  volume={68},
-  pages={197--219},
-  year={2014},
-  doi={10.1111/bmsp.12042}
-}
-@Manual{R-dplyr,
-  title = {dplyr: A Grammar of Data Manipulation},
-  author = {Hadley Wickham and Romain FranÃ§ois and Lionel Henry and Kirill MÃ¼ller},
-  year = {2019},
-  note = {R package version 0.8.0.1},
-  url = {https://CRAN.R-project.org/package=dplyr},
-}
-@Manual{R-forcats,
-  title = {forcats: Tools for Working with Categorical Variables (Factors)},
-  author = {Hadley Wickham},
-  year = {2018},
-  note = {R package version 0.3.0},
-  url = {https://CRAN.R-project.org/package=forcats},
-}
-@Book{R-ggplot2,
-  author = {Hadley Wickham},
-  title = {ggplot2: Elegant Graphics for Data Analysis},
-  publisher = {Springer-Verlag New York},
-  year = {2016},
-  isbn = {978-3-319-24277-4},
-  url = {http://ggplot2.org},
-}
-@Manual{R-psych,
-  title = {psych: Procedures for Psychological, Psychometric, and Personality Research},
-  author = {William Revelle},
-  organization = { Northwestern University},
-  address = { Evanston, Illinois},
-  year = {2018},
-  note = {R package version 1.8.4},
-  url = {https://CRAN.R-project.org/package=psych},
-}
-@Manual{R-purrr,
-  title = {purrr: Functional Programming Tools},
-  author = {Lionel Henry and Hadley Wickham},
-  year = {2019},
-  note = {R package version 0.3.0},
-  url = {https://CRAN.R-project.org/package=purrr},
-}
-@Manual{R-readr,
-  title = {readr: Read Rectangular Text Data},
-  author = {Hadley Wickham and Jim Hester and Romain Francois},
-  year = {2017},
-  note = {R package version 1.1.1},
-  url = {https://CRAN.R-project.org/package=readr},
-}
-@Manual{R-stringr,
-  title = {stringr: Simple, Consistent Wrappers for Common String Operations},
-  author = {Hadley Wickham},
-  year = {2019},
-  note = {R package version 1.4.0},
-  url = {https://CRAN.R-project.org/package=stringr},
-}
-@Manual{R-tibble,
-  title = {tibble: Simple Data Frames},
-  author = {Kirill MÃ¼ller and Hadley Wickham},
-  year = {2019},
-  note = {R package version 2.0.1},
-  url = {https://CRAN.R-project.org/package=tibble},
-}
-@Manual{R-tidyr,
-  title = {tidyr: Easily Tidy Data with 'spread()' and 'gather()' Functions},
-  author = {Hadley Wickham and Lionel Henry},
-  year = {2018},
-  note = {R package version 0.8.2},
-  url = {https://CRAN.R-project.org/package=tidyr},
-}
-@Manual{R-tidyverse,
-  title = {tidyverse: Easily Install and Load the 'Tidyverse'},
-  author = {Hadley Wickham},
-  year = {2017},
-  note = {R package version 1.2.1},
-  url = {https://CRAN.R-project.org/package=tidyverse},
-}
-@Manual{R-gridExtra,
-  title = {gridExtra: Miscellaneous Functions for "Grid" Graphics},
-  author = {Baptiste Auguie},
-  year = {2017},
-  note = {R package version 2.3},
-  url = {https://CRAN.R-project.org/package=gridExtra},
-}
-@Article{R-coda,
-  title = {CODA: Convergence Diagnosis and Output Analysis for MCMC},
-  author = {Martyn Plummer and Nicky Best and Kate Cowles and Karen Vines},
-  journal = {R News},
-  year = {2006},
-  volume = {6},
-  number = {1},
-  pages = {7--11},
-  url = {https://journal.r-project.org/archive/},
-  pdf = {https://www.r-project.org/doc/Rnews/Rnews_2006-1.pdf},
-}
-@Manual{R-rjags,
-  title = {rjags: Bayesian Graphical Models using MCMC},
-  author = {Martyn Plummer},
-  year = {2018},
-  note = {R package version 4-8},
-  url = {https://CRAN.R-project.org/package=rjags},
-}
-</script>
+<div class="appendix-bottom">
+  <h3 id="references">References</h3>
+  <div id="references-listing"></div>
+</div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <!--/radix_placeholder_navigation_after_body-->
