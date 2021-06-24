@@ -1,0 +1,2055 @@
+---
+title: "CORE: Teacher Focus Group Survey"
+description: |
+  The purpose of this post was to summarize teacher feedback about the utility and interpretability of the CORE data compared to Traditional ORF scores to help collect consequential evidence of validity for CORE.
+author:
+  - name: Joseph F. T. Nese 
+    url: https://education.uoregon.edu/people/faculty/jnese
+    affiliation: University of Oregon
+    affiliation_url: https://www.uoregon.edu
+  - name: Makayla Whitney
+    url: 
+    affiliation: University of Oregon
+    affiliation_url: https://www.uoregon.edu
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      message = FALSE,
+                      warning = FALSE)
+
+library(tidyverse)
+library(here)
+library(readxl)
+library(knitr)
+library(RColorBrewer)
+library(ggthemes)
+library(gt)
+library(patchwork)
+library(fs)
+library(xaringanExtra)
+#library(assertthat)
+#library(ggrepel)
+
+
+```
+
+# Introduction
+
+The purpose of this survey was to solicit teacher feedback about the utility and interpretability of the CORE data compared to Traditional ORF scores to help collect consequential evidence of validity for CORE. 
+
+We conducted an online survey in summer of 2020 with institutional IRB approval with nine teachers, three in each of Grades 2 to 4, who participated in our [2018-19 study](https://jnese.github.io/core-blog/posts/2019-04-12-consequential-validity-study-procedures/). 
+
+We provided participating teachers with reports and graphs for individual students using de-identified, longitudinal student results from the 2018-19 study to compare the differentiation of teachers’ decisions about instruction between Traditional ORF (easyCBM) results and CORE results. 
+
+# Summary
+
+Nearly all teachers reported the student sample as reading "below grade level", but many teachers wanted more information (besides ORF scores) before labeling a student "at risk".
+
+In general, most teachers agreed that the CORE data was more trustworthy based on its trajectory, and was better for progress monitoring as it displayed steady growth, but several teachers noted that both CORE and Traditional ORF showed consistent trends. Although the teachers reported it was difficult to interpret whether an intervention was working based on the available data, many teachers noted that it was easier to differentiate that the intervention was or was not working based on the CORE data. It was commonly difficult for teachers to determine if the intervention was effective based on the Traditional ORF data.
+
+Teachers unanimously agreed that having measurement error displayed on the graphs was helpful when making data-based decisions. Many teachers agreed that the CORE data was better for progress monitoring and data-based decisions because it appeared to have a smaller measurement error and more consistent trend than the Traditional ORF data. Some teachers reported increased usability of the CORE data as it gave them more reliable and accurate data. Common applications of the measurement error included early identification, understanding the range of a student’s score, and as a guide to evaluate whether their interventions were effective or not.
+
+# Sample
+
+All teachers who participate in the [2018-19 study](https://jnese.github.io/core-blog/posts/2019-04-12-consequential-validity-study-procedures/) were invited to participate in the study. The first three teachers per grade that responded to the invitation to participate were selected to participate. 
+
+Of the 1,008 student from the 2018-19 study, only 430 students had complete ORF data across the four measurement occasions for both measures, CORE and Traditional ORF. For each grade, we randomly sampled four students that scored at/above the 10th percentile and at/ below the 25th percentile.
+
+# Procedures
+
+For each student, we created two figures. The first figure showed the CORE and Traditional ORF scores across the four measurement occasions. The second figure showed the same data but included a shaded region representing the standard error of measurement (*SEM*) at each measurement occasion. The Traditional ORF *SEM* was a classical *SEM* taken from the easyCBM technical documentation, and the CORE *SEM* was a conditional *SEM*. A more thorough description can be found [here](https://journals.sagepub.com/doi/abs/10.1177/1534508420937801).
+
+
+For each student, teachers responded to the following items.
+
+**Teachers were provided with the student’s fall easyCBM oral reading fluency score in words correct per minute (WCPM) and were asked to:**
+
+1. Describe the student’s reading level based on this score alone.
+2. Describe if the student was above, at, or below grade level.
+3. Describe if the student was at risk of poor reading outcomes.
+
+**The teacher then needed to refer to the figure without the *SEM* to answer the following questions.**
+
+4. Which line might be better for progress monitoring?
+
+5. Based on the trajectory of the lines - that is, the shape of the lines - which line might be more trustworthy?
+
+6. Let’s say the figure shows data of a student receiving a reading intervention. For both the the YELLOW and BLACK lines separately: Look at the first three data points only (ignore the last data point from May or June). What might you say about the intervention? Why?
+
+**Teachers were told:**
+
+> The figure below shows the same data you have just seen, but in a different way. Now, the lines are in separate graphs, and each is surrounded by gray shading. The shaded area represents the area that we think contains the students true score. This is sometimes called the measurement error. 
+
+> The less measurement error, the better, because that means the score is more accurate. That is, the score better reflects the students “true ORF ability.” So the smaller the gray shaded area, the better. How familiar are you with this concept?
+
+7. When you and your peers discuss student data (for example, in school teams), do you discuss measurement error, or whether the data is accurate, or whether the data reflects what the student can do?
+
+8. Which line might be better for progress monitoring and data-based decisions? Why?
+
+9. Does the shaded area in the graphs give you useful information if you were using the graphs to make data-based decisions?
+
+10. How might you use this figure to make a data-based decision? 
+
+**Teachers in Grades 3 and 4 were also given the students' year-end Smarter Balanced ELA (reading) performance level and were asked the following questions.**
+
+11. Which line might better correspond with the SBAC performance level?
+
+12. Based on the last data point from May or June ONLY, which point might better match what you expect from a student at this performance level?
+
+13. Based on the first data point from Oct or Nov ONLY, which point might better match what you expect from a student at this performance level?
+
+```{r}
+qual_raw_g2 <- read_csv(here("nopublish", "qual_raw_g2.csv"))
+qual_raw_g3 <- read_csv(here("nopublish", "qual_raw_g3.csv"))
+qual_raw_g4 <- read_csv(here("nopublish", "qual_raw_g4.csv"))
+
+```
+
+```{r}
+rename_fx <- function(x){
+  df <- x %>% 
+    slice(1:2)
+  as_tibble(cbind(qual = names(df), t(df))) %>% 
+    select(qual, new = V2, original = V3)}
+```
+
+# Results 
+
+```{r panelset, layout="l-body-outset", echo=FALSE}
+xaringanExtra::use_panelset()
+
+xaringanExtra::style_panelset_tabs(
+  active_foreground = "#c0072B2",
+  hover_foreground = "#c0072B2"#,
+  #font_family = "Merriweather"
+)
+```
+
+::::: {.panelset}
+
+::: {.panel}
+
+## Grade 2 {.panel-name}
+
+```{r}
+lookup2 <- tibble(
+  sheet = paste("Figure", c(1:4)),
+  data = map(sheet, ~read_xlsx(here("nopublish", "Grade2_Focus-Group-Survey_January 13 2021_16.12.xlsx"),
+                              sheet = .)),
+  dta = map(data, ~rename_fx(.))) %>% 
+  select(dta) %>% 
+  unnest(cols = c(dta)) %>% 
+  mutate(new = str_to_lower(new))
+
+final_g2_data <- qual_raw_g2 %>% 
+  select_if(names(qual_raw_g2) %in% lookup2$qual) %>% 
+  pivot_longer(
+    cols = everything(),
+    names_to = "qual",
+    values_to = "values"
+  ) %>%
+  left_join(lookup2) %>% 
+  select(new, values) %>% 
+  pivot_wider(
+    names_from = new,
+    values_from = values
+  ) %>% 
+  unnest(cols = everything()) %>% 
+  mutate(across(ends_with("reading_level"), ~fct_expand(.x, "Above grade level", "At grade level", "Below grade level")),
+         across(ends_with("at_risk"), ~recode(.x, "Not enough information (Please specify what other data would you like to see for this student)" = "Not enough information")),
+         across(ends_with("at_risk"), ~fct_expand(.x, "Yes", "No", "Not enough information")),
+         across(matches("pm|trust|sbac|last|first|better"), ~recode(.x, "Black" = "CORE (Black)", "Yellow" = "Traditional (Yellow)")),
+         across(matches("pm|trust|sbac|last|first|better"), ~fct_expand(.x,
+           "CORE (Black)", "Traditional (Yellow)", "No difference between the two lines", "I don't know")),
+         across(matches("yellow_line|black_line"), ~fct_expand(.x, "It appears the intervention is working for the student", "It appears the intervention is NOT working for the student", "I cannot tell whether the intervention is working or not")),
+         across(ends_with("shading"), ~fct_expand(.x, "I am very familiar with this concept", "I am a little familiar with this concept", "I am a little unfamiliar with this concept", "I am very unfamiliar with this concept")),
+         across(ends_with("measurement_error"), ~fct_expand(.x, "Yes", "No")),
+         across(ends_with("shaded_area"), ~fct_expand(.x, "Yes", "No", "I still don’t understand the shaded area"))) 
+
+long_g2 <- final_g2_data %>% 
+  mutate(Teacher = paste0("Teacher ", row_number())) %>% 
+  pivot_longer(
+    cols = -c(Teacher),
+    names_to = "item",
+    values_to = "response"
+  ) %>% 
+  mutate(Student = parse_number(item),
+         Student = recode(Student,
+                          `1` = "Student A",
+                          `2` = "Student B",
+                          `3` = "Student C",
+                          `4` = "Student D"),
+         item = str_sub(item, 4))
+```
+
+### **Student Figures**
+
+**The below figures are representative of 2nd grade student scores. Please refer back to these figures when observing the data collected from teacher surveys.**
+
+```{r, fig.width=8}
+
+figs2 <- tibble(
+  name = fs::dir_ls(here::here("nopublish", "original"), regexp = "plot1.*gr2.*rds"),
+  plot = map(name, ~read_rds(.) + theme(aspect.ratio=4/3))#coord_fixed(ratio = 4))
+)
+
+figs2 <- figs2 %>%
+  mutate(student_id = parse_number(str_sub(name, -7))) %>% 
+  arrange(match(student_id, c(110, 361, 537, 923))) %>% 
+  mutate(
+    Student = c("Student A", "Student B", "Student C", "Student D"),
+    orf = c(36, 34, 34, 30),
+    plot = pmap(list(plot, Student, orf), function(data, main, sub)
+      (data + labs(title = main, subtitle = paste0("Fall ORF score = ", sub, " wcpm")))
+    )
+  )
+
+figs2$plot[[1]] + figs2$plot[[2]] +
+   plot_layout(widths = unit(c(3), c('in')))
+
+
+figs2$plot[[3]] + figs2$plot[[4]] +
+   plot_layout(widths = unit(c(3), c('in')))
+
+```
+
+<br>
+<br>
+
+#### **Reading Level**
+<br>
+
+##### **Based on the fall ORF score, the student is reading:**
+
+```{r}
+
+long_g2 %>%
+  filter(str_detect(item, "reading_level")) %>% 
+  mutate(response = fct_expand(response, "Above grade level", "At grade level", "Below grade level"),
+         response = fct_relevel(response,
+                            "Below grade level",
+                            "At grade level")) %>% 
+  ggplot(aes(response, fill = response)) +
+  geom_bar() +
+  coord_flip() + 
+  scale_fill_colorblind(drop = FALSE,
+                        breaks=c("Above grade level", "At grade level", "Below grade level")) +
+  scale_x_discrete(drop = FALSE) +
+  labs(title = "Student Reading Level",
+       subtitle = "Based on fall ORF score",
+       x = "",
+       y = "Count",
+       fill = "Reading Level")
+
+```
+
+<br>
+
+##### **Below are descriptions of the student's reading level based on fall ORF score alone.**
+
+```{r}
+long_g2 %>%
+  filter(str_detect(item, "level_description")) %>%
+  arrange(Student) %>% 
+  left_join(
+    figs2 %>% 
+      select(Student, orf), 
+    by = c("Student")
+  ) %>% 
+  select(Student, Teacher, orf, response) %>% 
+  group_by(Student) %>% 
+  gt() %>% 
+  cols_label(
+    Teacher = md("**Teacher**"),
+    Student = md("**Student**"),
+    orf = md("**ORF**"),
+    response = md("**Response**")
+  ) %>% 
+  tab_options(
+    data_row.padding = gt::px(3),
+    heading.title.font.size = "small",
+    table.font.size = "12px"
+  )
+```
+<br>
+<br>
+<p style="color:#009E73; font-size:20px">
+<b>Results:</b> Based on all of the second grade ORF scores, all three teachers unanimously agreed that these students fell below the 2nd grade reading level and would be considered at risk.
+</p>
+<br>
+<br>
+
+#### **At Risk?**
+<br>
+
+##### **Is this student at risk of poor reading outcomes?**
+
+```{r}
+
+long_g2 %>%
+  filter(item == "at_risk") %>% 
+  mutate(response = fct_expand(response, "Yes", "No", "Not enough information"), 
+         response = fct_relevel(response, 
+                                  "Not enough information", 
+                                  "No")) %>% 
+  ggplot(aes(x = response, fill = response)) +
+  geom_bar() +
+  coord_flip() + 
+  scale_fill_colorblind(drop = FALSE,
+                        breaks=c("Yes", 
+                                 "No", 
+                                 "Not enough information")) +
+  scale_x_discrete(drop = FALSE) +
+  labs(title = "At-Risk Levels for Student 1",
+       subtitle = "Based on teacher review of ORF score",
+       x = "",
+       y = "Count",
+       fill = "At Risk Student")
+
+```
+
+<br>
+
+##### **If you answered "not enough information," please specify what other data you would like to see for this student.**
+
+```{r}
+long_g2 %>%
+  filter(item == "at_risk_why") %>%
+  arrange(Student) %>% 
+  filter(!is.na(response)) %>% 
+  select(Teacher, Student, response) %>% 
+  kable(col.names = c("Teacher", "Student", "Response"))
+  
+```
+
+<br>
+<br>
+<p style="color:#009E73; font-size:20px">
+<b>Results:</b> Many teachers believe these students are at risk of poor reading outcomes. When asked to further explain, many teachers felt they didn't have enough information. To make a conclusive decision about the student, teachers asked to see an oral sample and data on reading fluency.
+</p>
+<br>
+<br>
+
+#### **Progress Monitoring**
+<br>
+
+##### **Which line might be better for progress monitoring? And why?**
+
+```{r, eval = FALSE}
+long_g2 %>%
+  filter(str_detect(item, "pm_line")) %>%
+  pivot_wider(
+    names_from = item,
+    values_from = response
+  ) %>% 
+  unnest(cols = c(pm_line, pm_line_why)) %>%
+  arrange(pm_line) %>% 
+  gt::gt(rowname_col = "Student", groupname_col = "pm_line") %>% 
+  cols_label(
+    pm_line_why = md("**Why?**"),
+    Teacher = md("")) %>% 
+  tab_options(
+    data_row.padding = gt::px(3),
+    heading.title.font.size = "small",
+    table.font.size = "12px"
+  )
+```
+
+
+```{r}
+
+long_g2 %>%
+  filter(item == "pm_line") %>% 
+  mutate(response = fct_expand(response,
+           "CORE (Black)", "Traditional (Yellow)", "No difference between the two lines", "I don't know"),
+         response = fct_relevel(response, 
+                                  "CORE (Black)", "Traditional (Yellow)", "No difference between the two lines", "I don't know")) %>% 
+  ggplot(aes(x = response, fill = response)) +
+  geom_bar() +
+  coord_flip() + 
+  scale_fill_colorblind(drop = FALSE,
+                       breaks=c("I don't know", 
+                                "No difference between the two lines",
+                                "Traditional (Yellow)", "CORE (Black)")) +
+  scale_x_discrete(drop = FALSE) +
+  scale_y_continuous(labels = c(1:12), breaks = c(1:12), limits = c(0, 12)) +
+  labs(title = "Which line might be better for progress monitoring?",
+       x = "",
+       y = "Count",
+       fill = "")
+
+
+```
+
+```{r}
+pm_g2 <- long_g2 %>%
+  filter(str_detect(item, "pm_line")) %>%
+  pivot_wider(
+    names_from = item,
+    values_from = response
+  ) %>% 
+  unnest(cols = c(pm_line, pm_line_why)) %>% 
+  group_by(pm_line) %>% 
+  nest() %>% 
+  mutate(
+    tbles = map2(data, pm_line,
+                 ~gt(.x) %>% 
+                   cols_label(pm_line_why = "") %>% 
+                   tab_header(title = md(paste0("**", .y, "**"))) %>% 
+                     tab_options(
+                        data_row.padding = gt::px(3),
+                        heading.title.font.size = "small",
+                        table.font.size = "12px")
+    )
+  )
+
+#walk(pm_g2$tbles, print)
+
+pm_g2$tbles[[2]]
+
+pm_g2$tbles[[3]]
+
+pm_g2$tbles[[1]]
+
+
+```
+
+<br>
+<br>
+<p style="color:#009E73; font-size:20px">
+<b>Results:</b> For most of the plots, teachers agreed that the black (CORE) line was better for progress monitoring. Common aspects pointed out included steady and realistic inclines displayed as well as the data being indicative of progress. 
+</p>
+<br>
+<br>
+
+#### **Trustworthy Trajectory**
+<br>
+
+##### **Based on the trajectory of the lines - that is, the shape of the lines - which line might be more trustworthy? And why?**
+
+```{r}
+long_g2 %>%
+  mutate(Student = paste0("Student ", Student)) %>% 
+  filter(item == "trust_line") %>%
+  mutate(response = fct_expand(response,
+           "CORE (Black)", "Traditional (Yellow)", "No difference between the two lines", "I don't know"),
+         response = fct_relevel(response, 
+                                  "CORE (Black)", "Traditional (Yellow)", "No difference between the two lines", "I don't know")) %>%
+  ggplot(aes(response, fill = response)) + 
+  geom_bar() +
+  coord_flip() + 
+  scale_fill_colorblind(drop = FALSE,
+                       breaks=c("I don't know", 
+                                "No difference between the two lines",
+                                "Traditional (Yellow)", "CORE (Black)")) +
+  scale_x_discrete(drop = FALSE) +
+  theme(legend.position = "none") +
+  labs(title = "Which line might be more trustworthy",
+       subtitle = "Based on the trajectory of the lines",
+       x = "",
+       y = "Count")
+
+```
+
+```{r }
+
+long_g2 %>%
+  filter(str_detect(item, "trust_line")) %>%
+   pivot_wider(
+    names_from = item,
+    values_from = response
+  ) %>% 
+  unnest(cols = c(trust_line, trust_line_why)) %>%
+  arrange(trust_line, Student) %>% 
+  gt::gt(rowname_col = "Student", groupname_col = "trust_line") %>% 
+  cols_label(
+    trust_line_why = md("**Why?**"),
+    Teacher = md("")) %>% 
+  tab_options(
+    data_row.padding = gt::px(3),
+    heading.title.font.size = "small",
+    table.font.size = "12px"
+  )
+
+```
+
+<br>
+<br>
+<p style="color:#009E73; font-size:20px">
+<b>Results:</b> Many teachers agreed that the black (CORE) line is more trustworthy based on its trajectory. Some noted the steady growth that the line follows which is indicative of progress. 
+</p>
+<br>
+<br>
+
+#### **Intervention Working?**
+<br>
+
+```{r}
+
+long_g2 %>%
+  filter(item == "yellow_line" |
+         item == "black_line") %>% 
+  mutate(item = recode(item,
+                       "yellow_line" = "Traditional (Yellow)",
+                       "black_line" = "CORE (Black)"),
+         response = fct_relevel(response, 
+                                  "It appears the intervention is working for the student",
+                                "It appears the intervention is NOT working for the student",
+                                "I cannot tell whether the intervention is working or not")) %>% 
+  ggplot(aes(response, fill = response)) + 
+  geom_bar() +
+  coord_flip() + 
+  facet_wrap(~item) +
+  scale_fill_colorblind(drop = FALSE,
+                       breaks=c("I cannot tell whether the intervention is working or not", 
+                                "It appears the intervention is NOT working for the student",
+                                "It appears the intervention is working for the student")) +
+  scale_x_discrete(drop = FALSE) +
+  theme(legend.position = "none") +
+  labs(title = "Is the intervention working?",
+       subtitle = "For each line separately",
+       x = "",
+       y = "Count")
+
+```
+
+<br>
+
+##### **Let's say the figure shows data of a student receiving a reading intervention. For the Traditional ORF (*YELLOW*) line, look at the first three data points only (ignore the last data point from May or June). What might you say about the intervention? And why?**
+
+``` {r}
+long_g2 %>%
+  filter(str_detect(item, "yellow_line")) %>%
+   pivot_wider(
+    names_from = item,
+    values_from = response
+  ) %>% 
+  unnest(cols = c(yellow_line, yellow_line_why)) %>%
+  arrange(yellow_line, Student) %>% 
+  gt::gt(rowname_col = "Student", groupname_col = "yellow_line") %>% 
+  cols_label(
+    yellow_line_why = md("")) %>% 
+  tab_options(
+    data_row.padding = gt::px(3),
+    heading.title.font.size = "small",
+    table.font.size = "12px"
+  )
+```
+
+<br>
+
+##### **Let's say the figure shows data of a student receiving a reading intervention. For the CORE (*BLACK*) line, look at the first three data points only (ignore the last data point from May or June). What might you say about the intervention? And why?**
+
+```{r}
+
+long_g2 %>%
+  filter(str_detect(item, "black_line")) %>%
+   pivot_wider(
+    names_from = item,
+    values_from = response
+  ) %>% 
+  unnest(cols = c(black_line, black_line_why)) %>%
+  arrange(black_line, Student) %>% 
+  gt::gt(rowname_col = "Student", groupname_col = "black_line") %>% 
+  cols_label(
+    black_line_why = md("")) %>% 
+  tab_options(
+    data_row.padding = gt::px(3),
+    heading.title.font.size = "small",
+    table.font.size = "12px"
+  )
+
+```
+
+<br>
+<br>
+<p style="color:#009E73; font-size:20px">
+<b>Results:</b> Most teachers noted that is was easier to differentiate that the intervention was working based on the black (CORE) line. It was commonly difficult to determine if the intervention was working when only observing the yellow line. 
+</p>
+<br>
+<br>
+<br>
+
+### **Student Figures with Measurement Error**
+
+```{r, fig.width=8}
+
+figs2_g4 <- tibble(
+  name = fs::dir_ls(here::here("nopublish", "original"), regexp = "ploterror.*gr4.*rds"),
+  plot = map(name, ~read_rds(.) + theme(aspect.ratio = 4/3))
+) %>%
+  mutate(student_id = parse_number(str_sub(name, -7))) %>% 
+  arrange(match(student_id, c(218, 524, 737, 1044))) %>% 
+  mutate(
+    Student = c("Student A", "Student B", "Student C", "Student D"),
+    orf = c(73, 86, 85, 78),
+    plot = pmap(list(plot, Student, orf), function(data, main, sub)
+      (data + labs(title = main, subtitle = paste0("Fall ORF score = ", sub, " wcpm")))
+    )
+  )
+
+figs2_g4$plot[[1]] + figs2_g4$plot[[2]]
+
+figs2_g4$plot[[3]] + figs2_g4$plot[[4]] 
+
+```
+
+<br>
+<br>
+
+#### **Progress Monitoring and Data-Based Decisions**
+<br>
+
+##### **Which line might be better for progress monitoring and data-based decisions?**
+
+```{r}
+
+long_g2 %>%
+  filter(str_detect(item, "better_line")) %>%
+  pivot_wider(
+    names_from = item,
+    values_from = response
+  ) %>% 
+  unnest(cols = c(better_line, better_line_why)) %>%
+  arrange(better_line) %>% 
+  gt::gt(rowname_col = "Student", groupname_col = "better_line") %>% 
+  cols_label(
+    better_line_why = md(""),
+    Teacher = ("")) %>% 
+  tab_options(
+    data_row.padding = gt::px(3),
+    heading.title.font.size = "small",
+    table.font.size = "12px"
+  )
+
+
+```
+
+<br>
+<br>
+<p style="color:#009E73; font-size:20px">
+<b>Results:</b> Teachers unanimously agreed that the black (CORE) line was better for progress-monitoring and data-based decisions. Many pointed out that the margin of error was small to none compared to the yellow line. 
+</p>
+<br>
+<br>
+
+#### **Measurement Error Useful?**
+<br>
+
+##### **Does the shaded area in the graphs give you useful information if you were using the graphs to make data-based decisions?**
+
+```{r}
+
+long_g2 %>% 
+  filter(str_detect(item, "shaded_area")) %>% 
+  mutate(response = fct_expand(response, "I still don't understand the shaded area",
+                                      "No",
+                                      "Yes"),
+         response = fct_relevel(response,
+                                      "I still don't understand the shaded area",
+                                      "No",
+                                      "Yes")) %>%
+  ggplot(aes(x = response, fill = response)) +
+  geom_bar() +
+  coord_flip() +
+  scale_fill_colorblind(drop = FALSE,
+                        breaks=c("Yes",
+                                 "No",
+                                 "I still don't understand the shaded area")) +
+  scale_x_discrete(drop = FALSE) +
+  theme(legend.position = "none") +
+  labs(title = "Is the shaded area helpful?",
+       subtitle = "",
+       x = "",
+       y = "Count",
+       fill = "")
+
+```
+
+<br>
+
+#### **How might you use this figure to make a data-based decision?**
+
+```{r}
+long_g2 %>% 
+  filter(str_detect(item, "decisions")) %>% 
+  select(Student, Teacher, response) %>% 
+  arrange(Student, Teacher) %>% 
+  gt::gt(rowname_col = "", groupname_col = "Student") %>% 
+  cols_label(
+    response = md("Response"),
+    Teacher = ("")) %>% 
+  tab_options(
+    data_row.padding = gt::px(3),
+    heading.title.font.size = "small",
+    table.font.size = "12px"
+  )
+```
+
+<br>
+<br>
+<p style="color:#009E73; font-size:20px">
+<b>Results:</b> Teachers unanimously agreed that the shaded area present on the graphs was helpful when making data-based decisions. Teachers noted increased usability as the black (CORE) line gives them more reliable and accurate data. 
+</p>
+<br>
+<br>
+
+:::
+
+::: {.panel}
+
+## Grade 3 {.panel-name}
+
+```{r, echo=FALSE}
+
+lookup <- tibble(
+  sheet = paste("Figure", c(1:4)),
+  data = map(sheet, ~read_xlsx(here("nopublish", "Grade3_Focus-Group-Survey_January 19 2021_15.26.xlsx"),
+                              sheet = .)),
+  dta = map(data, ~rename_fx(.))) %>% 
+  select(dta) %>% 
+  unnest(cols = c(dta)) %>% 
+  mutate(new = str_to_lower(new))
+
+final_g3_data <- qual_raw_g3 %>% 
+  select_if(names(qual_raw_g3) %in% lookup$qual) %>% 
+  pivot_longer(
+    cols = everything(),
+    names_to = "qual",
+    values_to = "values"
+  ) %>%
+  left_join(lookup) %>% 
+  select(new, values) %>% 
+  pivot_wider(
+    names_from = new,
+    values_from = values
+  ) %>% 
+  unnest(cols = everything())
+
+```
+
+```{r recode, echo=FALSE}
+
+final_g3_data <- final_g3_data %>% 
+  mutate(across(ends_with("reading_level"), ~fct_expand(.x, "Above grade level", "At grade level", "Below grade level")),
+         across(ends_with("at_risk"), ~recode(.x, "Not enough information (Please specify what other data would you like to see for this student)" = "Not enough information")),
+         across(ends_with("at_risk"), ~fct_expand(.x, "Yes", "No", "Not enough information")),
+         across(matches("pm|trust|sbac|last|first|better"), ~recode(.x, "Black" = "CORE (Black)", "Yellow" = "Traditional (Yellow)")),
+         across(matches("pm|trust|sbac|last|first|better"), ~fct_expand(.x,
+           "CORE (Black)", "Traditional (Yellow)", "No difference between the two lines", "I don't know")),
+         across(matches("yellow_line|black_line"), ~fct_expand(.x, "It appears the intervention is working for the student", "It appears the intervention is NOT working for the student", "I cannot tell whether the intervention is working or not")),
+         across(ends_with("shading"), ~fct_expand(.x, "I am very familiar with this concept", "I am a little familiar with this concept", "I am a little unfamiliar with this concept", "I am very unfamiliar with this concept")),
+         across(ends_with("measurement_error"), ~fct_expand(.x, "Yes", "No")),
+         across(ends_with("shaded_area"), ~fct_expand(.x, "Yes", "No", "I still don’t understand the shaded area"))) 
+
+```
+
+```{r}
+
+long_g3 <- final_g3_data %>% 
+  mutate(Teacher = paste0("Teacher ", row_number())) %>% 
+  pivot_longer(
+    cols = -c(Teacher),
+    names_to = "item",
+    values_to = "response"
+  ) %>% 
+  mutate(Student = parse_number(item),
+         Student = recode(Student,
+                          `1` = "Student A",
+                          `2` = "Student B",
+                          `3` = "Student C",
+                          `4` = "Student D"),
+         item = str_sub(item, 4))
+
+```
+
+### **Student Figures**
+
+**The below figures are representative of 3rd grade student scores. Please refer back to these figures when observing the data collected from teacher surveys.**
+
+```{r}
+
+figs <- tibble(
+  name = fs::dir_ls(here::here("nopublish", "original"), regexp = "plot1.*gr3.*rds"),
+  plot = map(name, ~read_rds(.) + theme(aspect.ratio=4/3))#coord_fixed(ratio = 4))
+)
+
+figs <- figs %>%
+  mutate(student_id = parse_number(str_sub(name, -7))) %>% 
+  arrange(match(student_id, c(67, 274, 633, 965))) %>% 
+  mutate(
+    Student = c("Student A", "Student B", "Student C", "Student D"),
+    orf = c(62, 58, 48, 51),
+    plot = pmap(list(plot, Student, orf), function(data, main, sub)
+      (data + labs(title = main, subtitle = paste0("Fall ORF score = ", sub, " wcpm")))
+      #theme(plot.title = element_text(size = 10), plot.subtitle = element_text(size = 8))))
+    )
+  )
+
+figs$plot[[1]] + figs$plot[[2]] +
+   plot_layout(widths = unit(c(3), c('in')))
+
+figs$plot[[3]] + figs$plot[[4]] +
+   plot_layout(widths = unit(c(3), c('in')))
+
+# wrap_plots(figs$plot) + 
+#   plot_layout(nrow = 2)
+
+```
+
+<br>
+<br>
+
+#### **Reading Level**
+<br>
+
+##### **Based on the fall ORF score, the student is reading:**
+
+```{r}
+
+long_g3 %>%
+  filter(str_detect(item, "reading_level")) %>% 
+  mutate(response = fct_expand(response, "Above grade level", "At grade level", "Below grade level"),
+         response = fct_relevel(response,
+                            "Below grade level",
+                            "At grade level")) %>% 
+  ggplot(aes(response, fill = response)) +
+  geom_bar() +
+  coord_flip() + 
+  scale_fill_colorblind(drop = FALSE,
+                        breaks=c("Above grade level", "At grade level", "Below grade level")) +
+  scale_x_discrete(drop = FALSE) +
+  labs(title = "Student Reading Level",
+       subtitle = "Based on fall ORF score",
+       x = "",
+       y = "Count",
+       fill = "Reading Level")
+
+```
+
+<br>
+
+##### **Below are descriptions of the student's reading level based on fall ORF score alone.**
+
+```{r}
+long_g3 %>%
+  filter(str_detect(item, "level_description")) %>%
+  arrange(Student) %>% 
+  left_join(
+    figs %>% 
+      select(Student, orf), 
+    by = c("Student")
+  ) %>% 
+  select(Student, Teacher, orf, response) %>% 
+  group_by(Student) %>% 
+  gt() %>% 
+  cols_label(
+    Teacher = md("**Teacher**"),
+    Student = md("**Student**"),
+    orf = md("**ORF**"),
+    response = md("**Response**")
+  ) %>% 
+  tab_options(
+    data_row.padding = gt::px(3),
+    heading.title.font.size = "small",
+    table.font.size = "12px"
+  )
+```
+<br>
+<br>
+<p style="color:#009E73; font-size:20px">
+<b>Results:</b> Based on all of the third grade ORF scores, all three teachers unanimously agreed that these students fell below 3rd grade reading level and would be considered at risk.
+</p>
+<br>
+<br>
+
+#### **At Risk?**
+<br>
+
+##### **Is this student at risk of poor reading outcomes?**
+
+```{r}
+
+long_g3 %>%
+  filter(item == "at_risk") %>% 
+  mutate(response = fct_expand(response, "Yes", "No", "Not enough information"), 
+         response = fct_relevel(response, 
+                                  "Not enough information", 
+                                  "No")) %>% 
+  ggplot(aes(x = response, fill = response)) +
+  geom_bar() +
+  coord_flip() + 
+  scale_fill_colorblind(drop = FALSE,
+                        breaks=c("Yes", 
+                                 "No", 
+                                 "Not enough information")) +
+  scale_x_discrete(drop = FALSE) +
+  labs(title = "At-Risk Levels for Student 1",
+       subtitle = "Based on teacher review of ORF score",
+       x = "",
+       y = "Count",
+       fill = "At Risk Student")
+
+```
+
+<br>
+
+##### **If you answered "not enough information," please specify what other data you would like to see for this student.**
+
+```{r}
+long_g3 %>%
+  filter(item == "at_risk_why") %>%
+  arrange(Student) %>% 
+  filter(!is.na(response)) %>% 
+  select(Teacher, Student, response) %>% 
+  kable(col.names = c("Teacher", "Student", "Response"))
+  
+```
+
+<br>
+<br>
+<p style="color:#009E73; font-size:20px">
+<b>Results:</b> Many teachers believe these students are at risk of poor reading outcomes. When asked to further explain, many teachers felt they didn't have enough information. To make a conclusive decision about the student, teachers would need to either hear a recording of the student or watch the student read aloud. This would improve their knowledge of the student's decoding skills, reading pace, and pausing habits. 
+</p>
+<br>
+<br>
+
+#### **Progress Monitoring**
+<br>
+
+##### **Which line might be better for progress monitoring? And why?**
+
+```{r, eval = FALSE}
+long_g3 %>%
+  filter(str_detect(item, "pm_line")) %>%
+  pivot_wider(
+    names_from = item,
+    values_from = response
+  ) %>% 
+  unnest(cols = c(pm_line, pm_line_why)) %>%
+  arrange(pm_line) %>% 
+#  group_by(pm_line) %>% 
+  gt::gt(rowname_col = "Student", groupname_col = "pm_line") %>% 
+  cols_label(
+    pm_line_why = md("**Why?**"),
+    Teacher = md("")) %>% 
+  tab_options(
+    data_row.padding = gt::px(3),
+    heading.title.font.size = "small",
+    table.font.size = "12px"
+  )
+
+```
+
+
+```{r}
+
+long_g3 %>%
+  filter(item == "pm_line") %>% 
+  mutate(response = fct_expand(response,
+           "CORE (Black)", "Traditional (Yellow)", "No difference between the two lines", "I don't know"),
+         response = fct_relevel(response, 
+                                  "CORE (Black)", "Traditional (Yellow)", "No difference between the two lines", "I don't know")) %>% 
+  ggplot(aes(x = response, fill = response)) +
+  geom_bar() +
+  coord_flip() + 
+  scale_fill_colorblind(drop = FALSE,
+                       breaks=c("I don't know", 
+                                "No difference between the two lines",
+                                "Traditional (Yellow)", "CORE (Black)")) +
+  scale_x_discrete(drop = FALSE) +
+  scale_y_continuous(labels = c(1:12), breaks = c(1:12), limits = c(0, 12)) +
+  labs(title = "Which line might be better for progress monitoring?",
+       x = "",
+       y = "Count",
+       fill = "")
+
+
+```
+
+```{r, results="asis"}
+pm_g3 <- long_g3 %>%
+  filter(str_detect(item, "pm_line")) %>%
+  pivot_wider(
+    names_from = item,
+    values_from = response
+  ) %>% 
+  unnest(cols = c(pm_line, pm_line_why)) %>% 
+  group_by(pm_line) %>% 
+  nest() %>% 
+  mutate(
+    tbles = map2(data, pm_line,
+                 ~gt(.x) %>% 
+                   cols_label(pm_line_why = "") %>% 
+                   tab_header(title = md(paste0("**", .y, "**"))) %>% 
+                     tab_options(
+                        data_row.padding = gt::px(3),
+                        heading.title.font.size = "small",
+                        table.font.size = "12px")
+    )
+  )
+
+walk(pm_g3$tbles, print)
+
+#pm_g3$tbles[[1]]
+
+#pm_g3$tbles[[2]]
+
+```
+
+<br>
+<br>
+<p style="color:#009E73; font-size:20px">
+<b>Results:</b> For most of the plots, teachers agreed that there was little difference between the two lines. Common aspects pointed out included slow progress and similar direction.
+</p>
+<br>
+<br>
+
+#### **Trustworthy Trajectory**
+<br>
+
+##### **Based on the trajectory of the lines - that is, the shape of the lines - which line might be more trustworthy? And why?**
+
+```{r}
+long_g3 %>%
+  mutate(Student = paste0("Student ", Student)) %>% 
+  filter(item == "trust_line") %>%
+  mutate(response = fct_expand(response,
+           "CORE (Black)", "Traditional (Yellow)", "No difference between the two lines", "I don't know"),
+         response = fct_relevel(response, 
+                                  "CORE (Black)", "Traditional (Yellow)", "No difference between the two lines", "I don't know")) %>%
+  ggplot(aes(response, fill = response)) + 
+  geom_bar() +
+  coord_flip() + 
+  scale_fill_colorblind(drop = FALSE,
+                       breaks=c("I don't know", 
+                                "No difference between the two lines",
+                                "Traditional (Yellow)", "CORE (Black)")) +
+  scale_x_discrete(drop = FALSE) +
+  theme(legend.position = "none") +
+  labs(title = "Which line might be more trustworthy",
+       subtitle = "Based on the trajectory of the lines",
+       x = "",
+       y = "Count")
+
+```
+
+```{r f1trustline}
+
+long_g3 %>%
+  filter(str_detect(item, "trust_line")) %>%
+   pivot_wider(
+    names_from = item,
+    values_from = response
+  ) %>% 
+  unnest(cols = c(trust_line, trust_line_why)) %>%
+  arrange(trust_line, Student) %>% 
+#  group_by(trust_line) %>% 
+  gt::gt(rowname_col = "Student", groupname_col = "trust_line") %>% 
+  cols_label(
+    trust_line_why = md("**Why?**"),
+    Teacher = md("")) %>% 
+  tab_options(
+    data_row.padding = gt::px(3),
+    heading.title.font.size = "small",
+    table.font.size = "12px"
+  )
+#  kable(col.names = c("Student", "Most Trustworthy Line", "Why?"))
+
+```
+
+<br>
+<br>
+<p style="color:#009E73; font-size:20px">
+<b>Results:</b> While most teachers noted the lack of difference between lines, a few stated that the CORE line appears to be more trustworthy. They pointed out that the sharp decline in the ORF (Yellow) line may be due to extenuating circumstances unknown to them. 
+</p>
+<br>
+<br>
+
+#### **Intervention Working?**
+<br>
+
+```{r}
+
+long_g3 %>%
+  filter(item == "yellow_line" |
+         item == "black_line") %>% 
+  mutate(item = recode(item,
+                       "yellow_line" = "Traditional (Yellow)",
+                       "black_line" = "CORE (Black)"),
+         response = fct_relevel(response, 
+                                  "It appears the intervention is working for the student",
+                                "It appears the intervention is NOT working for the student",
+                                "I cannot tell whether the intervention is working or not")) %>% 
+  ggplot(aes(response, fill = response)) + 
+  geom_bar() +
+  coord_flip() + 
+  facet_wrap(~item) +
+  scale_fill_colorblind(drop = FALSE,
+                       breaks=c("I cannot tell whether the intervention is working or not", 
+                                "It appears the intervention is NOT working for the student",
+                                "It appears the intervention is working for the student")) +
+  scale_x_discrete(drop = FALSE) +
+  theme(legend.position = "none") +
+  labs(title = "Is the intervention working?",
+       subtitle = "For each line separately",
+       x = "",
+       y = "Count")
+
+```
+
+<br>
+
+##### **Let's say the figure shows data of a student receiving a reading intervention. For the Traditional ORF (*YELLOW*) line, look at the first three data points only (ignore the last data point from May or June). What might you say about the intervention? And why?**
+
+``` {r f1yellowline}
+
+long_g3 %>%
+  filter(str_detect(item, "yellow_line")) %>%
+   pivot_wider(
+    names_from = item,
+    values_from = response
+  ) %>% 
+  unnest(cols = c(yellow_line, yellow_line_why)) %>%
+  arrange(yellow_line, Student) %>% 
+#  group_by(yellow_line) %>% 
+  gt::gt(rowname_col = "Student", groupname_col = "yellow_line") %>% 
+  cols_label(
+    yellow_line_why = md("")) %>% 
+  tab_options(
+    data_row.padding = gt::px(3),
+    heading.title.font.size = "small",
+    table.font.size = "12px"
+  )
+```
+
+<br>
+
+##### **Let's say the figure shows data of a student receiving a reading intervention. For the CORE (*BLACK*) line, look at the first three data points only (ignore the last data point from May or June). What might you say about the intervention? And why?**
+
+```{r f1blackline}
+
+long_g3 %>%
+  filter(str_detect(item, "black_line")) %>%
+   pivot_wider(
+    names_from = item,
+    values_from = response
+  ) %>% 
+  unnest(cols = c(black_line, black_line_why)) %>%
+  arrange(black_line, Student) %>% 
+#  group_by(yellow_line) %>% 
+  gt::gt(rowname_col = "Student", groupname_col = "black_line") %>% 
+  cols_label(
+    black_line_why = md("")) %>% 
+  tab_options(
+    data_row.padding = gt::px(3),
+    heading.title.font.size = "small",
+    table.font.size = "12px"
+  )
+
+```
+
+<br>
+<br>
+<p style="color:#009E73; font-size:20px">
+<b>Results:</b> Teachers across the board agreed that the intervention is working for student D based on the data displayed. Teachers believed that the intervention was either not working or they were unable to interpret the data for student A. Students B and C were also difficult for teachers to interpret, but overall they displayed an understanding that the intervention was working. If teachers were unable to tell whether the intervention was working or not, they stated the need to listen to the student in order to diagnose their progress. 
+</p>
+<br>
+<br>
+
+#### **State Reading Test Score**
+<br>
+
+##### **Which line might better correspond with the SBAC performance level?**
+
+```{r}
+long_g3 %>%
+  filter(str_detect(item, "sbac")) %>% 
+  mutate(response = fct_relevel(response, 
+                               "CORE (Black)",
+                               "Traditional (Yellow)",
+                               "No difference between the two lines",
+                               "I don't know")) %>% 
+  ggplot(aes(response, fill = response)) +
+  geom_bar() +
+  coord_flip() + 
+  scale_fill_colorblind(drop = FALSE,
+                        breaks=c("I don't know",
+                                 "No difference between the two lines",
+                                 "Traditional (Yellow)",
+                                 "CORE (Black)")) +
+  scale_x_discrete(drop = FALSE) +
+  labs(title = "Correspondance with SBAC performance level",
+       subtitle = "Based on teacher review of ORF score",
+       x = "",
+       y = "Count",
+       fill = "")
+
+```
+
+<br>
+
+##### **Based on the last data point from *May or June* ONLY, which point might better match what you expect from a student at this SBAC performance level?**
+
+```{r lastpoint}
+
+long_g3 %>%
+  filter(str_detect(item, "last_point")) %>% 
+  mutate(response = fct_relevel(response, 
+                               "CORE (Black)",
+                               "Traditional (Yellow)",
+                               "No difference between the two lines",
+                               "I don't know")) %>% 
+  ggplot(aes(response, fill = response)) +
+  geom_bar() +
+  coord_flip() + 
+  scale_fill_colorblind(drop = FALSE,
+                        breaks=c("I don't know",
+                                 "No difference between the two lines",
+                                 "Traditional (Yellow)",
+                                 "CORE (Black)")) +
+  scale_x_discrete(drop = FALSE) +
+  labs(title = "Correspondance with last data point",
+       subtitle = "Based on teacher review of ORF score",
+       x = "",
+       y = "Count",
+       fill = "")
+
+```
+
+<br>
+
+##### **Based on the first data point from *October or November* ONLY, which point might better match what you expect from a student at this SBAC performance level?**
+
+```{r firstpoint}
+
+long_g3 %>%
+  filter(str_detect(item, "first_point")) %>% 
+  mutate(response = fct_relevel(response, 
+                               "CORE (Black)",
+                               "Traditional (Yellow)",
+                               "No difference between the two lines",
+                               "I don't know")) %>% 
+  ggplot(aes(response, fill = response)) +
+  geom_bar() +
+  coord_flip() + 
+  scale_fill_colorblind(drop = FALSE,
+                        breaks=c("I don't know",
+                                 "No difference between the two lines",
+                                 "Traditional (Yellow)",
+                                 "CORE (Black)")) +
+  scale_x_discrete(drop = FALSE) +
+  labs(title = "Correspondance with last data point",
+       subtitle = "Based on teacher review of ORF score",
+       x = "",
+       y = "Count",
+       fill = "")
+
+```
+
+<br>
+<br>
+<p style="color:#009E73; font-size:20px">
+<b>Results:</b> Neither line corresponded better with the SBAC performance level. For both the first and last data points, many teachers noted the lack of difference between lines displayed. Those that did observe a difference found the ORF (Yellow) line to correspond more effectively in both circumstances.
+</p>
+<br>
+<br>
+<br>
+
+### **Student Figures with Measurement Error**
+
+```{r msrerror, fig.width=8}
+
+figs2 <- tibble(
+  name = fs::dir_ls(here::here("nopublish", "original"), regexp = "ploterror.*gr3.*rds"),
+  plot = map(name, ~read_rds(.) + theme(aspect.ratio = 4/3))#coord_fixed(ratio = 4))
+)
+
+figs2 <- figs2 %>%
+  mutate(student_id = parse_number(str_sub(name, -7))) %>% 
+  arrange(match(student_id, c(67, 274, 633, 965))) %>% 
+  mutate(
+    Student = c("Student A", "Student B", "Student C", "Student D"),
+    orf = c(62, 58, 48, 51),
+    plot = pmap(list(plot, Student, orf), function(data, main, sub)
+      (data + labs(title = main, subtitle = paste0("Fall ORF score = ", sub, " wcpm")))
+      #theme(plot.title = element_text(size = 10), plot.subtitle = element_text(size = 8))))
+    )
+  )
+
+figs2$plot[[1]] + figs2$plot[[2]]
+
+figs2$plot[[3]] + figs2$plot[[4]] 
+
+
+# patchwork::wrap_plots(figs2$plot) + 
+#   plot_layout(nrow = 2)
+```
+
+<br>
+<br>
+
+#### **Progress Monitoring and Data-Based Decisions**
+<br>
+
+##### **Which line might be better for progress monitoring and data-based decisions?**
+
+```{r f1betterline}
+
+long_g3 %>%
+  filter(str_detect(item, "better_line")) %>%
+  pivot_wider(
+    names_from = item,
+    values_from = response
+  ) %>% 
+  unnest(cols = c(better_line, better_line_why)) %>%
+  arrange(better_line) %>% 
+  gt::gt(rowname_col = "Student", groupname_col = "better_line") %>% 
+  cols_label(
+    better_line_why = md(""),
+    Teacher = ("")) %>% 
+  tab_options(
+    data_row.padding = gt::px(3),
+    heading.title.font.size = "small",
+    table.font.size = "12px"
+  )
+
+
+```
+
+<br>
+<br>
+<p style="color:#009E73; font-size:20px">
+<b>Results:</b> A majority of teachers noted the lack of difference between lines and the same trend observed in both data sets.
+</p>
+<br>
+<br>
+
+#### **Measurement Error Useful?**
+<br>
+
+##### **Does the shaded area in the graphs give you useful information if you were using the graphs to make data-based decisions?**
+
+```{r}
+
+long_g3 %>% 
+  filter(str_detect(item, "shaded_area")) %>% 
+  mutate(response = fct_expand(response, "I still don't understand the shaded area",
+                                      "No",
+                                      "Yes"),
+         response = fct_relevel(response,
+                                      "I still don't understand the shaded area",
+                                      "No",
+                                      "Yes")) %>%
+  ggplot(aes(x = response, fill = response)) +
+  geom_bar() +
+  coord_flip() +
+  scale_fill_colorblind(drop = FALSE,
+                        breaks=c("Yes",
+                                 "No",
+                                 "I still don't understand the shaded area")) +
+  scale_x_discrete(drop = FALSE) +
+  theme(legend.position = "none") +
+  labs(title = "Is the shaded area helpful?",
+       subtitle = "",
+       x = "",
+       y = "Count",
+       fill = "")
+
+```
+
+<br>
+
+#### **How might you use this figure to make a data-based decision?**
+
+```{r}
+long_g3 %>% 
+  filter(str_detect(item, "decisions")) %>% 
+  select(Student, Teacher, response) %>% 
+  arrange(Student, Teacher) %>% 
+  gt::gt(rowname_col = "", groupname_col = "Student") %>% 
+  cols_label(
+    response = md("Response"),
+    Teacher = ("")) %>% 
+  tab_options(
+    data_row.padding = gt::px(3),
+    heading.title.font.size = "small",
+    table.font.size = "12px"
+  )
+```
+
+<br>
+<br>
+<p style="color:#009E73; font-size:20px">
+<b>Results:</b> A majority of teachers stated that the shaded area was helpful when observing the data. Common applications of the measurement error included early identification, understanding the range a student falls within, and as a guide for implementing assistance in the future. 
+</p>
+<br>
+<br>
+
+:::
+
+::: {.panel}
+
+## Grade 4 {.panel-name}
+
+```{r}
+final_g4_data <- qual_raw_g4 %>% 
+  select_if(names(qual_raw_g4) %in% lookup$qual) %>% 
+  pivot_longer(
+    cols = everything(),
+    names_to = "qual",
+    values_to = "values"
+  ) %>%
+  left_join(lookup) %>% 
+  select(new, values) %>% 
+  pivot_wider(
+    names_from = new,
+    values_from = values
+  ) %>% 
+  unnest(cols = everything()) %>% 
+  mutate(across(ends_with("reading_level"), ~fct_expand(.x, "Above grade level", "At grade level", "Below grade level")),
+         across(ends_with("at_risk"), ~recode(.x, "Not enough information (Please specify what other data would you like to see for this student)" = "Not enough information")),
+         across(ends_with("at_risk"), ~fct_expand(.x, "Yes", "No", "Not enough information")),
+         across(matches("pm|trust|sbac|last|first|better"), ~recode(.x, "Black" = "CORE (Black)", "Yellow" = "Traditional (Yellow)")),
+         across(matches("pm|trust|sbac|last|first|better"), ~fct_expand(.x,
+           "CORE (Black)", "Traditional (Yellow)", "No difference between the two lines", "I don't know")),
+         across(matches("yellow_line|black_line"), ~fct_expand(.x, "It appears the intervention is working for the student", "It appears the intervention is NOT working for the student", "I cannot tell whether the intervention is working or not")),
+         across(ends_with("shading"), ~fct_expand(.x, "I am very familiar with this concept", "I am a little familiar with this concept", "I am a little unfamiliar with this concept", "I am very unfamiliar with this concept")),
+         across(ends_with("measurement_error"), ~fct_expand(.x, "Yes", "No")),
+         across(ends_with("shaded_area"), ~fct_expand(.x, "Yes", "No", "I still don’t understand the shaded area"))) 
+
+long_g4 <- final_g4_data %>% 
+  mutate(Teacher = paste0("Teacher ", row_number())) %>% 
+  pivot_longer(
+    cols = -c(Teacher),
+    names_to = "item",
+    values_to = "response"
+  ) %>% 
+  mutate(Student = parse_number(item),
+         Student = recode(Student,
+                          `1` = "Student A",
+                          `2` = "Student B",
+                          `3` = "Student C",
+                          `4` = "Student D"),
+         item = str_sub(item, 4))
+```
+
+### **Student Figures**
+
+**The below figures are representative of 4th grade student scores. Please refer back to these figures when observing the data collected from teacher surveys.**
+
+```{r}
+
+figs4 <- tibble(
+  name = fs::dir_ls(here::here("nopublish", "original"), regexp = "plot1.*gr4.*rds"),
+  plot = map(name, ~read_rds(.) + theme(aspect.ratio=4/3))#coord_fixed(ratio = 4))
+)
+
+figs4 <- figs4 %>%
+  mutate(student_id = parse_number(str_sub(name, -7))) %>% 
+  arrange(match(student_id, c(218, 524, 737, 1044))) %>% 
+  mutate(
+    Student = c("Student A", "Student B", "Student C", "Student D"),
+    orf = c(73, 86, 85, 78),
+    plot = pmap(list(plot, Student, orf), function(data, main, sub)
+      (data + labs(title = main, subtitle = paste0("Fall ORF score = ", sub, " wcpm")))
+    )
+  )
+
+figs4$plot[[1]] + figs4$plot[[2]] +
+   plot_layout(widths = unit(c(3), c('in')))
+
+figs4$plot[[3]] + figs4$plot[[4]] +
+   plot_layout(widths = unit(c(3), c('in')))
+
+
+```
+
+<br>
+<br>
+
+#### **Reading Level**
+<br>
+
+##### **Based on the fall ORF score, the student is reading:**
+
+```{r}
+
+long_g4 %>%
+  filter(str_detect(item, "reading_level")) %>% 
+  mutate(response = fct_expand(response, "Above grade level", "At grade level", "Below grade level"),
+         response = fct_relevel(response,
+                            "Below grade level",
+                            "At grade level")) %>% 
+  ggplot(aes(response, fill = response)) +
+  geom_bar() +
+  coord_flip() + 
+  scale_fill_colorblind(drop = FALSE,
+                        breaks=c("Above grade level", "At grade level", "Below grade level")) +
+  scale_x_discrete(drop = FALSE) +
+  labs(title = "Student Reading Level",
+       subtitle = "Based on fall ORF score",
+       x = "",
+       y = "Count",
+       fill = "Reading Level")
+
+```
+
+<br>
+
+##### **Below are descriptions of the student's reading level based on fall ORF score alone.**
+
+```{r}
+long_g4 %>%
+  filter(str_detect(item, "level_description")) %>%
+  arrange(Student) %>% 
+  left_join(
+    figs4 %>% 
+      select(Student, orf), 
+    by = c("Student")
+  ) %>% 
+  select(Student, Teacher, orf, response) %>% 
+  group_by(Student) %>% 
+  gt() %>% 
+  cols_label(
+    Teacher = md("**Teacher**"),
+    Student = md("**Student**"),
+    orf = md("**ORF**"),
+    response = md("**Response**")
+  ) %>% 
+  tab_options(
+    data_row.padding = gt::px(3),
+    heading.title.font.size = "small",
+    table.font.size = "12px"
+  )
+```
+<br>
+<br>
+<p style="color:#009E73; font-size:20px">
+<b>Results:</b> Based on these ORF scores, many teachers believe that this student is reading significantly below the 4th grade reading level. On a few occasions, one teacher argued that this may just be a slower reader, not a student reading below grade level; comprehension data and fluency scores would help to assist the teacher in determining if the student is below grade level.  
+</p>
+<br>
+<br>
+
+#### **At Risk?**
+<br>
+
+##### **Is this student at risk of poor reading outcomes?**
+
+```{r}
+
+long_g4 %>%
+  filter(item == "at_risk") %>% 
+  mutate(response = fct_expand(response, "Yes", "No", "Not enough information"), 
+         response = fct_relevel(response, 
+                                  "Not enough information", 
+                                  "No")) %>% 
+  ggplot(aes(x = response, fill = response)) +
+  geom_bar() +
+  coord_flip() + 
+  scale_fill_colorblind(drop = FALSE,
+                        breaks=c("Yes", 
+                                 "No", 
+                                 "Not enough information")) +
+  scale_x_discrete(drop = FALSE) +
+  labs(title = "At-Risk Levels for Student 1",
+       subtitle = "Based on teacher review of ORF score",
+       x = "",
+       y = "Count",
+       fill = "At Risk Student")
+
+```
+
+<br>
+
+##### **If you answered "not enough information," please specify what other data you would like to see for this student.**
+
+```{r}
+long_g4 %>%
+  filter(item == "at_risk_why") %>%
+  arrange(Student) %>% 
+  filter(!is.na(response)) %>% 
+  select(Teacher, Student, response) %>% 
+  kable(col.names = c("Teacher", "Student", "Response"))
+  
+```
+
+<br>
+<br>
+<p style="color:#009E73; font-size:20px">
+<b>Results:</b> Many teachers agreed that this student is at risk of poor reading outcomes; however, the majority needed more information to make this conclusion. Many asked for more formative assessment, comprehension scores, attendance records, and an IEP if the student has one. 
+</p>
+<br>
+<br>
+
+#### **Progress Monitoring**
+<br>
+
+##### **Which line might be better for progress monitoring? And why?**
+
+```{r, eval = FALSE}
+long_g4 %>%
+  filter(str_detect(item, "pm_line")) %>%
+  pivot_wider(
+    names_from = item,
+    values_from = response
+  ) %>% 
+  unnest(cols = c(pm_line, pm_line_why)) %>%
+  arrange(pm_line) %>% 
+  gt::gt(rowname_col = "Student", groupname_col = "pm_line") %>% 
+  cols_label(
+    pm_line_why = md("**Why?**"),
+    Teacher = md("")) %>% 
+  tab_options(
+    data_row.padding = gt::px(3),
+    heading.title.font.size = "small",
+    table.font.size = "12px"
+  )
+```
+
+
+```{r}
+
+long_g4 %>%
+  filter(item == "pm_line") %>% 
+  mutate(response = fct_expand(response,
+           "CORE (Black)", "Traditional (Yellow)", "No difference between the two lines", "I don't know"),
+         response = fct_relevel(response, 
+                                  "CORE (Black)", "Traditional (Yellow)", "No difference between the two lines", "I don't know")) %>% 
+  ggplot(aes(x = response, fill = response)) +
+  geom_bar() +
+  coord_flip() + 
+  scale_fill_colorblind(drop = FALSE,
+                       breaks=c("I don't know", 
+                                "No difference between the two lines",
+                                "Traditional (Yellow)", "CORE (Black)")) +
+  scale_x_discrete(drop = FALSE) +
+  scale_y_continuous(labels = c(1:12), breaks = c(1:12), limits = c(0, 12)) +
+  labs(title = "Which line might be better for progress monitoring?",
+       x = "",
+       y = "Count",
+       fill = "")
+
+
+```
+
+```{r}
+pm_g4 <- long_g4 %>%
+  filter(str_detect(item, "pm_line")) %>%
+  pivot_wider(
+    names_from = item,
+    values_from = response
+  ) %>% 
+  unnest(cols = c(pm_line, pm_line_why)) %>% 
+  group_by(pm_line) %>% 
+  nest() %>% 
+  mutate(
+    tbles = map2(data, pm_line,
+                 ~gt(.x) %>% 
+                   cols_label(pm_line_why = "") %>% 
+                   tab_header(title = md(paste0("**", .y, "**"))) %>% 
+                     tab_options(
+                        data_row.padding = gt::px(3),
+                        heading.title.font.size = "small",
+                        table.font.size = "12px")
+    )
+  )
+
+#walk(pm_g4$tbles, print)
+
+pm_g4$tbles[[1]]
+
+pm_g4$tbles[[3]]
+
+pm_g4$tbles[[2]]
+
+pm_g4$tbles[[4]]
+
+
+```
+
+<br>
+<br>
+<p style="color:#009E73; font-size:20px">
+<b>Results:</b> Most teachers agreed that the black (CORE) line was better for progress monitoring as it displayed steady growth. A few noted that both lines showed consistent trends and that some data points could be considered outliers overall. 
+</p>
+<br>
+<br>
+
+#### **Trustworthy Trajectory**
+<br>
+
+##### **Based on the trajectory of the lines - that is, the shape of the lines - which line might be more trustworthy? And why?**
+
+```{r}
+long_g4 %>%
+  mutate(Student = paste0("Student ", Student)) %>% 
+  filter(item == "trust_line") %>%
+  mutate(response = fct_expand(response,
+           "CORE (Black)", "Traditional (Yellow)", "No difference between the two lines", "I don't know"),
+         response = fct_relevel(response, 
+                                  "CORE (Black)", "Traditional (Yellow)", "No difference between the two lines", "I don't know")) %>%
+  ggplot(aes(response, fill = response)) + 
+  geom_bar() +
+  coord_flip() + 
+  scale_fill_colorblind(drop = FALSE,
+                       breaks=c("I don't know", 
+                                "No difference between the two lines",
+                                "Traditional (Yellow)", "CORE (Black)")) +
+  scale_x_discrete(drop = FALSE) +
+  theme(legend.position = "none") +
+  labs(title = "Which line might be more trustworthy",
+       subtitle = "Based on the trajectory of the lines",
+       x = "",
+       y = "Count")
+
+```
+
+
+```{r }
+long_g4 %>%
+  filter(str_detect(item, "trust_line")) %>%
+   pivot_wider(
+    names_from = item,
+    values_from = response
+  ) %>% 
+  unnest(cols = c(trust_line, trust_line_why)) %>%
+  arrange(trust_line, Student) %>% 
+  gt::gt(rowname_col = "Student", groupname_col = "trust_line") %>% 
+  cols_label(
+    trust_line_why = md("**Why?**"),
+    Teacher = md("")) %>% 
+  tab_options(
+    data_row.padding = gt::px(3),
+    heading.title.font.size = "small",
+    table.font.size = "12px"
+  )
+
+```
+
+<br>
+<br>
+<p style="color:#009E73; font-size:20px">
+<b>Results:</b> A majority of teachers agreed that the black (CORE) line was more trustworthy. One teacher noted that even though the yellow line technically shows more growth, the black line is much more consistent with its data making it more reliable. 
+</p>
+<br>
+<br>
+
+#### **Intervention Working?**
+<br>
+
+```{r}
+
+long_g4 %>%
+  filter(item == "yellow_line" |
+         item == "black_line") %>% 
+  mutate(item = recode(item,
+                       "yellow_line" = "Traditional (Yellow)",
+                       "black_line" = "CORE (Black)"),
+         response = fct_relevel(response, 
+                                  "It appears the intervention is working for the student",
+                                "It appears the intervention is NOT working for the student",
+                                "I cannot tell whether the intervention is working or not")) %>% 
+  ggplot(aes(response, fill = response)) + 
+  geom_bar() +
+  coord_flip() + 
+  facet_wrap(~item) +
+  scale_fill_colorblind(drop = FALSE,
+                       breaks=c("I cannot tell whether the intervention is working or not", 
+                                "It appears the intervention is NOT working for the student",
+                                "It appears the intervention is working for the student")) +
+  scale_x_discrete(drop = FALSE) +
+  theme(legend.position = "none") +
+  labs(title = "Is the intervention working?",
+       subtitle = "For each line separately",
+       x = "",
+       y = "Count")
+
+```
+
+<br>
+
+##### **Let's say the figure shows data of a student receiving a reading intervention. For the Traditional ORF (*YELLOW*) line, look at the first three data points only (ignore the last data point from May or June). What might you say about the intervention? And why?**
+
+``` {r}
+
+long_g4 %>%
+  filter(str_detect(item, "yellow_line")) %>%
+   pivot_wider(
+    names_from = item,
+    values_from = response
+  ) %>% 
+  unnest(cols = c(yellow_line, yellow_line_why)) %>%
+  arrange(yellow_line, Student) %>% 
+  gt::gt(rowname_col = "Student", groupname_col = "yellow_line") %>% 
+  cols_label(
+    yellow_line_why = md("")) %>% 
+  tab_options(
+    data_row.padding = gt::px(3),
+    heading.title.font.size = "small",
+    table.font.size = "12px"
+  )
+```
+
+<br>
+
+##### **Let's say the figure shows data of a student receiving a reading intervention. For the CORE (*BLACK*) line, look at the first three data points only (ignore the last data point from May or June). What might you say about the intervention? And why?**
+
+```{r}
+
+long_g4 %>%
+  filter(str_detect(item, "black_line")) %>%
+   pivot_wider(
+    names_from = item,
+    values_from = response
+  ) %>% 
+  unnest(cols = c(black_line, black_line_why)) %>%
+  arrange(black_line, Student) %>% 
+  gt::gt(rowname_col = "Student", groupname_col = "black_line") %>% 
+  cols_label(
+    black_line_why = md("")) %>% 
+  tab_options(
+    data_row.padding = gt::px(3),
+    heading.title.font.size = "small",
+    table.font.size = "12px"
+  )
+
+```
+
+<br>
+<br>
+<p style="color:#009E73; font-size:20px">
+<b>Results:</b> The results are largely similar across the two measures, with the exception that for the CORE data, 5 teachers reported that the intervention was NOT working, but 0 teachers reported the same for the Traditional data. According to the teacher feedback, it may be that the CORE data better displays student progress, or growth.
+</p>
+<br>
+<br>
+
+#### **State Reading Test Score**
+<br>
+
+##### **Which line might better correspond with the SBAC performance level?**
+
+```{r}
+long_g4 %>%
+  filter(str_detect(item, "sbac")) %>% 
+  mutate(response = fct_relevel(response, 
+                               "CORE (Black)",
+                               "Traditional (Yellow)",
+                               "No difference between the two lines",
+                               "I don't know")) %>% 
+  ggplot(aes(response, fill = response)) +
+  geom_bar() +
+  coord_flip() + 
+  scale_fill_colorblind(drop = FALSE,
+                        breaks=c("I don't know",
+                                 "No difference between the two lines",
+                                 "Traditional (Yellow)",
+                                 "CORE (Black)")) +
+  scale_x_discrete(drop = FALSE) +
+  labs(title = "Correspondance with SBAC performance level",
+       subtitle = "Based on teacher review of ORF score",
+       x = "",
+       y = "Count",
+       fill = "")
+
+```
+
+<br>
+
+##### **Based on the last data point from *May or June* ONLY, which point might better match what you expect from a student at this SBAC performance level?**
+
+```{r}
+
+long_g4 %>%
+  filter(str_detect(item, "last_point")) %>% 
+  mutate(response = fct_relevel(response, 
+                               "CORE (Black)",
+                               "Traditional (Yellow)",
+                               "No difference between the two lines",
+                               "I don't know")) %>% 
+  ggplot(aes(response, fill = response)) +
+  geom_bar() +
+  coord_flip() + 
+  scale_fill_colorblind(drop = FALSE,
+                        breaks=c("I don't know",
+                                 "No difference between the two lines",
+                                 "Traditional (Yellow)",
+                                 "CORE (Black)")) +
+  scale_x_discrete(drop = FALSE) +
+  labs(title = "Correspondance with last data point",
+       subtitle = "Based on teacher review of ORF score",
+       x = "",
+       y = "Count",
+       fill = "")
+
+```
+
+<br>
+
+##### **Based on the first data point from *October or November* ONLY, which point might better match what you expect from a student at this SBAC performance level?**
+
+```{r}
+
+long_g4 %>%
+  filter(str_detect(item, "first_point")) %>% 
+  mutate(response = fct_relevel(response, 
+                               "CORE (Black)",
+                               "Traditional (Yellow)",
+                               "No difference between the two lines",
+                               "I don't know")) %>% 
+  ggplot(aes(response, fill = response)) +
+  geom_bar() +
+  coord_flip() + 
+  scale_fill_colorblind(drop = FALSE,
+                        breaks=c("I don't know",
+                                 "No difference between the two lines",
+                                 "Traditional (Yellow)",
+                                 "CORE (Black)")) +
+  scale_x_discrete(drop = FALSE) +
+  labs(title = "Correspondance with last data point",
+       subtitle = "Based on teacher review of ORF score",
+       x = "",
+       y = "Count",
+       fill = "")
+
+```
+
+<br>
+<br>
+<p style="color:#009E73; font-size:20px">
+<b>Results:</b> Although it was close, more teachers agreed that the black (CORE) line corresponds better with the SBAC performance level. Based on the first data point from October or November only, most teachers agreed that the black (CORE) line is a better match for the student's expected SBAC performance level. However, when looking only at the last data point from May or June only, more teachers agreed that the yellow line was a better comparison.  
+</p>
+<br>
+<br>
+<br>
+
+### **Student Figures with Measurement Error**
+
+```{r, fig.width=8}
+
+figs2_g4 <- tibble(
+  name = fs::dir_ls(here::here("nopublish", "original"), regexp = "ploterror.*gr4.*rds"),
+  plot = map(name, ~read_rds(.) + theme(aspect.ratio = 4/3))
+) %>%
+  mutate(student_id = parse_number(str_sub(name, -7))) %>% 
+  arrange(match(student_id, c(218, 524, 737, 1044))) %>% 
+  mutate(
+    Student = c("Student A", "Student B", "Student C", "Student D"),
+    orf = c(73, 86, 85, 78),
+    plot = pmap(list(plot, Student, orf), function(data, main, sub)
+      (data + labs(title = main, subtitle = paste0("Fall ORF score = ", sub, " wcpm")))
+    )
+  )
+
+figs2_g4$plot[[1]] + figs2_g4$plot[[2]]
+
+figs2_g4$plot[[3]] + figs2_g4$plot[[4]] 
+
+```
+
+<br>
+<br>
+
+#### **Progress Monitoring and Data-Based Decisions**
+<br>
+
+##### **Which line might be better for progress monitoring and data-based decisions?**
+
+```{r}
+
+long_g4 %>%
+  filter(str_detect(item, "better_line")) %>%
+  pivot_wider(
+    names_from = item,
+    values_from = response
+  ) %>% 
+  unnest(cols = c(better_line, better_line_why)) %>%
+  arrange(better_line) %>% 
+  gt::gt(rowname_col = "Student", groupname_col = "better_line") %>% 
+  cols_label(
+    better_line_why = md(""),
+    Teacher = ("")) %>% 
+  tab_options(
+    data_row.padding = gt::px(3),
+    heading.title.font.size = "small",
+    table.font.size = "12px"
+  )
+
+
+```
+
+<br>
+<br>
+<p style="color:#009E73; font-size:20px">
+<b>Results:</b> Teachers almost unanimously agreed that the black (CORE) line was better for progress monitoring and data-based decisions. Many noted that it appeared to have a smaller measurement error and more consistent trend. 
+</p>
+<br>
+<br>
+
+#### **Measurement Error Useful?**
+<br>
+
+##### **Does the shaded area in the graphs give you useful information if you were using the graphs to make data-based decisions?**
+
+```{r}
+
+long_g4 %>% 
+  filter(str_detect(item, "shaded_area")) %>% 
+  mutate(response = fct_expand(response, "I still don't understand the shaded area",
+                                      "No",
+                                      "Yes"),
+         response = fct_relevel(response,
+                                      "I still don't understand the shaded area",
+                                      "No",
+                                      "Yes")) %>%
+  ggplot(aes(x = response, fill = response)) +
+  geom_bar() +
+  coord_flip() +
+  scale_fill_colorblind(drop = FALSE,
+                        breaks=c("Yes",
+                                 "No",
+                                 "I still don't understand the shaded area")) +
+  scale_x_discrete(drop = FALSE) +
+  theme(legend.position = "none") +
+  labs(title = "Is the shaded area helpful?",
+       subtitle = "",
+       x = "",
+       y = "Count",
+       fill = "")
+
+```
+
+<br>
+
+#### **How might you use this figure to make a data-based decision?**
+
+```{r}
+long_g4 %>% 
+  filter(str_detect(item, "decisions")) %>% 
+  select(Student, Teacher, response) %>% 
+  arrange(Student, Teacher) %>% 
+  gt::gt(rowname_col = "", groupname_col = "Student") %>% 
+  cols_label(
+    response = md("Response"),
+    Teacher = ("")) %>% 
+  tab_options(
+    data_row.padding = gt::px(3),
+    heading.title.font.size = "small",
+    table.font.size = "12px"
+  )
+```
+
+<br>
+<br>
+<p style="color:#009E73; font-size:20px">
+<b>Results:</b> Teachers unanimously agreed that the shaded area was helpful to consider when making data-based decisions. Many noted that it increased the reliability of the data overall and allowed them to evaluate whether their interventions were effective or not. 
+</p>
+<br>
+<br>
+
+:::
+
+:::::
