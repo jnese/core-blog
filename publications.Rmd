@@ -1,0 +1,35 @@
+---
+title: "CORE Publications"
+description: |
+  Computerized Oral Reading Evaluation - [CORE](https://ies.ed.gov/funding/grantsearch/details.asp?ID=1492) - is a project funded by the Institute of Education Sciences [(IES)](https://ies.ed.gov/) to develop and validate a new computerized assessment of oral reading fluency that is administered and scored online.
+---
+
+### Evidence for Automated Scoring and Shorter Passages of CBM-R in Early Elementary School
+
+Nese, J. F. T., & Kamata, A. (2021). Evidence for automated scoring and shorter passages of CBM-R in early elementary school. *School Psychology, 36 (1)*, 47–59. [doi: 10.1037/spq0000415](https://doi.apa.org/record/2020-81606-001?doi=1)
+
+Curriculum-based measurement of oral reading fluency (CBM-R) is widely used across the United States as a strong indicator of comprehension and overall reading achievement, but has several limitations including errors in administration and large standard errors of measurement. The purpose of this study is to compare scoring methods and passage lengths of CBM-R in an effort to evaluate potential improvements upon traditional CBM-R limitations. For a sample of 902 students in Grades 2 through 4, who collectively read 13,766 passages, we used mixed-effect models to estimate differences in CBM-R scores and examine the effects of (a) scoring method (comparing a human scoring criterion vs. traditional human or automatic speech recognition [ASR] scoring), and (b) passage length (25, 50, or 85 words, and traditional CBM-R length). We also examined differences in word score (correct/incorrect) agreement rates between human-to-human scoring and human-to-ASR scoring. Our results indicated that ASR can be applied in schools to score CBM-R, and that scores for shorter passages are comparable to traditional passages. 
+
+----
+
+### Estimating Model-Based Oral Reading Fluency: A Bayesian Approach
+
+Kara, Y., Kamata, A., Potgieter, C., & Nese, J. F. (2020). Estimating model-based oral reading fluency: A Bayesian approach. *Educational and Psychological Measurement, 80 (5)*, 847-869. doi: [10.1177/0013164419900208](https://journals.sagepub.com/doi/pdf/10.1177/0013164419900208?casa_token=-C_b1E6_VTwAAAAA:zzpYgS90sPdqWNB6QDUJJGoabcbSq12zhM7iC_86NZDNb-5492I3PWnxCdjujbZ7wj8kFdNilX8B)
+
+Oral reading fluency (ORF), used by teachers and school districts across the countryto screen and progress monitor at-risk readers, has been documented as a good indi-cator of reading comprehension and overall reading competence. In traditional ORFadministration, students are given one minute to read a grade-level passage, afterwhich the assessor calculates the words correct per minute (WCPM) fluency scoreby subtracting the number of incorrectly read words from the total number of wordsread aloud. As part of a larger effort to develop an improved ORF assessment sys-tem, this study expands on and demonstrates the performance of a new model-basedestimate of WCPM based on a recently developed latent-variable psychometricmodel of speed and accuracy for ORF data. The proposed method was applied to adata set collected from 58 fourth-grade students who read four passages (a total of260 words). The proposed model-based WCPM scores were also evaluated througha simulation study with respect to sample size and number of passages read.
+
+----
+
+### Addressing the Large Standard Error of Traditional CBM-R: Estimating the Conditional Standard Error of a Model-Based Estimate of CBM-R
+
+Nese, J. F., & Kamata, A. (2020). Addressing the large standard error of traditional CBM-R: Estimating the conditional standard error of a model-based estimate of CBM-R. *Assessment for Effective Intervention.* doi: [10.1177/1534508420937801](https://journals.sagepub.com/doi/10.1177/1534508420937801)
+
+Curriculum-based measurement of oral reading fluency (CBM-R) is widely used across the country as a quick measure of reading proficiency that also serves as a good predictor of comprehension and overall reading achievement, but has several practical and technical inadequacies, including a large standard error of measurement (*SEM*). Reducing the *SEM* of CBM-R scores has positive implications for educators using these measures to screen or monitor student growth. The purpose of this study was to compare the *SEM* of traditional CBM-R words correct per minute (WCPM) fluency scores and the conditional *SEM* (*CSEM*) of model-based WCPM estimates, particularly for students with or at risk of poor reading outcomes. We found (a) the average *CSEM* for the model-based WCPM estimates was substantially smaller than the reported SEMs of traditional CBM-R systems, especially for scores at/below the 25th percentile, and (b) a large proportion (84%) of sample scores, and an even larger proportion of scores at/below the 25th percentile (about 99%) had a smaller *CSEM* than the reported SEMs of traditional CBM-R systems.
+
+----
+
+### Comparing the Growth and Predictive Performance of a Traditional Oral Reading Fluency Measure to an Experimental Novel Measure
+
+*Under Review*
+
+Curriculum-based measurement of oral reading fluency (CBM-R) is used as an indicator of reading proficiency, and to measure at risk students’ response to reading interventions to help ensure effective instruction. The purpose of this study was to compare model-based WCPM scores (CORE) to Traditional CBM-R WCPM scores to determine which provides more reliable growth estimates and demonstrates better predictive performance of reading comprehension and state reading test scores. Results indicated that in general, CORE had better (a) within-growth properties (smaller *SD*s of slope estimates and higher reliability), and (b) predictive performance (lower *RMSE*, and higher $R^2$, sensitivity, specificity, and AUC values). These results suggest increased measurement precision for the model-based CORE scores compared to Traditional CBM-R, providing preliminary evidence that CORE can be used for consequential assessment.
