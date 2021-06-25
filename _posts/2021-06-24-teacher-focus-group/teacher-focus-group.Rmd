@@ -1,5 +1,5 @@
 ---
-title: "CORE: Teacher Focus Group Survey"
+title: "Teacher Focus Group Survey"
 description: |
   The purpose of this post was to summarize teacher feedback about the utility and interpretability of the CORE data compared to Traditional ORF scores to help collect consequential evidence of validity for CORE.
 author:
