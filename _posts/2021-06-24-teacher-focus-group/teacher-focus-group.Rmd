@@ -33,6 +33,7 @@ library(xaringanExtra)
 #library(assertthat)
 #library(ggrepel)
 
+theme_set(theme_minimal(base_size = 14))
 
 ```
 
@@ -192,7 +193,7 @@ long_g2 <- final_g2_data %>%
 ```{r, fig.width=8}
 
 figs2 <- tibble(
-  name = fs::dir_ls(here::here("nopublish", "original"), regexp = "plot1.*gr2.*rds"),
+  name = fs::dir_ls(here::here("nopublish"), regexp = "plot1.*gr2.*rds"),
   plot = map(name, ~read_rds(.) + theme(aspect.ratio=4/3))#coord_fixed(ratio = 4))
 )
 
@@ -578,7 +579,7 @@ long_g2 %>%
 ```{r, fig.width=8}
 
 figs2_g4 <- tibble(
-  name = fs::dir_ls(here::here("nopublish", "original"), regexp = "ploterror.*gr4.*rds"),
+  name = fs::dir_ls(here::here("nopublish"), regexp = "ploterror.*gr4.*rds"),
   plot = map(name, ~read_rds(.) + theme(aspect.ratio = 4/3))
 ) %>%
   mutate(student_id = parse_number(str_sub(name, -7))) %>% 
@@ -773,7 +774,7 @@ long_g3 <- final_g3_data %>%
 ```{r}
 
 figs <- tibble(
-  name = fs::dir_ls(here::here("nopublish", "original"), regexp = "plot1.*gr3.*rds"),
+  name = fs::dir_ls(here::here("nopublish"), regexp = "plot1.*gr3.*rds"),
   plot = map(name, ~read_rds(.) + theme(aspect.ratio=4/3))#coord_fixed(ratio = 4))
 )
 
@@ -1264,7 +1265,7 @@ long_g3 %>%
 ```{r msrerror, fig.width=8}
 
 figs2 <- tibble(
-  name = fs::dir_ls(here::here("nopublish", "original"), regexp = "ploterror.*gr3.*rds"),
+  name = fs::dir_ls(here::here("nopublish"), regexp = "ploterror.*gr3.*rds"),
   plot = map(name, ~read_rds(.) + theme(aspect.ratio = 4/3))#coord_fixed(ratio = 4))
 )
 
@@ -1444,7 +1445,7 @@ long_g4 <- final_g4_data %>%
 ```{r}
 
 figs4 <- tibble(
-  name = fs::dir_ls(here::here("nopublish", "original"), regexp = "plot1.*gr4.*rds"),
+  name = fs::dir_ls(here::here("nopublish"), regexp = "plot1.*gr4.*rds"),
   plot = map(name, ~read_rds(.) + theme(aspect.ratio=4/3))#coord_fixed(ratio = 4))
 )
 
@@ -1931,7 +1932,7 @@ long_g4 %>%
 ```{r, fig.width=8}
 
 figs2_g4 <- tibble(
-  name = fs::dir_ls(here::here("nopublish", "original"), regexp = "ploterror.*gr4.*rds"),
+  name = fs::dir_ls(here::here("nopublish"), regexp = "ploterror.*gr4.*rds"),
   plot = map(name, ~read_rds(.) + theme(aspect.ratio = 4/3))
 ) %>%
   mutate(student_id = parse_number(str_sub(name, -7))) %>% 
